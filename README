@@ -1,8 +1,20 @@
 == QUEUETASTIC ==
 
-  * Asterisk Queue Reporting, Analysis, and Realtime Monitoring
-  * Copyright (c) 2008 Jayson Vaughn
-  * As always thanks to the rubyists.   http://rubyists.com
+  * Queuetastic is an Asterisk Queue Reporting, Analysis, and Realtime Monitoring tool designed with the Ruby on Rails framework.
+
+  * Copyright (c) 2008 Jayson Vaughn (vaughn.jayson@gmail.com)
+  * Distributed under the terms of the GNU General Public License.
+  * thanks to the rubyists.   http://rubyists.com
+
+
+== FEATURES ==
+
+  * Realtime, live view, of Asterisk queues.
+    - Stats are exported in realtime using the Asterisk Manager Interface
+    - Web view of the real time stats are updated seamlessly using javascript
+  * Queuetastic loads Asterisk's queue log file, /var/log/asterisk/queue_log, into a database for reporting and analysis.
+    - Able to run reports on Queue stats, agent stats, and "agent groups" stats.
+
 
 == REQUIREMENTS ==
 
@@ -12,9 +24,8 @@
   * FasterCSV gem
   * Asterisk 1.4
 
-== HOWTO INSTALL ==
 
-* ASTERISK
+== SETUP ASTERISK ==
 
   Make sure that the Asterisk Manager Interface is enabled.
 
@@ -39,18 +50,33 @@ NOTE: 'queuemanager' is the username and 'secret420' is the password. You will n
 
   3) You must reload the manager module by either restarting asterisk or 'module reload manager' from within the Asterisk CLI.  Refer to Asterisk documentation for further information.
 
-* QUEUETASTIC
 
-  1) Inside the working directory of your choosing issue: 'git clone git://github.com/thedonvaughn/queuetastic.git queuetastic'
-  2) Make sure you have the fastercsv gem installed by either typing 'gem install fastercsv' or 'rake gems:install' from within the queuetastic/ working directory.
+== INSTALL AND SETUP QUEUETASTIC ==
+
+  1) Inside the working directory of your choosing issue: 
+     `git clone git://github.com/thedonvaughn/queuetastic.git queuetastic`
+  
+  2) Make sure you have the fastercsv gem installed by either typing:
+    'gem install fastercsv' 
+      or 
+    'rake gems:install' from within the queuetastic/ working directory.
+  
   3) For your initial setup of Queuetastic, I suggest you edit config/queuetastic.yml by hand before starting Queuetastic.
-     * Type 'cd queuetastic/' if you are not already in the queuetastic working directory
-     * Edit config/queuetastic.yml with your asterisk settings.  Note the service_level setting is only for reporting and won't actually set the servicelevel in your queues.conf
-     * After your first setup, you can change your config on the fly from the web app itself.
-  4) Now you can deploy the app as you would any other Ruby on Rails application.  
+     * `cd queuetastic/` if you are not already in the queuetastic working directory
+     * Edit config/queuetastic.yml with your asterisk settings.  Note the service_level setting is only for reporting and won't actually set the servicelevel for Asterisk's queues.conf
+     * After your first setup, you can change your config on the fly from within Queuetastic.
+  
+  4) Setup the database and deploy the app as you would any other Ruby on Rails application.  
      * Make sure to setup config/database.yml and issue 'rake db:migrate'.  
-     * (Deploying a Rails app is way beyond the scope of this README, please consult the nice Rails community for suggestions.)
-
+     * (Deploying a Rails app is way beyond the scope of this README, please consult the nice Rails community for documentation and/or suggestions.)
+  
+  5) Create a crontab entry to ensure the Asterisk queue_log is loaded to the database nightly.
+     * create a crontab entry like the following example below.  This crontab entry will call reset_queue.rb everynight at 11:30pm.  Make sure to change /home/user/queuetastic to your actual install path.
+     
+     30 23 * * * cd /home/user/queuetastic/ && /home/user/queuetastic/bin/reset_queue.rb >> /home/user/queutastic/log/queuetastic.log
+     
+     * NOTE: You must create this crontab entry under the same user this app will run as.
+     
   *** I use lighttpd + fcgi processes for Rails deployment over a mongrel cluster.***
   *** Use 'emash' to quickly setup and deploy this app for lighttpd.  Don't leave home without it!  
   *** http://rubyists.com/pages/emash
