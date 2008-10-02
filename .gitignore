@@ -4,6 +4,7 @@ config/database.yml
 uuid.state
 config/*.local
 config/database.yml
+config/queuetastic.yml
 
 log/*.log
 log/*
