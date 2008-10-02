@@ -1,19 +1,21 @@
 == QUEUETASTIC ==
 
-  * Queuetastic is an Asterisk Queue Reporting, Analysis, and Realtime Monitoring tool designed with the Ruby on Rails framework.
+  * Queuetastic is an Asterisk Queue Reporting, Analysis, and Real-time Monitoring tool designed with the Ruby on Rails framework.
 
   * Copyright (c) 2008 Jayson Vaughn (vaughn.jayson@gmail.com)
   * Distributed under the terms of the GNU General Public License.
   * thanks to the rubyists.   http://rubyists.com
+  * Wiki - http://http://trac.rubyists.com/trac.fcgi/autumn/wiki/queuetastic
+  * Github - http://github.com/thedonvaughn/queuetastic/
 
 
 == FEATURES ==
 
-  * Realtime, live view, of Asterisk queues.
-    - Stats are exported in realtime using the Asterisk Manager Interface
-    - Web view of the real time stats are updated seamlessly using javascript
-  * Queuetastic loads Asterisk's queue log file, /var/log/asterisk/queue_log, into a database for reporting and analysis.
-    - Able to run reports on Queue stats, agent stats, and "agent groups" stats.
+  * Real-time, live view, of Asterisk queues updated seamlessly using AJAX
+  * Stats are exported in real-time using the Asterisk Manager Interface
+  * Load Asterisk's queue log file into a database for reporting and analysis.
+  * Able to run reports on Queue stats, agent stats, and "agent groups" stats.
+  * Export reports in csv format
 
 
 == REQUIREMENTS ==
@@ -45,8 +47,8 @@
     read = system,call,log,verbose,command,agent,user,config
     write = system,call,log,verbose,command,agent,user,config
 
-NOTE: 'queuemanager' is the username and 'secret420' is the password. You will need to tell Queuetastic these settings later.
-      This example denys anyone outside 192.168.1.0/24.   Refer to Asterisk documentation for further information.
+  NOTE: 'queuemanager' is the username and 'secret420' is the password. You will need to tell Queuetastic these settings later.
+  This example denys anyone outside 192.168.1.0/24.   Refer to Asterisk documentation for further information.
 
   3) You must reload the manager module by either restarting asterisk or 'module reload manager' from within the Asterisk CLI.  Refer to Asterisk documentation for further information.
 
@@ -77,6 +79,6 @@ NOTE: 'queuemanager' is the username and 'secret420' is the password. You will n
      
      * NOTE: You must create this crontab entry under the same user this app will run as.
      
-  *** I use lighttpd + fcgi processes for Rails deployment over a mongrel cluster.***
-  *** Use 'emash' to quickly setup and deploy this app for lighttpd.  Don't leave home without it!  
+  *** I use lighttpd + fcgi processes for Rails deployment***
+  *** Use 'emash' to quickly setup and deploy this app for lighttpd.  
   *** http://rubyists.com/pages/emash
