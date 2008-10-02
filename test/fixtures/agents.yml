@@ -1,0 +1,16 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  id: 1
+  channel: Local/1000@default/n
+  first: John
+  last: Smith 
+  exten: 1000 
+
+two:
+  id: 2
+  channel: Local/1001@default/n
+  first: Jane
+  last: Doe
+  exten: 1001
+  group_id: 1

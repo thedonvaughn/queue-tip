@@ -1,0 +1,18 @@
+<p>
+  <b>Queue name:</b>
+  <%=h @queu.queue_name %>
+</p>
+
+<p>
+  <b>Exten:</b>
+  <%=h @queu.exten %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @queu.description %>
+</p>
+
+
+<%= link_to 'Edit', edit_queu_path(@queu) %> |
+<%= link_to 'Back', queus_path %>

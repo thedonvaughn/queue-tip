@@ -1,0 +1,98 @@
+<!--    
+//    Copyright 2008 Jayson Vaughn 
+//    This file is part of Queuetastic.
+
+//    Queuetastic is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
+
+//    Queuetastic is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+              
+//    You should have received a copy of the GNU General Public License
+//    along with Queuetastic.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<% @queues.each do |queue, value| %>  <!-- Begin Loop for every Queue in the @queues hash -->
+ 
+<div align="center">
+ <div class="blur" style="width: 90%;">
+  <div class="shadow">
+    <div class="content">
+     <div align="center" style="font: normal 12px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;"><%=h queue.to_s.upcase %></div>
+    </div>
+  </div>
+ </div>
+</div>
+  <!-- Start Table for Queue Stats -->
+  <table width="90%" align="center">
+      <th>Calls Waiting</th>
+      <th>Hold Time</th>
+      <th>Abandoned</th>
+      <th>Completed</th>
+      <th>Max</th>
+      <th>Srvc Lvl</th>
+      <th>Srvc Pref</th>
+      <th>Weight</th>
+    </tr>
+    <tr>
+      <td><%= @queues[queue]['calls'] %></td>
+      <td><%= @queues[queue]['holdtime'] %></td>
+      <td><%= @queues[queue]['abandoned'] %></td>
+      <td><%= @queues[queue]['completed'] %></td>
+      <td><%= @queues[queue]['max'] %></td>
+      <td><%= @queues[queue]['service_level'] %></td>
+      <td><%= @queues[queue]['service_level_perf'] %></td>
+      <td><%= @queues[queue]['weight'] %></td>
+    </tr>
+  </table>
+  <!-- end table for Queue Stats -->
+
+  <!-- Start Table for Agents/Members -->
+  <table width="90%" align="center">
+    <tr>
+      <th>Agent</th>
+      <th>Status</th>
+      <th>Calls</th>
+      <th>Last Call</th>
+      <th>Paused</th>
+      <th>Log Off</th>
+    </tr>
+    <% @queues[queue]['members'].each do |agent, element| %> <!-- Begin Loop for every Agent/Member in the @queues[queue]['members'] hash -->
+    <tr>
+      <td><%= @queues[queue]['members'][agent]['agent'] %></td>
+      <td><%= case @queues[queue]['members'][agent]['status']; when '0'; "Unknown"; when '1'; "Ready"; when '2'; "In Use"; when '3'; "Busy"; when '4'; "Invalid"; when '5'; "Unavailable";  when '6'; "Ringing"; when '7'; "Ringing & In Use"; when '8'; "On Hold"; end %></td>
+      <td><%= @queues[queue]['members'][agent]['calls_taken'] %></td>
+      <td><%= Time.at(@queues[queue]['members'][agent]['lastcall'].to_f).strftime("%H:%M:%S") unless @queues[queue]['members'][agent]['lastcall'].to_f == 0.0 %></td>
+      <td><%= @queues[queue]['members'][agent]['paused'] %></td>
+      <td><%= link_to 'Log Off', {:action => 'index', :agent => @queues[queue]['members'][agent]['agent'].to_s, :queue => queue.to_s, :logoff => true} %></td>
+    </tr>
+  <% end %>
+  </table>
+  <!-- End Table for Agents/Members -->
+
+  <!-- Begin Table for Callers -->
+  <table width="90%" align="center">
+    <tr>
+      <th style="background: #DDDDDD;">Position</th>
+      <th style="background: #DDDDDD;">Phone No</th>
+      <th style="background: #DDDDDD;">CID Name</th>
+      <th style="background: #DDDDDD;">Wait (secs)</th>
+      <th style="background: #DDDDDD;">Channel</th>
+    </tr>
+    <% @queues[queue]['callers'].each do |caller, element| %> <!-- Begin loop for every Caller in the @queues[queue]['callers'] hash -->
+    <tr>
+      <td><%= @queues[queue]['callers'][caller]['position'] %></td>
+      <td><%= @queues[queue]['callers'][caller]['phone_no'] %></td>
+      <td><%= @queues[queue]['callers'][caller]['name'] %></td>
+      <td><%= @queues[queue]['callers'][caller]['wait'] %></td>
+      <td><%= @queues[queue]['callers'][caller]['channel'] %></td>
+    </tr>
+  <% end %>
+  </table>
+  <!-- end table for Callers -->
+  <br />
+<% end %>

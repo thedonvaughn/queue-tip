@@ -1,0 +1,52 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  id: 1 
+  agent_id: 1
+  channel: Local/1000@default/n
+  timestamp: 2008-08-24 17:31:04
+  queu_id: 1
+  queue_name: support
+  uniqueid: 1001.5
+  action: ADDMEMBER
+
+two:
+  id: 2
+  agent_id: 2
+  channel: Local/1001@default/n
+  timestamp: 1220880004
+  queu_id: 2
+  queue_name: activation 
+  uniqueid: 1002.5
+  action: ADDMEMBER
+
+three:
+  id: 3 
+  agent_id: 2
+  channel: Local/1001@default/n
+  timestamp: 1220905834
+  queu_id: 2
+  queue_name: activation 
+  uniqueid: 90871358.1351
+  action: REMOVEMEMBER
+
+four:
+  id: 4
+  agent_id: 2
+  channel: Local/1001@default/n
+  timestamp: 1220889994
+  queu_id: 2
+  queue_name: activation 
+  uniqueid: 098135135.1351
+  action: PAUSE
+
+five:
+  id: 5
+  agent_id: 2
+  channel: Local/1001@default/n
+  timestamp: 1220891004
+  queu_id: 2
+  queue_name: activation 
+  uniqueid: 349182751.1351
+  action: UNPAUSE
+

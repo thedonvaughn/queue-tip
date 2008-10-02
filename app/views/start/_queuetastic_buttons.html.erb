@@ -1,0 +1,72 @@
+<!--    
+//    Copyright 2008 Jayson Vaughn 
+//    This file is part of Queuetastic.
+
+//    Queuetastic is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
+
+//    Queuetastic is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+              
+//    You should have received a copy of the GNU General Public License
+//    along with Queuetastic.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<script language="javascript">
+
+    function goLite(FRM,BTN)
+     { 
+       window.document.forms[FRM].elements[BTN].style.backgroundColor = "#999999";
+       window.document.forms[FRM].elements[BTN].style.borderStyle = "inset";
+       window.document.forms[FRM].elements[BTN].style.borderColor = "#999999";
+     }
+ 
+    function goDim(FRM,BTN)
+     { 
+       window.document.forms[FRM].elements[BTN].style.backgroundColor = "#555555";
+       window.document.forms[FRM].elements[BTN].style.borderStyle = "groove";
+       window.document.forms[FRM].elements[BTN].style.borderColor = "#000000";
+     }
+
+</script>
+      
+<form name="dashboard">
+<input
+        type="button"
+        name="dashboard"
+        class="groovybutton"
+        value="Dashboard"
+        title=""                                                                                                                                                                                                                  
+        onClick="window.location='/start'"
+        onMouseOver="goLite(this.form.name,this.name)"                                                                                                                                                                            
+        onMouseOut="goDim(this.form.name,this.name)">
+</form>
+
+<form name="liveview">
+<input
+         type="button"
+         name="live_view"
+         class="groovybutton"
+         value="Realtime View"
+         title=""
+         onClick="window.location='/live_view'"
+         onMouseOver="goLite(this.form.name,this.name)"
+         onMouseOut="goDim(this.form.name,this.name)">
+</form>
+       
+<form name="settings">
+<input
+         align="center"
+         type="button"
+         name="settings"
+         class="groovybutton"
+         value="Settings"
+         title=""
+         onClick="window.location='/settings'"
+         onMouseOver="goLite(this.form.name,this.name)"
+         onMouseOut="goDim(this.form.name,this.name)">
+</form>

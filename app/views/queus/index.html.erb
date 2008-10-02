@@ -1,0 +1,24 @@
+<h1>Listing queus</h1>
+
+<table>
+  <tr>
+    <th>Queue name</th>
+    <th>Exten</th>
+    <th>Description</th>
+  </tr>
+
+<% for queu in @queus %>
+  <tr>
+    <td><%=h queu.queue_name %></td>
+    <td><%=h queu.exten %></td>
+    <td><%=h queu.description %></td>
+    <td><%= link_to 'Show', queu %></td>
+    <td><%= link_to 'Edit', edit_queu_path(queu) %></td>
+    <td><%= link_to 'Destroy', queu, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New queu', new_queu_path %>

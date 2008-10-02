@@ -1,0 +1,52 @@
+<!--    
+//    Copyright 2008 Jayson Vaughn 
+//    This file is part of Queuetastic.
+
+//    Queuetastic is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
+
+//    Queuetastic is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+              
+//    You should have received a copy of the GNU General Public License
+//    along with Queuetastic.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <title>Queuetastic: <%= controller.action_name %></title>
+  <%= stylesheet_link_tag 'col2' %>
+</head>
+<body>
+<div class="bottom">
+    <div class="header">
+      <%= render(:partial => 'header.html.erb') %>
+      <%= yield :header %>
+    </div>
+    <div class="colmask">
+        <div class="colmid">
+            <div class="colleft">
+                <div class="col1">
+                  <p style="color: green"><%= flash[:notice] %></p>
+                  <%= yield :col1 %>
+                </div>
+                <div class="col2">
+                  <%= yield :col2 %>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+      <%= yield :footer %>
+  </div>
+</div>
+</body>
+</html>

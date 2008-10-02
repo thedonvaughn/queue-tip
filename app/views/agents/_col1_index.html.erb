@@ -1,0 +1,55 @@
+<!--    
+//    Copyright 2008 Jayson Vaughn 
+//    This file is part of Queuetastic.
+
+//    Queuetastic is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
+
+//    Queuetastic is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+              
+//    You should have received a copy of the GNU General Public License
+//    along with Queuetastic.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<div align="center">
+<div class="blur" style="width: 62%;">
+  <div class="shadow">
+    <div class="content">
+      <div style="font: normal 16px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;" align="center">Listing agents</div>
+    </div>
+  </div>
+</div>
+</div>
+<br />
+<table align="center" width="60%">
+  <tr>
+    <th>Channel</th>
+    <th>First</th>
+    <th>Last</th>
+    <th>Exten</th>
+    <th>Group</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% for agent in @agents %>
+  <tr>
+    <td><%=h agent.channel %></td>
+    <td><%=h agent.first %></td>
+    <td><%=h agent.last %></td>
+    <td><%=h agent.exten %></td>
+    <td><%=h agent.group.name if agent.group %></td>
+    <td><%= link_to 'Show', agent %></td>
+    <td><%= link_to 'Edit', edit_agent_path(agent) %></td>
+    <td><%= link_to 'Destroy', agent, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />

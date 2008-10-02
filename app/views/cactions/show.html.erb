@@ -1,0 +1,38 @@
+<p>
+  <b>Call:</b>
+  <%=h @caction.call_id %>
+</p>
+
+<p>
+  <b>Timestamp:</b>
+  <%=h @caction.timestamp %>
+</p>
+
+<p>
+  <b>Uniqueid:</b>
+  <%=h @caction.uniqueid %>
+</p>
+
+<p>
+  <b>Action:</b>
+  <%=h @caction.action %>
+</p>
+
+<p>
+  <b>Field1:</b>
+  <%=h @caction.field1 %>
+</p>
+
+<p>
+  <b>Field2:</b>
+  <%=h @caction.field2 %>
+</p>
+
+<p>
+  <b>Field3:</b>
+  <%=h @caction.field3 %>
+</p>
+
+
+<%= link_to 'Edit', edit_caction_path(@caction) %> |
+<%= link_to 'Back', cactions_path %>

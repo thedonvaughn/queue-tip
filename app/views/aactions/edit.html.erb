@@ -1,0 +1,32 @@
+<h1>Editing aaction</h1>
+
+<% form_for(@aaction) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :agent_id %><br />
+    <%= f.text_field :agent_id %>
+  </p>
+  <p>
+    <%= f.label :channel %><br />
+    <%= f.text_field :channel %>
+  </p>
+  <p>
+    <%= f.label :queue_id %><br />
+    <%= f.text_field :queu_id %>
+  </p>
+  <p>
+    <%= f.label :queue_name %><br />
+    <%= f.text_field :queue_name %>
+  </p>
+  <p>
+    <%= f.label :uniqueid %><br />
+    <%= f.text_field :uniqueid %>
+  </p>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @aaction %> |
+<%= link_to 'Back', aactions_path %>

@@ -1,0 +1,65 @@
+<!--    
+//    Copyright 2008 Jayson Vaughn 
+//    This file is part of Queuetastic.
+
+//    Queuetastic is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
+
+//    Queuetastic is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+              
+//    You should have received a copy of the GNU General Public License
+//    along with Queuetastic.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<div class="blur" style="width: 27%;">
+  <div class="shadow">
+    <div class="content">
+      <div style="font: normal 16px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;"> Settings</div>
+</div>
+</div>
+</div>
+
+<% form_tag :action => 'index' do %>
+  <p>
+    <b>Asterisk server:</b><br />
+    <%= text_field :queuetastic, :ast_server, :value =>  @config['queuetastic']['ast_server'] %>
+  </p>
+
+  <p>
+    <b>AMI port:</b><br />
+    <%= text_field :queuetastic, :ast_port, :value =>  @config['queuetastic']['ast_port'] %>
+  </p>
+
+  <p>
+    <b>AMI username:</b><br />
+    <%= text_field :queuetastic, :username, :value =>  @config['queuetastic']['username'] %>
+  </p>
+
+  <p>
+    <b>AMI secret:</b><br />
+    <%= text_field :queuetastic, :secret, :value =>  @config['queuetastic']['secret'] %>
+  </p>
+
+  <p>
+    <b>Queue log:</b><br />
+    <%= text_field :queuetastic, :queue_log, :value =>  @config['queuetastic']['queue_log'] %>
+  </p>
+  <p>
+    <b>Service Level:</b> (Reports)<br />
+    <%= text_field :queuetastic, :service_level, :value =>  @config['queuetastic']['service_level'] %>
+  </p>
+  <%= submit_tag "Update" %>
+<% end %>
+
+<br />
+<br />
+
+<%= link_to 'Edit Agents', agents_path %> |
+<%= link_to 'Edit Agent Groups', groups_path %>
+<br />
+<br /> 

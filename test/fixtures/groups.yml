@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  id: 1
+  name: Support 
+  description: Support 
+
+two:
+  id: 2
+  name: Activation
+  description: Activation

@@ -1,0 +1,32 @@
+<h1>Listing cactions</h1>
+
+<table>
+  <tr>
+    <th>Call</th>
+    <th>Timestamp</th>
+    <th>Uniqueid</th>
+    <th>Action</th>
+    <th>Field1</th>
+    <th>Field2</th>
+    <th>Field3</th>
+  </tr>
+
+<% for caction in @cactions %>
+  <tr>
+    <td><%=h caction.call_id %></td>
+    <td><%=h caction.timestamp %></td>
+    <td><%=h caction.uniqueid %></td>
+    <td><%=h caction.action %></td>
+    <td><%=h caction.field1 %></td>
+    <td><%=h caction.field2 %></td>
+    <td><%=h caction.field3 %></td>
+    <td><%= link_to 'Show', caction %></td>
+    <td><%= link_to 'Edit', edit_caction_path(caction) %></td>
+    <td><%= link_to 'Destroy', caction, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New caction', new_caction_path %>

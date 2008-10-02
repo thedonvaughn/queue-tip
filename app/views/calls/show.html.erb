@@ -1,0 +1,33 @@
+<p>
+  <b>Cid:</b>
+  <%=h @call.cid %>
+</p>
+
+<p>
+  <b>Queu:</b>
+  <%=h @call.queu_id %>
+</p>
+
+<p>
+  <b>Queue name:</b>
+  <%=h @call.queue_name %>
+</p>
+
+<p>
+  <b>Timestamp:</b>
+  <%=h @call.timestamp %>
+</p>
+
+<p>
+  <b>Uniqueid:</b>
+  <%=h @call.uniqueid %>
+</p>
+
+<p>
+  <b>Agent:</b>
+  <%=h @call.agent_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_call_path(@call) %> |
+<%= link_to 'Back', calls_path %>

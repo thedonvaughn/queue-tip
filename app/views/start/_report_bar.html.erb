@@ -1,0 +1,81 @@
+<!--    
+//    Copyright 2008 Jayson Vaughn 
+//    This file is part of Queuetastic.
+
+//    Queuetastic is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
+
+//    Queuetastic is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+              
+//    You should have received a copy of the GNU General Public License
+//    along with Queuetastic.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<div class="blur">
+ <div class="shadow">
+   <div class="content">
+   <div align="center" style="font: normal 12px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Full Report</div>
+  </div>
+ </div>
+</div>
+    <% form_tag :controller => 'report', :action => 'full_report' do %>
+      Select Start Date: <br /> <%= date_select("date", "start") %><br />
+      Select End Date: <br /> <%= date_select("date", "end") %><br />
+       <br />
+        <%= submit_tag "View Report" %>
+    <% end %>
+    <br />
+
+<div class="blur">
+ <div class="shadow">
+   <div class="content">
+   <div align="center" style="font: normal 12px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Queue Report</div>
+  </div>
+ </div>
+</div>
+    <% form_tag :controller => 'report', :action => 'queue_report' do %>
+      Select Start Date: <br /> <%= date_select("date", "start") %><br />
+      Select End Date: <br /> <%= date_select("date", "end") %><br />
+       <br />
+        <%= submit_tag "View Report" %>
+    <% end %>
+    <br />
+
+<div class="blur">
+ <div class="shadow">
+  <div class="content">
+    <div align="center" style="font: normal 12px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Agent Report</div>
+  </div>
+ </div>
+</div>
+    <% form_tag :controller => 'report', :action => 'agent_report' do %>
+       Select Agent: <br />
+       <%= select("agent", "id",  (Agent.find(:all).sort_by {|agent| [agent.channel] }).collect {|u| [u.channel, u.id] }) %><br />
+       Select Start Date: <br /> <%= date_select("date", "start") %><br />
+       Select End Date: <br /> <%= date_select("date", "end") %><br />
+       <br />
+       <%= submit_tag "View Report" %>
+    <% end %>
+    <br />
+
+<div class="blur">
+ <div class="shadow">
+   <div class="content">
+   <div align="center" style="font: normal 12px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Agent Group Report</div>
+  </div>
+ </div>
+</div>
+    <% form_tag :controller => 'report', :action => 'group_report' do %>
+    Select Group: <br />
+    <%= select("group", "name",  (Group.find(:all).collect {|g| [g.name] }) << ["All"]) %><br />
+      Select Start Date: <br /> <%= date_select("date", "start") %><br />
+      Select End Date: <br /> <%= date_select("date", "end") %><br />
+       <br />
+        <%= submit_tag "View Report" %>
+    <% end %>
+    <br />

@@ -1,0 +1,24 @@
+<h1>Editing queu</h1>
+
+<% form_for(@queu) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :queue_name %><br />
+    <%= f.text_field :queue_name %>
+  </p>
+  <p>
+    <%= f.label :exten %><br />
+    <%= f.text_field :exten %>
+  </p>
+  <p>
+    <%= f.label :description %><br />
+    <%= f.text_area :description %>
+  </p>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @queu %> |
+<%= link_to 'Back', queus_path %>

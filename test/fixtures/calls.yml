@@ -1,0 +1,37 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  id: 1
+  cid: 9725555555 
+  queu_id: 1
+  queue_name: Support 
+  timestamp: 2008-08-24 17:45:20
+  uniqueid: 139851.3
+  agent_id: 1 
+
+two:
+  id: 2
+  cid: 8175555555
+  queu_id: 2
+  queue_name: activation
+  timestamp: 2008-08-24 17:45:20
+  uniqueid: 109385.3
+  agent_id: 2
+
+three:
+  id: 3
+  cid: 8175555555
+  queu_id: 2
+  queue_name: activation
+  timestamp: 1220891000
+  uniqueid: 10937892385.3
+  agent_id: 2
+
+four:
+  id: 4
+  cid: 8175555555
+  queu_id: 2
+  queue_name: activation
+  timestamp: 1220891010
+  uniqueid: 109385.31234
+  agent_id: 2

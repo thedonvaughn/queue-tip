@@ -1,0 +1,55 @@
+<!--    
+//    Copyright 2008 Jayson Vaughn 
+//    This file is part of Queuetastic.
+
+//    Queuetastic is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
+
+//    Queuetastic is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+              
+//    You should have received a copy of the GNU General Public License
+//    along with Queuetastic.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<div class="blur">
+  <div class="shadow">
+    <div class="content">
+      <div align="center" style="font: normal 12px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Group: <%=h @groupname %> Report: <%= "#{@bmonth}/#{@bday} #{@byear} - #{@emonth}/#{@eday} #{@eyear}" %></div>
+</div>
+</div>
+</div>
+<h3 align="center">Agent Report</h3>
+<table align="center" width="70%">
+  <tr>
+    <th>Channel</th>
+    <th>First</th>
+    <th>Last</th>
+    <th>Total Calls</th>
+    <th>Talk Time</th>
+    <th>Pause Time</th>
+    <th>Avg. Reso. Time</th>
+  </tr>
+<% for agent in @agents %>
+  <tr style="background: <%= cycle("#ccc", "") %>;">
+  <td><%=h agent.channel %></td>
+  <td><%=h agent.first %></td>
+  <td><%=h agent.last %></td>
+  <td><%=h agent.count_calls(@bmonth, @bday, @byear, @emonth, @eday, @eyear) %></td>
+  <td><%=h agent.talk_time(@bmonth, @bday, @byear, @emonth, @eday, @eyear) %></td>
+  <td><%=h agent.pause_time(@bmonth, @bday, @byear, @emonth, @eday, @eyear) %></td>
+  <td><%=h agent.average_reso_time(@bmonth, @bday, @byear, @emonth, @eday, @eyear) %></td>
+  </tr>
+<% end %>
+</table>
+<br />
+<br />
+
+<% form_tag :action => 'export_group_report', :bmonth => @bmonth, :bday => @bday, :byear => @byear, :emonth => @emonth, :eday => @eday, :eyear => @eyear, :groupname => @groupname  do %>
+  <%= submit_tag "Export CSV" %>
+<% end %>
+

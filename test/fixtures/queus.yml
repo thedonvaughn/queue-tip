@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  id: 1
+  queue_name: support 
+  exten: 4800 
+  description: Support Queue 
+
+two:
+  id: 2
+  queue_name: activation 
+  exten: 4801 
+  description: Activation Queue 

@@ -1,0 +1,51 @@
+<!--    
+//    Copyright 2008 Jayson Vaughn 
+//    This file is part of Queuetastic.
+
+//    Queuetastic is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
+
+//    Queuetastic is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+              
+//    You should have received a copy of the GNU General Public License
+//    along with Queuetastic.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<div class="blur" style="width: 31%;">
+    <div class="shadow">
+       <div class="content">
+          <div style="font: normal 16px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Listing agent</div>
+     </div>
+  </div>
+</div>
+<p>
+  <b>Channel:</b>
+  <%=h @agent.channel %>
+</p>
+
+<p>
+  <b>First:</b>
+  <%=h @agent.first %>
+</p>
+
+<p>
+  <b>Last:</b>
+  <%=h @agent.last %>
+</p>
+
+<p>
+  <b>Exten:</b>
+  <%=h @agent.exten %>
+</p>
+<p>
+  <b>Group:</b>
+  <%=h @agent.group.name if @agent.group %>
+</p>
+
+<%= link_to 'Edit', edit_agent_path(@agent) %> |
+<%= link_to 'Back', agents_path %>

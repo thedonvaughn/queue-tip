@@ -1,0 +1,45 @@
+<!--    
+//    Copyright 2008 Jayson Vaughn 
+//    This file is part of Queuetastic.
+
+//    Queuetastic is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
+
+//    Queuetastic is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+              
+//    You should have received a copy of the GNU General Public License
+//    along with Queuetastic.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<h1>New agent</h1>
+
+<% form_for(@agent) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :channel %><br />
+    <%= f.text_field :channel %>
+  </p>
+  <p>
+    <%= f.label :first %><br />
+    <%= f.text_field :first %>
+  </p>
+  <p>
+    <%= f.label :last %><br />
+    <%= f.text_field :last %>
+  </p>
+  <p>
+    <%= f.label :exten %><br />
+    <%= f.text_field :exten %>
+  </p>
+  <p>
+    <%= f.submit "Create" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', agents_path %>

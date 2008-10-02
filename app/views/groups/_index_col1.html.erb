@@ -1,0 +1,52 @@
+<!--    
+//    Copyright 2008 Jayson Vaughn 
+//    This file is part of Queuetastic.
+
+//    Queuetastic is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
+
+//    Queuetastic is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+              
+//    You should have received a copy of the GNU General Public License
+//    along with Queuetastic.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<div align="center">
+<div class="blur" style="width: 62%;">
+  <div class="shadow">
+    <div class="content">
+      <div style="font: normal 16px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;" align="center">Listing agent groups</div>
+    </div>
+  </div>
+</div>
+</div>
+<br />
+
+  <table align="center" width="60%">
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+
+  <% for group in @groups %>
+    <tr>
+      <td><%=h group.name %></td>
+      <td><%=h group.description %></td>
+      <td><%= link_to 'Show', group %></td>
+      <td><%= link_to 'Edit', edit_group_path(group) %></td>
+      <td><%= link_to 'Destroy', group, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+  </table>
+
+  <br />
+
+<%= link_to 'New group', new_group_path %>

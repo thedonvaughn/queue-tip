@@ -1,0 +1,228 @@
+<!--    
+//    Copyright 2008 Jayson Vaughn 
+//    This file is part of Queuetastic.
+
+//    Queuetastic is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
+
+//    Queuetastic is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+              
+//    You should have received a copy of the GNU General Public License
+//    along with Queuetastic.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<style type='text/css'>
+.header{
+   width: 68.9%;
+   left: 15.5%;
+}
+.colmask{
+   width: 70%;
+   left: 15.5%;
+}
+.colleft{ right: 74%}
+.col1 {
+   width: 67%;
+   left: 104.0%;
+}
+.col2{
+   width: 27%;
+   left: 5.0%;
+}
+.footer {
+   width: 70%;
+   left: 15.5%;
+}
+.header{
+   clear: both;
+   float: left;
+   position: relative;
+   border-bottom: #000 1px solid;
+   background-color: #000000;
+   color: #FFF;
+   left: 15.5%;
+   width: 68.9%;
+   margin-top: 1%;
+   padding-right: 1%;
+   padding-left: 4px;
+}
+.colmask{
+   clear: both;
+   float: left;
+   overflow: hidden;
+   position: relative;
+   background: #ffffff
+}
+.colleft{
+   float: left;
+   width: 100%;
+   position: relative;
+   background: #ffffff
+}
+.col1{
+   padding: 0px 0px 1em 0px;
+   overflow: hidden;
+   float: left;
+   position: relative;
+   background-color: #EEEEEE;
+   padding-top: 1%;
+   padding-bottom: 2%;
+   padding-left: 1%;
+   padding-right: 1%;
+   border-top: #FFF 4px solid;
+   border-bottom: #FFF 4px solid;
+   border-left: #FFF 2px solid;
+   border-right: #FFF 4px solid;
+
+}
+.col2{
+   padding: 0px 0px 1em 0px;
+   overflow: hidden;
+   float: left;
+   position: relative;
+   background-color: #EEEEEE;
+   padding-bottom: 1%;
+   padding-right: 1%;
+   padding-left: 1%;
+   padding-top: 1%;
+   border-top: #FFF 4px solid;
+
+}
+.footer{
+   clear: both;
+   float: left;
+   position: relative;
+   border-bottom: #000 1px solid;
+   background-color: #000000;
+}
+.footer a {
+   color: #fff;
+   font-size: small;
+}
+.bottom{
+   clear: both;
+   width: 100%;
+   float: left;
+   position: relative;
+   background-color: #999999;
+}
+body {
+   border-width: 0px;
+   padding: 0px;
+   margin: 0px;
+   font-size: 90%;
+   width: 100%;
+   min-width: 600px;
+   background-color: #999999;
+}
+
+input.groovybutton
+{
+     font-family:Verdana, Arial, Helvetica, sans-serif;
+     font: normal 16px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+     font-weight:bold;
+     color:#FFFFFF;
+     background-color:#555555;
+     border-style:groove;
+     border-color:#000000;
+     position: relative;
+     float: left;
+     margin-right: 4px;
+}
+
+body {
+  font: normal 13px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+}
+
+table {
+  border-spacing: 1px;
+  font-family:Verdana, Arial, Helvetica, sans-serif;
+  font-size:10px;
+  font: normal 10px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+  background-color:#E7E7E7;
+  color: #000000;
+  border-style: groove;
+  border-width: 1px;
+}
+
+td, th {
+  padding: 4px;
+  background: #DDDDDD;
+  border-bottom: 1px solid #666666;
+}
+
+thead th {
+  text-align: center;
+  background: #F5F5F5;
+  color: #666;                                                                                                                                                                                                               
+  border: 1px solid #FFF;                                                                                                                                                                                                    
+  text-transform:uppercase;
+}
+
+tbody th {
+  font-weight: bold;
+}
+
+tbody tr    {
+  background-color:#FFF;
+  text-align:left;
+  }
+
+tbody tr td {
+  height:25px;
+  background: #FFF;
+  border: 1px solid #FFF;
+  }
+
+table td a:link, table td a:visited {
+  color: #1975D7;
+  text-decoration: none;
+}
+
+table td a:hover {
+  color: #50ADEA;
+  border-bottom:2px solid #8FD5FF;
+  text-decoration: none ;
+}
+
+tfoot th, tfoot td {
+  background-color:#E7E7E7; padding:10px;
+  text-align:center;
+  font-family:Georgia, "Times New Roman", Times, serif;
+  font-size:22px; font-weight:bold; font-style:italic;
+  border-bottom:3px solid #CCC;
+  border-top:1px solid #DFDFDF;
+}
+
+.blur{
+  background-color: #ccc; /*shadow color*/
+  color: inherit;
+  margin-left: 4px;
+  margin-top: 4px;
+}
+
+.shadow,
+.content{
+  position: relative;
+  bottom: 2px;
+  right: 2px;
+}
+
+.shadow{
+  background-color: #666; /*shadow color*/
+  color: inherit;
+}
+
+.content{
+  background-color: #aadaaf; /*background color of content*/
+  color: #000; /*text color of content*/
+  border: 1px solid #000; /*border color*/
+  padding: .5em 2ex;
+}
+
+</style>

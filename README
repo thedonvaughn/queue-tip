@@ -1,0 +1,17 @@
+== Welcome to Queuetastic
+
+Thank you for choosing Queutastic - Asterisk Queue Reporting, Analysis, and Realtime Monitoring
+
+== Requirements
+
+Rails - 2.1
+FasterCSV gem (can install using 'rake gems:install')
+
+== Install
+
+NEED TODO
+
+In a nutshell, edit config/queuetastic.yml and deploy this Rails app as you would any other rails app.
+
+Requires Rails 2.1 and FasterCSV gem.
+
