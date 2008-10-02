@@ -1,17 +1,56 @@
-== Welcome to Queuetastic
+== QUEUETASTIC ==
 
-Thank you for choosing Queutastic - Asterisk Queue Reporting, Analysis, and Realtime Monitoring
+  * Asterisk Queue Reporting, Analysis, and Realtime Monitoring
+  * Copyright (c) 2008 Jayson Vaughn
+  * As always thanks to the rubyists.   http://rubyists.com
 
-== Requirements
+== REQUIREMENTS ==
 
-Rails - 2.1
-FasterCSV gem (can install using 'rake gems:install')
+  * Ruby 1.8
+  * Rubygems
+  * Ruby on Rails - 2.1+
+  * FasterCSV gem
+  * Asterisk 1.4
 
-== Install
+== HOWTO INSTALL ==
 
-NEED TODO
+* ASTERISK
 
-In a nutshell, edit config/queuetastic.yml and deploy this Rails app as you would any other rails app.
+  Make sure that the Asterisk Manager Interface is enabled.
 
-Requires Rails 2.1 and FasterCSV gem.
+  1) Open /etc/asterisk/manager.conf and make sure the following is set:
+      enabled = yes
+      port = 5038 
+      bindaddr = 0.0.0.0
 
+  NOTE: 5038 is the default port.  You can change 0.0.0.0 to a specific IP address to bind to.  You will need to tell Queuetastic these settings later.
+
+  2) Add yourself a user at the end of /etc/asterisk/manager.conf.  Here is an example:
+
+    [queuemanager]
+    secret = secret420
+    deny=0.0.0.0/0.0.0.0
+    permit=192.168.1.0/255.255.255.0
+    read = system,call,log,verbose,command,agent,user,config
+    write = system,call,log,verbose,command,agent,user,config
+
+NOTE: 'queuemanager' is the username and 'secret420' is the password. You will need to tell Queuetastic these settings later.
+      This example denys anyone outside 192.168.1.0/24.   Refer to Asterisk documentation for further information.
+
+  3) You must reload the manager module by either restarting asterisk or 'module reload manager' from within the Asterisk CLI.  Refer to Asterisk documentation for further information.
+
+* QUEUETASTIC
+
+  1) Inside the working directory of your choosing issue: 'git clone git://github.com/thedonvaughn/queuetastic.git queuetastic'
+  2) Make sure you have the fastercsv gem installed by either typing 'gem install fastercsv' or 'rake gems:install' from within the queuetastic/ working directory.
+  3) For your initial setup of Queuetastic, I suggest you edit config/queuetastic.yml by hand before starting Queuetastic.
+     * Type 'cd queuetastic/' if you are not already in the queuetastic working directory
+     * Edit config/queuetastic.yml with your asterisk settings.  Note the service_level setting is only for reporting and won't actually set the servicelevel in your queues.conf
+     * After your first setup, you can change your config on the fly from the web app itself.
+  4) Now you can deploy the app as you would any other Ruby on Rails application.  
+     * Make sure to setup config/database.yml and issue 'rake db:migrate'.  
+     * (Deploying a Rails app is way beyond the scope of this README, please consult the nice Rails community for suggestions.)
+
+  *** I use lighttpd + fcgi processes for Rails deployment over a mongrel cluster.***
+  *** Use 'emash' to quickly setup and deploy this app for lighttpd.  Don't leave home without it!  
+  *** http://rubyists.com/pages/emash
