@@ -1,10 +1,11 @@
-== QUEUETASTIC ==
+== QUEUETASTIC v0.1  ==
 
   * Queuetastic is an Asterisk Queue Reporting, Analysis, and Real-time Monitoring tool designed with the Ruby on Rails framework.
-
+	
   * Copyright (c) 2008 Jayson Vaughn (vaughn.jayson@gmail.com)
   * Distributed under the terms of the GNU General Public License.
   * thanks to the rubyists.   http://rubyists.com
+  * Homepage - http://sourceforge.net/projects/queuetastic
   * Wiki - http://trac.rubyists.com/trac.fcgi/queuetastic/wiki/queuetastic
   * Github - http://github.com/thedonvaughn/queuetastic/
 
@@ -55,8 +56,22 @@
 
 == INSTALL AND SETUP QUEUETASTIC ==
 
-  1) Inside the working directory of your choosing issue: 
-     `git clone git://github.com/thedonvaughn/queuetastic.git queuetastic`
+  1) You can get Queuetastic with one of 2 methods:
+  
+    - To use git:
+    
+        * Inside the working directory of your choosing issue: 
+          `git clone git://github.com/thedonvaughn/queuetastic.git queuetastic`
+	  or
+     	  `git clone git://rubyists.com/gits/queuetastic queuetastic`
+
+    - To download a tarball package:
+
+    	* You can download a tarball'd release of Queuetastic from Sourceforge:
+	  http://sourceforge.net/projects/queuetastic/download
+	* Just extract the tarball into the directory of your choosing.
+
+
   
   2) Make sure you have the fastercsv gem installed by either typing:
     'gem install fastercsv' 

@@ -16,6 +16,7 @@
 //    along with Queuetastic.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
+
 <style type='text/css'>
 .header{
    width: 68.9%;
@@ -121,6 +122,8 @@ body {
   font: normal 13px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
 }
 
+<!-- Idea for live_view table layout from Alejo Gagliardi (alejogagliardi@gmail.com) mapi.php/mapi.css --> 
+
 table {
   border-spacing: 1px;
   font-family:Verdana, Arial, Helvetica, sans-serif;
@@ -180,6 +183,10 @@ tfoot th, tfoot td {
   border-bottom:3px solid #CCC;
   border-top:1px solid #DFDFDF;
 }
+
+
+<!-- Recieved the idea of how to make these shadow boxes from a website I can't seem to remember -->
+<!-- If you know where this site is or who the author was, I'd love to give them credit -->
 
 .blur{
   background-color: #ccc; /*shadow color*/
