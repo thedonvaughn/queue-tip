@@ -35,7 +35,7 @@
       <th>Completed</th>
       <th>Max</th>
       <th>Srvc Lvl</th>
-      <th>Srvc Pref</th>
+      <th>Srvc Perc.</th>
       <th>Weight</th>
     </tr>
     <tr>
@@ -45,7 +45,7 @@
       <td><%= @queues[queue]['completed'] %></td>
       <td><%= @queues[queue]['max'] %></td>
       <td><%= @queues[queue]['service_level'] %></td>
-      <td><%= @queues[queue]['service_level_perf'] %></td>
+      <td><%= @queues[queue]['service_level_perf'] %>%</td>
       <td><%= @queues[queue]['weight'] %></td>
     </tr>
   </table>

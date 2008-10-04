@@ -30,18 +30,18 @@ In order to run Queuetastic you will need:
 Asterisk Manager Interface Setup
 --------------------------------
 Make sure that the Asterisk Manager Interface is enabled.
-From your asterisk server:
+From the asterisk server:
 
-  1) Open /etc/asterisk/manager.conf with an editor and set the followin*:
+  1) Open /etc/asterisk/manager.conf with an editor and set the following*:
 
       enabled = yes
       port = 5038   
       bindaddr = 192.168.1.25
 
-    * Note: set bindaddr to your server's IP address.
+    * Note: set bindaddr to the server's IP address.
 
 
-  2) Add a user for access to the manager interface;  Toward the bottom of manager.conf*:
+  2) Create a user to access the Asterisk Manager Interface; insert toward the bottom of manager.conf*:
 
       [queuemanager]
       secret = secret420
@@ -53,7 +53,7 @@ From your asterisk server:
     * Note: In the above example, 'queuemanager' is the username and 'secret420' is the password.
 
 
-  3) You must reload the manager module by either restarting asterisk or 'module reload manager' from within the Asterisk CLI.  Refer to Asterisk documentation for further information.
+  3) You must reload the manager asterisk module by either restarting asterisk or 'module reload manager' from within the Asterisk CLI.  Refer to Asterisk documentation for further information.
 
 
 Obtaining Queuetastic
@@ -73,7 +73,7 @@ If you wish to obtain from github.com, run:
       
 Installation
 ------------  
-In order to have Queuetastic load your queue_log file for reporting, it's easer
+In order to have Queuetastic load the queue_log file for reporting, it's easer
 to install Queuetastic on the same server as Asterisk*.
 
 * Note: It is very much possible to setup Queuetastic on a different server than Asterisk
@@ -87,10 +87,10 @@ to install Queuetastic on the same server as Asterisk*.
      
      or 
      
-      $ rake gems:install (from within your Queuetastic working directory)
+      $ rake gems:install (from within the Queuetastic working directory)
   
   
- 2) Open up and edit config/queuetastic.yml based on your Asterisk Manager Interface settings*: 
+  2) Open up and edit config/queuetastic.yml based on the Asterisk Manager Interface settings*: 
 
      queuetastic:
       ast_server: 192.168.1.25  
@@ -100,19 +100,23 @@ to install Queuetastic on the same server as Asterisk*.
       secret: secret420
       service_level: "60.0"
 
-    * Note: In the above example, service_level is used only for reporting, it does not affect asterisk's queues.conf
-            Asterisk's queue_log default location is /var/log/asterisk.  Refer to your system administrator
-            or Asterisk documentation for further information.
+    * Note: service_level is used only for reporting. It will not affect asterisk's queues.conf file.
+    ** Note: Asterisk's queue_log default location is /var/log/asterisk/queue_log.  Refer to your system administrator
+             or Asterisk documentation for further information.
 
     
   3) Next, like any Rails application, we need to create a database that Queuetastic 
-     can connect to and use.  In this setup, we will be using sqlite3* as our database*.  
-     This will also ruby-sqlite3 rubygem.  To install ruby-sqlite3, run:
+     can connect to and use.  In this setup, we will be using sqlite3* as our database.  
+     This will require the ruby-sqlite3 rubygem.  To install ruby-sqlite3, run:
 
      $ sudo gem install -r ruby-sqlite3
 
+     
+     * Note: We can use mysql, postgresql, or oracle as our database.  
+       Refer to the Ruby on Rails documentation for further information.
+
   
-  4) Open up and edit config/database.yml to define your database.  Here is our
+  4) Open up and edit config/database.yml to define the databases.  Here is our
      database definitons*.  Refer to Ruby on Rails documentation for more info.
 
       # SQLite version 3.x
@@ -170,16 +174,16 @@ to install Queuetastic on the same server as Asterisk*.
   9) Review the configuration under the "Settings" tab.  This is just a frontend to edit config/queuetastic.yml
 
 
- 10) Back to the "Dashboard" tab, click the "Load Queue Log" link to load your log file into the database.  
-     Depending on how large your queue_log file is, this could take several minutes.  Once it's finished loading;
+ 10) Back to the "Dashboard" tab, click the "Load Queue Log" link to load the queue_log file into the database.  
+     Depending on how large the queue_log file is, this could take several minutes.  Once it's finished loading;
      Queuetastic will inform us how many new records were inserted into the database.  You can now run reports
      from the data you loaded.
 
  
-* Note: These steps above walked you through setting up Queuetastic in the development environment.
-        I highly recommend switching to production environment and running Queuetastic behind
-        lighttpd using fcgi processes.  Deploying a Ruby on Rails app into production is way
-        beyond the scope of this README.  Please refer to rails documentation or the friendly
+* Note: These steps above walked you through setting up Queuetastic in the rails development environment.
+        I highly recommend switching to production environment, using a solid database server such as postgresql,
+        and running Queuetastic behind lighttpd using fcgi processes.  Deploying a Ruby on Rails app into 
+        production is way beyond the scope of this README.  Please refer to rails documentation or the friendly
         rails community for further details.
             
 ** Note: check out e.M.A.S.H at http://trac.rubyists.com/trac.fcgi/emash/wiki/Emash to quickly and easily deploy Queuetastic into production.
@@ -187,7 +191,7 @@ to install Queuetastic on the same server as Asterisk*.
 
 Auto load and rotate queue_log
 ------------------------------
-Unless you want to manually load your queue_log everytime;
+Unless you want to manually load the queue_log everytime;
 We can use bin/reset_queue.rb to load and rotate queue_log 
 
 * Note: bin/reset_queue.rb will also reset the "Realtime view" stats. 
