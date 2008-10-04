@@ -19,6 +19,8 @@
 
 class StartController < ApplicationController
   before_filter :load_config
+  rescue_from Errno::ENOENT, :with => :redirect_index
+  rescue_from SocketError, :with => :redirect_index2
 
   def index
     if params
@@ -38,6 +40,16 @@ class StartController < ApplicationController
 
   def load_config
     @config = Queuetastic.config
+  end
+
+  def redirect_index
+    flash[:notice] = "Can not open log file! Please check your settings"
+    redirect_to(:controller => 'start', :action => "index")
+  end
+
+  def redirect_index2
+    flash[:notice] = "Can not resolve hostname! Please check your settings"
+    redirect_to(:controller => 'start', :action => "index")
   end
 
 end

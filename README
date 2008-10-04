@@ -1,99 +1,218 @@
-== QUEUETASTIC v0.1  ==
+=========================================================
+Queuetastic
+Copyright (c) 2008 Jayson Vaughn (vaughn.jayson@gmail.com)
+Distributed under the terms of the GNU General Public License.
+==========================================================
 
-  * Queuetastic is an Asterisk Queue Reporting, Analysis, and Real-time Monitoring tool designed with the Ruby on Rails framework.
-	
-  * Copyright (c) 2008 Jayson Vaughn (vaughn.jayson@gmail.com)
-  * Distributed under the terms of the GNU General Public License.
-  * thanks to the rubyists.   http://rubyists.com
-  * Homepage - http://sourceforge.net/projects/queuetastic
-  * Wiki - http://trac.rubyists.com/trac.fcgi/queuetastic/wiki/queuetastic
-  * Github - http://github.com/thedonvaughn/queuetastic/
+About
+-----
+Queuetastic is an Asterisk Queue Reporting, Analysis, and Real-time Monitoring tool
+designed with the Ruby on Rails framework.
 
-
-== FEATURES ==
-
-  * Real-time, live view, of Asterisk queues updated seamlessly using AJAX
-  * Stats are exported in real-time using the Asterisk Manager Interface
-  * Load Asterisk's queue log file into a database for reporting and analysis.
-  * Able to run reports on Queue stats, agent stats, and "agent groups" stats.
-  * Export reports in csv format
-
-
-== REQUIREMENTS ==
-
-  * Ruby 1.8
-  * Rubygems
-  * Ruby on Rails - 2.1+
-  * FasterCSV gem
-  * Asterisk 1.4
+Features include:
+  - Real-time, live view, of Asterisk queues updated seamlessly using AJAX
+  - Queue stats are collected in real-time using the Asterisk Manager Interface
+  - Load Asterisk's queue_log file into a database
+  - Run reports on agent and queue stats.  
+  - Partition agents in to "groups" for reporting needs..
+  - Export reports in csv format
 
 
-== SETUP ASTERISK ==
+Requirements 
+------------
+In order to run Queuetastic you will need:
+  - ruby (>= 1.8)
+  - rubygems
+  - rails (>= 2.1)
+  - fastercsv rubygem
 
-  Make sure that the Asterisk Manager Interface is enabled.
 
-  1) Open /etc/asterisk/manager.conf and make sure the following is set:
+Asterisk Manager Interface Setup
+--------------------------------
+Make sure that the Asterisk Manager Interface is enabled.
+From your asterisk server:
+
+  1) Open /etc/asterisk/manager.conf with an editor and set the followin*:
+
       enabled = yes
-      port = 5038 
-      bindaddr = 0.0.0.0
+      port = 5038   
+      bindaddr = 192.168.1.25
 
-  NOTE: 5038 is the default port.  You can change 0.0.0.0 to a specific IP address to bind to.  You will need to tell Queuetastic these settings later.
+    * Note: set bindaddr to your server's IP address.
 
-  2) Add yourself a user at the end of /etc/asterisk/manager.conf.  Here is an example:
 
-    [queuemanager]
-    secret = secret420
-    deny=0.0.0.0/0.0.0.0
-    permit=192.168.1.0/255.255.255.0
-    read = system,call,log,verbose,command,agent,user,config
-    write = system,call,log,verbose,command,agent,user,config
+  2) Add a user for access to the manager interface;  Toward the bottom of manager.conf*:
 
-  NOTE: 'queuemanager' is the username and 'secret420' is the password. You will need to tell Queuetastic these settings later.
-  This example denys anyone outside 192.168.1.0/24.   Refer to Asterisk documentation for further information.
+      [queuemanager]
+      secret = secret420
+      deny=0.0.0.0/0.0.0.0
+      permit=192.168.1.0/255.255.255.0
+      read = system,call,log,verbose,command,agent,user,config
+      write = system,call,log,verbose,command,agent,user,config
+
+    * Note: In the above example, 'queuemanager' is the username and 'secret420' is the password.
+
 
   3) You must reload the manager module by either restarting asterisk or 'module reload manager' from within the Asterisk CLI.  Refer to Asterisk documentation for further information.
 
 
-== INSTALL AND SETUP QUEUETASTIC ==
+Obtaining Queuetastic
+---------------------
+You can obtain the latest release of Queuetastic at:
 
-  1) You can get Queuetastic with one of 2 methods:
+      http://sourceforge.net/projects/queuetastic
   
-    - To use git:
+You can obtain the upstream source via git, run:
     
-        * Inside the working directory of your choosing issue: 
-          `git clone git://github.com/thedonvaughn/queuetastic.git queuetastic`
-	  or
-     	  `git clone git://rubyists.com/gits/queuetastic queuetastic`
+     	$ git clone git://rubyists.com/gits/queuetastic queuetastic
+      
+If you wish to obtain from github.com, run:
 
-    - To download a tarball package:
+      $ git clone git://github.com/thedonvaughn/queuetastic.git queuetastic
 
-    	* You can download a tarball'd release of Queuetastic from Sourceforge:
-	  http://sourceforge.net/projects/queuetastic/download
-	* Just extract the tarball into the directory of your choosing.
+      
+Installation
+------------  
+In order to have Queuetastic load your queue_log file for reporting, it's easer
+to install Queuetastic on the same server as Asterisk*.
 
+* Note: It is very much possible to setup Queuetastic on a different server than Asterisk
+  and still have the queue_log loaded for reporting, but it is currently unsupported and
+  takes some modification of the setup.  This will be a feature in Queuetastic very soon!
+
+
+  1) Make sure you have the fastercsv rubygem installed by either running:
+  
+      $ sudo gem install -r fastercsv 
+     
+     or 
+     
+      $ rake gems:install (from within your Queuetastic working directory)
+  
+  
+ 2) Open up and edit config/queuetastic.yml based on your Asterisk Manager Interface settings*: 
+
+     queuetastic:
+      ast_server: 192.168.1.25  
+      ast_port: "5038"
+      queue_log: /var/log/asterisk/queue_log
+      username: queuemanager
+      secret: secret420
+      service_level: "60.0"
+
+    * Note: In the above example, service_level is used only for reporting, it does not affect asterisk's queues.conf
+            Asterisk's queue_log default location is /var/log/asterisk.  Refer to your system administrator
+            or Asterisk documentation for further information.
+
+    
+  3) Next, like any Rails application, we need to create a database that Queuetastic 
+     can connect to and use.  In this setup, we will be using sqlite3* as our database*.  
+     This will also ruby-sqlite3 rubygem.  To install ruby-sqlite3, run:
+
+     $ sudo gem install -r ruby-sqlite3
 
   
-  2) Make sure you have the fastercsv gem installed by either typing:
-    'gem install fastercsv' 
-      or 
-    'rake gems:install' from within the queuetastic/ working directory.
+  4) Open up and edit config/database.yml to define your database.  Here is our
+     database definitons*.  Refer to Ruby on Rails documentation for more info.
+
+      # SQLite version 3.x
+      #   gem install sqlite3-ruby (not necessary on OS X Leopard)
+      development:
+        adapter: sqlite3
+        database: db/development.sqlite3
+        timeout: 5000
+
+      # Warning: The database defined as "test" will be erased and
+      # re-generated from your development database when you run "rake".
+      # Do not set this db to the same as development or production.
+      test:
+        adapter: sqlite3
+        database: db/test.sqlite3
+        timeout: 5000
+
+      production:
+        adapter: sqlite3
+        database: db/production.sqlite3
+        timeout: 5000
+
   
-  3) For your initial setup of Queuetastic, I suggest you edit config/queuetastic.yml by hand before starting Queuetastic.
-     * `cd queuetastic/` if you are not already in the queuetastic working directory
-     * Edit config/queuetastic.yml with your asterisk settings.  Note the service_level setting is only for reporting and won't actually set the servicelevel for Asterisk's queues.conf
-     * After your first setup, you can change your config on the fly from within Queuetastic.
+  5) Create the database*, run:
+
+      $ rake db:create
+
+    * Note: By default in Ruby on Rails, you are in the 'development' environment.
+            Refer to Ruby on Rails documentation for more info
+
+
+  6) Populate the database*, run:
+
+      $ rake db:migrate
+
+    * Note:  By default you are in the development environment so this
+             will populate the development database defined in 
+             config/database.yml above.
   
-  4) Setup the database and deploy the app as you would any other Ruby on Rails application.  
-     * Make sure to setup config/database.yml and issue 'rake db:migrate'.  
-     * (Deploying a Rails app is way beyond the scope of this README, please consult the nice Rails community for documentation and/or suggestions.)
+  7) To start up Queuetastic in development mode, run*:
+      
+      $ ./script/server
+
+    This will start up Queuetastic on port 3000.
+
+    * Note: I suggest using 'mongrel' webserver for development in rails, run: 
+            $ sudo gem install -r mongrel' to install
+            Once installed, /script/server will run mongrel by default.
   
-  5) Create a crontab entry to ensure the Asterisk queue_log is loaded to the database nightly.
-     * create a crontab entry like the following example below.  This crontab entry will call reset_queue.rb everynight at 11:30pm.  Make sure to change /home/user/queuetastic to your actual install path.
+
+  8) Open a web browser and connect to port 3000 of the server;  i.e.  http://192.168.1.25:3000. 
+     Congratulations!  You are connected to Queuetastic.
+
+  
+  9) Review the configuration under the "Settings" tab.  This is just a frontend to edit config/queuetastic.yml
+
+
+ 10) Back to the "Dashboard" tab, click the "Load Queue Log" link to load your log file into the database.  
+     Depending on how large your queue_log file is, this could take several minutes.  Once it's finished loading;
+     Queuetastic will inform us how many new records were inserted into the database.  You can now run reports
+     from the data you loaded.
+
+ 
+* Note: These steps above walked you through setting up Queuetastic in the development environment.
+        I highly recommend switching to production environment and running Queuetastic behind
+        lighttpd using fcgi processes.  Deploying a Ruby on Rails app into production is way
+        beyond the scope of this README.  Please refer to rails documentation or the friendly
+        rails community for further details.
+            
+** Note: check out e.M.A.S.H at http://trac.rubyists.com/trac.fcgi/emash/wiki/Emash to quickly and easily deploy Queuetastic into production.
+
+
+Auto load and rotate queue_log
+------------------------------
+Unless you want to manually load your queue_log everytime;
+We can use bin/reset_queue.rb to load and rotate queue_log 
+
+* Note: bin/reset_queue.rb will also reset the "Realtime view" stats. 
+
+
+ 1) Create a new crontab entry, run*:
+
+      $ crontab -e
+
+  * Note: On most Unix-like platforms, a user can edit their crontab by running 'crontab -e'.  
+          Check with your local admin for more details.
+
+ 2) Create a crontab entry like the following example below*.
      
      30 23 * * * cd /home/user/queuetastic/ && /home/user/queuetastic/bin/reset_queue.rb >> /home/user/queutastic/log/queuetastic.log
      
-     * NOTE: You must create this crontab entry under the same user this app will run as.
+     * Note: Make sure to change the RAILS_ENV constant in bin/reset_queue.rb when change environments.  
+             i.e.  from 'development' to 'production' 
      
-  *** I use lighttpd + fcgi processes for Rails deployment***
-  *** Use 'emash' to quickly setup and deploy this app for lighttpd.  
-  *** http://rubyists.com/pages/emash
+    ** Note: You must create this crontab entry under the same user this app will run as.
+
+
+Support
+-------
+
+ - Forums: http://sourceforge.net/projects/queuetastic
+ - Wiki: http://trac.rubyists.com/trac.fcgi/queuetastic/wiki/queuetastic
+ - IRC: #queuetastic on freenode

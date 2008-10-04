@@ -28,163 +28,57 @@ class QueueLog
 
   def process_log_file
     File.open(@queue_log, 'r').each_line do |line|
-      self.addmember(line) if line =~ /ADDMEMBER/
-      self.remove_member(line) if line =~ /REMOVEMEMBER/
-      self.enter_queue(line) if line =~ /ENTERQUEUE/
-      self.connect(line) if line =~ /CONNECT/
-      self.abandon(line) if line =~ /ABANDON/
-      self.complete_agent(line) if line =~ /COMPLETEAGENT/
-      self.complete_caller(line) if line =~ /COMPLETECALLER/
-      self.pause(line) if line =~ /PAUSE/ and line !~ /PAUSEALL|UNPAUSE/
-      self.unpause(line) if line =~ /UNPAUSE/ and line !~ /UNPAUSEALL/
+      self.add_aaction(line) if line =~ /ADDMEMBER|REMOVEMEMBER|PAUSE/ and line !~ /PAUSEALL|UNPAUSEALL/
+      self.add_caction(line) if line =~ /CONNECT|COMPLETEAGENT|COMPLETECALLER/
+      self.add_caction_no_agent(line) if line =~ /ABANDON|ENTERQUEUE/
     end
     return @new_records
   end
 
-  ###############################################
-  # REALLY REALLY NEED TO THIS DRY THIS MESS UP #
-  ###############################################
-
-  def addmember(string)
+  def add_aaction(string)
     member = string.split('|')
-    unless member[1] =~ /MANAGER/
-      unless aaction = Aaction.find_by_uniqueid(member[1])
-       queue = test_queue(member[2]) 
-       agent = test_agent(member[3])
-       @new_records += 1 if aaction = Aaction.create(:agent_id => agent.id, :channel => member[3], :timestamp => member[0].to_f, :queu_id => queue.id, :queue_name => member[2], :uniqueid => member[1], :action => member[4])
-      end
-    else
-       queue = test_queue(member[2]) 
-       agent = test_agent(member[3])
-       @new_records += 1 if aaction = Aaction.create(:agent_id => agent.id, :channel => member[3], :timestamp => member[0].to_f, :queu_id => queue.id, :queue_name => member[2], :uniqueid => Time.now.to_f, :action => member[4])
-    end
-    return aaction
-  end
-
-  def remove_member(string)
-    member = string.split('|')
-    unless member[1] =~ /MANAGER/
-      unless aaction = Aaction.find_by_uniqueid(member[1])
-       queue = test_queue(member[2]) 
-       agent = test_agent(member[3])
-       @new_records += 1 if aaction = Aaction.create(:agent_id => agent.id, :channel => member[3], :timestamp => member[0].to_f, :queu_id => queue.id, :queue_name => member[2], :uniqueid => member[1], :action => member[4])
-      end
-    else
-      unless aaction = Aaction.find(:all, :conditions => ['timestamp = ? and channel = ? and action = ?', member[0].to_f, member[3].to_s, "REMOVEMEMBER"])
+    unless member[1] =~ /MANAGER|NONE/
+      unless aaction = Aaction.find_by_uniqueid(member[1].to_s)
         queue = test_queue(member[2]) 
         agent = test_agent(member[3])
-        @new_records += 1 if aaction = Aaction.create(:agent_id => agent.id, :channel => member[3], :timestamp => member[0].to_f, :queu_id => queue.id, :queue_name => member[2], :uniqueid => Time.now.to_f, :action => member[4])
+        @new_records += 1 if aaction = Aaction.create(:agent_id => agent.id, :channel => member[3], :timestamp => member[0].to_f, :queu_id => queue.id, :queue_name => member[2], :uniqueid => member[1].to_s, :action => member[4])
+      end
+    else
+      aaction = Aaction.find(:all, :conditions => ['timestamp = ? and channel = ? and action = ?', member[0].to_f, member[3].to_s, member[4].to_s])
+      if aaction.empty?
+        queue = test_queue(member[2]) 
+        agent = test_agent(member[3])
+        @new_records += 1 if aaction = Aaction.create(:agent_id => agent.id, :channel => member[3], :timestamp => member[0].to_f, :queu_id => queue.id, :queue_name => member[2], :uniqueid => Time.now.to_f.to_s, :action => member[4])
       end
     end
     return aaction
   end
 
-  def pause(string)
-    member = string.split('|')
-    aaction = Aaction.find(:all, :conditions => ['timestamp = ? and channel = ? and action = ?', member[0].to_f, member[3].to_s, "PAUSE"])
-    if aaction.empty?
-      queue = test_queue(member[2]) 
-      agent = test_agent(member[3])
-      @new_records += 1 if aaction = Aaction.create(:agent_id => agent.id, :channel => member[3], :timestamp => member[0].to_f, :queu_id => queue.id, :queue_name => member[2], :uniqueid => Time.now.to_f, :action => member[4])
-    end
-    return aaction
-  end
-
-  def unpause(string)
-    member = string.split('|')
-    aaction = Aaction.find(:all, :conditions => ['timestamp = ? and channel = ? and action = ?', member[0].to_f, member[3].to_s, "UNPAUSE"])
-    if aaction.empty?
-      queue = test_queue(member[2]) 
-      agent = test_agent(member[3])
-      @new_records += 1 if aaction = Aaction.create(:agent_id => agent.id, :channel => member[3], :timestamp => member[0].to_f, :queu_id => queue.id, :queue_name => member[2], :uniqueid => Time.now.to_f, :action => member[4])
-    end
-    return aaction
-  end
-
-  def enter_queue(string)
+  def add_caction(string)
     caction = string.split('|')
     queue = test_queue(caction[2])
-    unless call = Call.find_by_uniqueid(caction[1].to_f)
-      @new_records += 1 if call = Call.create(:cid => caction[6].to_s.chomp, :queu_id => queue.id, :queue_name => caction[2], :timestamp => caction[0].to_f, :uniqueid => caction[1].to_f)
-    end
-    cactions = Caction.find(:all, :conditions => ['uniqueid = ? and action = ?', caction[1], "ENTERQUEUE"])
-    if cactions.empty?
-      @new_records += 1 if new_caction = Caction.create(:timestamp => caction[0].to_f, :queu_id => queue.id, :queue_name => caction[2], :call_id => call.id, :uniqueid => caction[1].to_f, :action => caction[4], :field2 => caction[6].to_s.chomp)
-    end
-    return call
-  end
-
-  def connect(string)
-    caction = string.split('|')
     agent = test_agent(caction[3])
-    queue = test_queue(caction[2])
-    unless call = Call.find_by_uniqueid(caction[1].to_f)
-      @new_records += 1 if call = Call.create(:agent_id => agent.id, :cid => caction[6].to_s.chomp, :queu_id => queue.id, :queue_name => caction[2], :timestamp => caction[0].to_f, :uniqueid => caction[1].to_f)
+    unless call = Call.find_by_uniqueid(caction[1].to_s)
+      @new_records += 1 if call = Call.create(:agent_id => agent.id, :cid => caction[6].to_s.chomp, :queu_id => queue.id, :queue_name => caction[2], :timestamp => caction[0].to_f, :uniqueid => caction[1].to_s)
     end
     call.agent_id = agent.id
     call.save
-    cactions = Caction.find(:all, :conditions => ['uniqueid = ? and action = ?', caction[1], "CONNECT"])
+    cactions = Caction.find(:all, :conditions => ['uniqueid = ? and action = ?', caction[1].to_s, caction[4].to_s])
     if cactions.empty?
-      @new_records += 1 if new_caction = Caction.create(:timestamp => caction[0].to_f, :channel => caction[3], :agent_id => agent.id, :queu_id => queue.id, :queue_name => caction[2], :call_id => call.id, :uniqueid => caction[1].to_f, :action => caction[4], :field1 => caction[5].to_s.chomp, :field2 => caction[6].to_s.chomp)
+      @new_records += 1 if new_caction = Caction.create(:timestamp => caction[0].to_f, :channel => caction[3], :agent_id => agent.id, :queu_id => queue.id, :queue_name => caction[2], :call_id => call.id, :uniqueid => caction[1].to_s, :action => caction[4], :field1 => caction[5].to_s.chomp, :field2 => caction[6].to_s.chomp, :field3 => caction[7].to_s.chomp)
     end
     return call
   end
 
-  def ringnoanswer(string)
-    caction = string.split('|')
-    agent = test_agent(caction[3])
-    queue = test_queue(caction[2])
-    unless call = Call.find_by_uniqueid(caction[1].to_f)
-      @new_records += 1 if call = Call.create(:cid => caction[6].to_s.chomp, :queu_id => queue.id, :queue_name => caction[2], :timestamp => caction[0].to_f, :uniqueid => caction[1].to_f)
-    end
-    cactions = Caction.find(:all, :conditions => ['uniqueid = ? and action = ? and timestamp = ? and channel = ?', caction[1], "RINGNOANSWER", caction[0].to_f, caction[3].to_s])
-    if cactions.empty?
-      @new_records += 1 if new_caction = Caction.create(:timestamp => caction[0].to_f, :channel => caction[3], :agent_id => agent.id, :queu_id => queue.id, :queue_name => caction[2], :call_id => call.id, :uniqueid => caction[1].to_f, :action => caction[4], :field1 => caction[5].to_s.chomp)
-    end
-    return call
-  end
-
-  def abandon(string)
+  def add_caction_no_agent(string)
     caction = string.split('|')
     queue = test_queue(caction[2])
-    unless call = Call.find_by_uniqueid(caction[1].to_f)
-      @new_records += 1 if call = Call.create(:cid => caction[6].to_s.chomp, :queu_id => queue.id, :queue_name => caction[2], :timestamp => caction[0].to_f, :uniqueid => caction[1].to_f)
+    unless call = Call.find_by_uniqueid(caction[1].to_s)
+      @new_records += 1 if call = Call.create(:cid => caction[6].to_s.chomp, :queu_id => queue.id, :queue_name => caction[2], :timestamp => caction[0].to_f, :uniqueid => caction[1].to_s)
     end
-    cactions = Caction.find(:all, :conditions => ['uniqueid = ? and action = ?', caction[1], "ABANDON"])
+    cactions = Caction.find(:all, :conditions => ['uniqueid = ? and action = ?', caction[1].to_s, caction[4].to_s])
     if cactions.empty?
-      @new_records += 1 if new_caction = Caction.create(:timestamp => caction[0].to_f, :queu_id => queue.id, :queue_name => caction[2], :call_id => call.id, :uniqueid => caction[1].to_f, :action => caction[4], :field1 => caction[5].to_s.chomp, :field2 => caction[6].to_s.chomp, :field3 => caction[7].to_s.chomp)
-    end
-    return call
-  end
-
-  def complete_agent(string)
-    caction = string.split('|')
-    agent = test_agent(caction[3])
-    queue = test_queue(caction[2])
-    unless call = Call.find_by_uniqueid(caction[1].to_f)
-      @new_records += 1 if call = Call.create(:agent_id => agent.id, :cid => caction[6].to_s.chomp, :queu_id => queue.id, :queue_name => caction[2], :timestamp => caction[0].to_f, :uniqueid => caction[1].to_f)
-    end
-    call.agent_id = agent.id
-    call.save
-    cactions = Caction.find(:all, :conditions => ['uniqueid = ? and action = ?', caction[1], "COMPLETEAGENT"])
-    if cactions.empty?
-      @new_records += 1 if new_caction = Caction.create(:timestamp => caction[0].to_f, :channel => caction[3], :agent_id => agent.id, :queu_id => queue.id, :queue_name => caction[2], :call_id => call.id, :uniqueid => caction[1].to_f, :action => caction[4], :field1 => caction[5].to_s.chomp, :field2 => caction[6].to_s.chomp, :field3 => caction[7].to_s.chomp)
-    end
-    return call
-  end
-
-  def complete_caller(string)
-    caction = string.split('|')
-    agent = test_agent(caction[3])
-    queue = test_queue(caction[2])
-    unless call = Call.find_by_uniqueid(caction[1].to_f)
-      @new_records += 1 if call = Call.create(:agent_id => agent.id, :cid => caction[6].to_s.chomp, :queu_id => queue.id, :queue_name => caction[2], :timestamp => caction[0].to_f, :uniqueid => caction[1].to_f)
-    end
-    call.agent_id = agent.id
-    call.save
-    cactions = Caction.find(:all, :conditions => ['uniqueid = ? and action = ?', caction[1], "COMPLETECALLER"])
-    if cactions.empty?
-      @new_records += 1 if new_caction = Caction.create(:timestamp => caction[0].to_f, :channel => caction[3], :agent_id => agent.id, :queu_id => queue.id, :queue_name => caction[2], :call_id => call.id, :uniqueid => caction[1].to_f, :action => caction[4], :field1 => caction[5].to_s.chomp, :field2 => caction[6].to_s.chomp, :field3 => caction[7].to_s.chomp)
+      @new_records += 1 if new_caction = Caction.create(:timestamp => caction[0].to_f, :queu_id => queue.id, :queue_name => caction[2], :call_id => call.id, :uniqueid => caction[1].to_s, :action => caction[4].to_s, :field1 => caction[5].to_s.chomp, :field2 => caction[6].to_s.chomp, :field3 => caction[7].to_s.chomp)
     end
     return call
   end

@@ -103,13 +103,17 @@ class Agent < ActiveRecord::Base
     return "%0.2f" % (total_time).to_f
   end
 
-  ####################################################################################################################
-  # login_time_per_day method is very ugly.  Still need to re-write this.  Not actually using this in production yet.#
-  ####################################################################################################################
-
   def export_agent_report(bmonth, bday, byear, emonth, eday, eyear)
     [self.channel, self.first, self.last, self.count_calls(bmonth, bday, byear, emonth, eday, eyear), self.talk_time(bmonth, bday, byear, emonth, eday, eyear), self.pause_time(bmonth, bday, byear, emonth, eday, eyear), self.average_reso_time(bmonth, bday, byear, emonth, eday, eyear)]
   end
+
+  def self.export_agent_header
+    ["Channel","First Name", "Last Name", "Total Calls", "Talk Time", "Pause Time", "Avg. Reso."]
+  end
+
+  ####################################################################################################################
+  # login_time_per_day method is very ugly.  Still need to re-write this.  Not actually using this in production yet.#
+  ####################################################################################################################
 
   def login_time_per_day(month, day, year) 
     login_time = 0.0
@@ -168,10 +172,6 @@ class Agent < ActiveRecord::Base
     end
     total_time += ((Time.parse(DateTime.parse(Time.at(actions.first.timestamp).strftime("%m/%d %Y")).strftime("%m/%d 23:59:59").to_s).to_f - login_time.to_f)/60.0).to_f if logged_in
     return "%0.2f" % (total_time).to_f
-  end
-
-  def self.export_agent_header
-    ["Channel","First Name", "Last Name", "Total Calls", "Talk Time", "Pause Time", "Avg. Reso."]
   end
 
 end

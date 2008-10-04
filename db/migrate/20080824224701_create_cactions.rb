@@ -3,7 +3,7 @@ class CreateCactions < ActiveRecord::Migration
     create_table :cactions do |t|
       t.integer :call_id
       t.float :timestamp
-      t.float :uniqueid
+      t.string :uniqueid
       t.integer :agent_id
       t.integer :queu_id
       t.string :queue_name

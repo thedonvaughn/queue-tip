@@ -5,7 +5,7 @@ class CreateCalls < ActiveRecord::Migration
       t.integer :queu_id
       t.string :queue_name
       t.float :timestamp
-      t.float :uniqueid
+      t.string :uniqueid
       t.integer :agent_id
 
       t.timestamps

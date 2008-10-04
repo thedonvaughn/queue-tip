@@ -1,8 +1,8 @@
 --- 
-queuetastic: !map:HashWithIndifferentAccess 
-  ast_server: localhost 
+queuetastic:  
+  ast_server: localhost
   ast_port: "5038"
   queue_log: /var/log/asterisk/queue_log
-  username: username 
-  secret: secret
+  username: user
+  secret: password99
   service_level: "60.0"

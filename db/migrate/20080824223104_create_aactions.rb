@@ -6,7 +6,7 @@ class CreateAactions < ActiveRecord::Migration
       t.float :timestamp
       t.integer :queu_id
       t.string :queue_name
-      t.float :uniqueid
+      t.string :uniqueid
       t.string :action
       t.string :field1
       t.string :field2
