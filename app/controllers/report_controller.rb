@@ -21,8 +21,6 @@ require 'fastercsv'
 
 class ReportController < ApplicationController
 
-  rescue_from ActionView::TemplateError, :with => :redirect_index
-  
   def queue_report
     get_date_range
     @queues = Queu.find(:all)
@@ -159,9 +157,4 @@ class ReportController < ApplicationController
     @eyear = params[:eyear]
   end
   
-  def redirect_index
-    flash[:notice] = "Invalid Date!"
-    redirect_to(:controller => 'start', :action => "index")
-  end
-
 end

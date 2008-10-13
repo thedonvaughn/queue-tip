@@ -95,6 +95,8 @@ class QueueLog
   end
 
   def test_agent(channel)
+    # If agent channel is Local/XXXX@context format, extract the agent number
+    channel = channel.split('@')[0].split('/')[-1] if channel =~ /Local/
     agent = Agent.find_by_channel(channel)
     if agent.nil?
       Agent.create(:channel => channel)
