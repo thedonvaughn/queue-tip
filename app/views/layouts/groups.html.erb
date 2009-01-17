@@ -18,32 +18,53 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-  <title>Queuetastic: <%= controller.action_name %></title>
-  <%= stylesheet_link_tag 'col1' %>
-</head>
-<body>
-<div class="bottom">
-    <div class="header">
-      <%= render(:partial => 'header.html.erb') %>
-      <%= yield :header %>
-    </div>
-    <div class="colmask">
-        <div class="colmid">
-            <div class="colleft">
-                <div class="col1">
-                  <p style="color: green"><%= flash[:notice] %></p>
-                  <%= yield :col1 %>
-                </div>
-            </div>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <title>Queuetastic: Agent Groups</title>
+    <%= stylesheet_link_tag 'queuetastic/style' %>
+  </head>
+  <body>
+    <div id='container'>
+      <div id='header'>
+        <div id='logo'>
+          <%= yield :header %>
         </div>
+        <div id='menu'>
+          <%= yield :menu %>
+        </div>
+      </div>
+      <div id='main'>
+        <div id='content'>
+          <div id='head_image'>
+            <div id='slogan'>
+              <strong>
+                Queuetastic
+              </strong>
+              <br />
+              Asterisk Queue Monitoring and Analysis
+            </div>
+          </div>
+          <div id='text'>
+            <p style="color: green"><%= flash[:notice] %></p>
+            <%= yield :text %>
+          </div>
+          <div id='sidebar'>
+            <%= yield :sidebar %>
+          </div>
+        </div>
+        <div id='footer'>
+          <div id='left_footer'>
+            Queuetastic &trade; &copy; 2009 Jayson Vaughn
+          </div>
+          <div id='right_footer'>
+            <a href='/' title='Dashboard'>Dashboard</a>
+            <a href='/live_view' title='Monitor'>Monitor</a>
+            <a href='/report' title='Reports'>Reports</a>
+            <a href='/settings' title='Admin'>Settings</a>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="footer">
-      <%= yield :footer %>
-  </div>
-</div>
-</body>
+  </body>
 </html>

@@ -1,8 +1,8 @@
 --- 
 queuetastic: !map:HashWithIndifferentAccess 
-  ast_server: localhost
+  ast_server: red
   ast_port: "5038"
-  queue_log: /home/jayson/asterisk_queue_logs/queue_log
-  username: queuemanager
+  queue_log: /var/log/asterisk/queue_log
+  username: jvaughn
   service_level: "60.0"
-  secret: secret420
+  secret: nrsadmin

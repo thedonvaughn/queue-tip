@@ -17,13 +17,17 @@
 -->
 
 <% content_for(:header) do %>
-  <%= render(:partial => 'queuetastic_buttons.html.erb') %>
+  <%= render(:partial => 'header.html.erb') %>
 <% end %>
 
-<% content_for(:footer) do %>
-  <%= render(:partial => 'footer.html.erb') %>
+<% content_for(:menu) do %>
+  <%= render(:partial => 'menu.html.erb') %>
 <% end %>
 
-<% content_for(:col1) do %>
-  <%= render(:partial => 'col1_index.html.erb') %>
+<% content_for(:text) do %>
+  <%= render(:partial => 'main.html.erb') %>
+<% end %>
+
+<% content_for(:sidebar) do %>
+  <%= render(:partial => 'sidebar.html.erb') %>
 <% end %>

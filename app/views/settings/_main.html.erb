@@ -15,14 +15,8 @@
 //    You should have received a copy of the GNU General Public License
 //    along with Queuetastic.  If not, see <http://www.gnu.org/licenses/>.
 -->
-
-<div class="blur" style="width: 27%;">
-  <div class="shadow">
-    <div class="content">
-      <div style="font: normal 16px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;"> Settings</div>
-</div>
-</div>
-</div>
+<div style="font: normal 14px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Queuetastic Settings</div>
+<br />
 <p>
   <b>Asterisk server:</b>
   <%=h @config['queuetastic']['ast_server'] %>
@@ -52,7 +46,7 @@
   <%=h @config['queuetastic']['service_level'] %>
 </p>
 
-<%= link_to 'Edit Settings', {:controller => 'settings', :action => 'edit_settings'} %> |
+<%= link_to 'Modify Settings', {:controller => 'settings', :action => 'edit_settings'} %> |
 <%= link_to 'Edit Agents', agents_path %> |
 <%= link_to 'Edit Agent Groups', groups_path %>
 <br />

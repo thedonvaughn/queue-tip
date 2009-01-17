@@ -16,9 +16,18 @@
 //    along with Queuetastic.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<center>
-  <%= link_to 'Dashboard', { :action => 'index', :controller => 'start' } %>
-  <%= link_to 'Realtime Queue Status', { :action => 'index', :controller => 'live_view' } %>
-  <%= link_to 'Settings', { :action => 'show', :controller => 'settings', :id => 1} %>
-</center>
+<% content_for(:header) do %>
+  <%= render(:partial => 'header.html.erb') %>
+<% end %>
 
+<% content_for(:menu) do %>
+  <%= render(:partial => 'menu.html.erb') %>
+<% end %>
+
+<% content_for(:text) do %>
+  <%= render(:partial => 'main.html.erb') %>
+<% end %>
+
+<% content_for(:sidebar) do %>
+  <%= render(:partial => 'sidebar.html.erb') %>
+<% end %>

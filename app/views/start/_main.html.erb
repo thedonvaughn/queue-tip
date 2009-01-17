@@ -16,25 +16,13 @@
 //    along with Queuetastic.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<div class="blur">
-  <div class="shadow">
-    <div class="content">
-      <div style="font: normal 14px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Asterisk Server Summary</div>
-    </div>
-  </div>
-</div>
+  <div style="font: normal 14px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Asterisk Server Summary</div>
       <ul>
         <li><strong>Asterisk Server: </strong> <%= @config['queuetastic']['ast_server'].to_s %>
         <li><strong>AMI Port: </strong> <%= @config['queuetastic']['ast_port'].to_s %>
       </ul>
       <br />
-<div class="blur">
-  <div class="shadow">
-    <div class="content">
-      <div style="font: normal 14px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Admin Tasks</div>
-    </div>
-  </div>
-</div>
+  <div style="font: normal 14px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Admin Tasks</div>
     <ul>
       <li><strong><%= link_to 'Log Off', { :controller => 'start', :action => 'index', :logoffall => true } %></strong> all agents from all Queues.
       <li><strong><%= link_to 'Load Queue Log', {:controller => 'start', :action => 'index', :update => true} %></strong> : <%=h @config['queuetastic']['queue_log'].to_s %>

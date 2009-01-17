@@ -16,15 +16,9 @@
 //    along with Queuetastic.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<div class="blur">
-  <div class="shadow">
-    <div class="content">
-      <div align="center" style="font: normal 12px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Full Queue Report: <%= "#{@bmonth}/#{@bday} #{@byear} - #{@emonth}/#{@eday} #{@eyear}" %></div>
-</div>
-</div>
-</div>
-<h3 align="center">Agent Report</h3>
-<table align="center" width="90%">
+<div style="font: normal 14px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Agent Report: <%= "#{@bmonth}/#{@bday} #{@byear} - #{@emonth}/#{@eday} #{@eyear}" %></div>
+<br />
+<table align="center" width="100%">
   <tr>
     <th>Channel</th>
     <th>First</th>
@@ -46,9 +40,12 @@
   </tr>
 <% end %>
 </table>
+<br />
+<br />
 
-<h3 align="center">Queue Report</h3>
-<table align="center" width="90%">
+<div style="font: normal 14px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Queue Report: <%= "#{@bmonth}/#{@bday} #{@byear} - #{@emonth}/#{@eday} #{@eyear}" %></div>
+<br />
+<table align="center" width="100%">
   <tr>
     <th>Queue</th>
     <th>Total Calls</th>
