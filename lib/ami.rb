@@ -65,7 +65,7 @@ class AMI
     event_buff = ""
     qstats = {}
     unless @ami_socket.nil?
-      puts "Sent AMI request: Queues"
+      #puts "Sent AMI request: Queues"
       @ami_socket.send("action: #{args[:action]}\r\n", 0)
       @ami_socket.send("\r\n", 0)
      while line = get_line # Try to find a response, not an event
@@ -139,7 +139,7 @@ class AMI
     #action_id = Time.now.to_f
     event_buff = ""
     unless @ami_socket.nil?
-      puts "Sent AMI request: #{action.inspect}"
+      #puts "Sent AMI request: #{action.inspect}"
       action.each do |key, value|
       @ami_socket.send("#{key}: #{value}\r\n", 0)
      end
@@ -161,7 +161,7 @@ class AMI
   def command(args = {})
     args[:action] = "Command"
     unless @ami_socket.nil?
-      puts "Sent AMI Command request: #{args[:command]}"
+      #puts "Sent AMI Command request: #{args[:command]}"
       @ami_socket.send("action: #{args[:action]}\r\n", 0)
       @ami_socket.send("command: #{args[:command]}\r\n", 0)
       @ami_socket.send("\r\n", 0)
