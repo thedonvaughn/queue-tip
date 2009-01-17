@@ -25,7 +25,7 @@
     <th>Last</th>
     <th>Total Calls</th>
     <th>Talk Time</th>
-    <th>Pause Time</th>
+    <!--    <th>Pause Time</th> -->
     <th>Avg. Reso. Time</th>
   </tr>
 <% for agent in @agents %>
@@ -35,7 +35,7 @@
   <td><%=h agent.last %></td>
   <td><%=h agent.count_calls(@bmonth, @bday, @byear, @emonth, @eday, @eyear) %></td>
   <td><%=h agent.talk_time(@bmonth, @bday, @byear, @emonth, @eday, @eyear) %></td>
-  <td><%=h agent.pause_time(@bmonth, @bday, @byear, @emonth, @eday, @eyear) %></td>
+  <!--  <td><%#=h agent.pause_time(@bmonth, @bday, @byear, @emonth, @eday, @eyear) %></td> -->
   <td><%=h agent.average_reso_time(@bmonth, @bday, @byear, @emonth, @eday, @eyear) %></td>
   </tr>
 <% end %>
