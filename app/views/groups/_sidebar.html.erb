@@ -4,12 +4,15 @@
 
 <ul>
   <li>
-    <a href='/settings/edit_settings' title='Edit Settings'>Modify Settings</a>
+    <%= link_to 'Modify Settings', {:controller => 'settings', :action => 'edit_settings'} %>
   </li>
   <li>
-    <a href='/agents' title='Monitor'>Edit Agents</a>
+    <%= link_to 'Edit Agents', agents_path %>
   </li>
   <li>
-    <a href='/groups' title='Reports'>Edit Groups</a>
+    <%= link_to 'Edit Agent Groups', groups_path %>
+  </li>
+  <li>
+    <%= link_to 'Settings', :controller => 'settings', :action => 'index' %>
   </li>
 </ul>

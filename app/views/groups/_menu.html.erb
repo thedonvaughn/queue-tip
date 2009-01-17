@@ -1,14 +1,15 @@
 <ul>
   <li>
-    <a href='/' title='Dashboard'>Dashboard</a>
+  <%= link_to 'Dashboard', :controller => 'start', :action => 'index' %>
   </li>
   <li>
-    <a href='/live_view' title='Monitor'>Monitor</a>
+    <%= link_to 'Monitor', :controller => 'live_view', :action => 'index' %>
   </li>
   <li>
-    <a href='/report' title='Reports'>Reports</a>
+    <%= link_to 'Reports', :controller => 'report', :action => 'index' %>
   </li>
   <li>
-    <a class="active" href='/settings' title='Admin'>Settings</a>
+  <%= link_to 'Settings', {:controller => 'settings', :action => 'index'}, :class => 'active' %>
   </li>
 </ul>
+

@@ -18,15 +18,7 @@
 
 <% @queues.each do |queue, value| %>  <!-- Begin Loop for every Queue in the @queues hash -->
  
-<div align="center">
- <div class="blur" style="width: 90%;">
-  <div class="shadow">
-    <div class="content">
-     <div align="center" style="font: normal 12px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;"><%=h queue.to_s.upcase %></div>
-    </div>
-  </div>
- </div>
-</div>
+<div align="center" style="font: normal 14px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;"><%=h queue.to_s.upcase %></div>
   <!-- Start Table for Queue Stats -->
   <table width="90%" align="center">
       <th>Calls Waiting</th>

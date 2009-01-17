@@ -5,6 +5,8 @@ uuid.state
 config/*.local
 config/database.yml
 config/queuetastic.yml
+config/code_template.erb
+RIDE*
 
 log/*.log
 log/*
@@ -17,3 +19,5 @@ README.rails_editor
 
 vendor/plugins/
 script/editor
+script/ride
+script/ride-console
