@@ -24,11 +24,11 @@ class Agent < ActiveRecord::Base
   has_many :cactions
 
   def count_calls(bmonth, bday, byear, emonth, eday, eyear)
-    self.cactions.find(:all, :conditions => ['timestamp >= ? and timestamp <= ? and action = ?', (Time.parse(DateTime.parse("#{bmonth}/#{bday} #{byear}").strftime("%m/%d 00:00:00").to_s).to_f), (Time.parse(DateTime.parse("#{emonth}/#{eday} #{eyear}").strftime("%m/%d 23:59:59").to_s).to_f), "CONNECT"]).size
+    self.cactions.find(:all, :conditions => ['timestamp >= ? and timestamp <= ? and action = ?', Time.parse("#{bmonth}/#{bday} #{byear}").to_f, Time.parse("#{emonth}/#{eday} #{eyear} 23:59:59").to_f, "CONNECT"]).size
   end
 
   def talk_time(bmonth, bday, byear, emonth, eday, eyear)
-    complete_calls = self.cactions.find(:all, :conditions => ['(timestamp >= ? and timestamp <= ?) and (action = ? or action = ?)', (Time.parse(DateTime.parse("#{bmonth}/#{bday} #{byear}").strftime("%m/%d 00:00:00").to_s).to_f), (Time.parse(DateTime.parse("#{emonth}/#{eday} #{eyear}").strftime("%m/%d 23:59:59").to_s).to_f), "COMPLETECALLER", "COMPLETEAGENT"])
+    complete_calls = self.cactions.find(:all, :conditions => ['(timestamp >= ? and timestamp <= ?) and (action = ? or action = ?)', Time.parse("#{bmonth}/#{bday} #{byear}").to_f, Time.parse("#{emonth}/#{eday} #{eyear} 23:59:59").to_f, "COMPLETECALLER", "COMPLETEAGENT"])
     talk_time = 0
     complete_calls.each { |call| talk_time += call.field2.to_i }
     ("%0.2f" % (talk_time/60.0)).to_f
@@ -44,7 +44,7 @@ class Agent < ActiveRecord::Base
 
   def average_reso_time(bmonth, bday, byear, emonth, eday, eyear)
     total_time = 0.0
-    complete_calls = self.cactions.find(:all, :conditions => ['(timestamp >= ? and timestamp <= ?) and (action = ? or action = ?)', (Time.parse(DateTime.parse("#{bmonth}/#{bday} #{byear}").strftime("%m/%d 00:00:00").to_s).to_f), (Time.parse(DateTime.parse("#{emonth}/#{eday} #{eyear}").strftime("%m/%d 23:59:59").to_s).to_f), "COMPLETECALLER", "COMPLETEAGENT"])
+    complete_calls = self.cactions.find(:all, :conditions => ['(timestamp >= ? and timestamp <= ?) and (action = ? or action = ?)', Time.parse("#{bmonth}/#{bday} #{byear}").to_f, Time.parse("#{emonth}/#{eday} #{eyear} 23:59:59").to_f, "COMPLETECALLER", "COMPLETEAGENT"])
     complete_calls.each { |call| total_time += call.field2.to_f }
     if complete_calls.size >= 1
       return "%0.2f" % ((total_time / complete_calls.size.to_f) / 60.0)
@@ -59,7 +59,7 @@ class Agent < ActiveRecord::Base
     edate = Date.new(y=eyear.to_i, m=emonth.to_i, d=eday.to_i)
     bdate.upto(edate) { |date|
       d = date.to_s.split('-')
-      total += pause_time_per_day(d[1], d[2], d[3]).to_f
+      total += pause_time_per_day(d[1], d[2], d[0]).to_f
     }
     total
   end
@@ -70,7 +70,7 @@ class Agent < ActiveRecord::Base
     edate = Date.new(y=eyear.to_i, m=emonth.to_i, d=eday.to_i)
     bdate.upto(edate) { |date| 
       d = date.to_s.split('-')
-      total += login_time_per_day(d[1], d[2], d[3]).to_f
+      total += login_time_per_day(d[1], d[2], d[0]).to_f
     }
     total
   end
@@ -80,7 +80,7 @@ class Agent < ActiveRecord::Base
     total_time = 0.0
     tmp_time = 0.0
     paused = false
-    aactions = self.aactions.find(:all, :conditions => ['(timestamp >= ? and timestamp <= ?) and (action = ? or action = ?)', (Time.parse(DateTime.parse("#{month}/#{day} #{year}").strftime("%m/%d 00:00:00").to_s).to_f), (Time.parse(DateTime.parse("#{month}/#{day} #{year}").strftime("%m/%d 23:59:59").to_s).to_f), "PAUSE", "UNPAUSE"])
+    aactions = self.aactions.find(:all, :conditions => ['(timestamp >= ? and timestamp <= ?) and (action = ? or action = ?)', Time.parse("#{month}/#{day} #{year}").to_f, Time.parse("#{month}/#{day} #{year} 23:59:59").to_f, "PAUSE", "UNPAUSE"])
     actions = aactions.sort_by { |action| action.timestamp }
     unless actions.empty?
       if actions.size > 1
@@ -120,11 +120,11 @@ class Agent < ActiveRecord::Base
     tmp_time = 0.0
     total_time = 0.0
     logged_in = false
-    actions = Aaction.find(:all, :conditions => ['agent_id =? and timestamp >= ? and timestamp <= ?', self.id, (Time.parse(DateTime.parse("#{month}/#{day} #{year}").strftime("%m/%d 00:00:00").to_s).to_f), (Time.parse(DateTime.parse("#{month}/#{day} #{year}").strftime("%m/%d 23:59:59").to_s).to_f)]).sort_by { |action| action.timestamp }
+    actions = Aaction.find(:all, :conditions => ['agent_id =? and timestamp >= ? and timestamp <= ?', self.id, Time.parse("#{month}/#{day} #{year}").to_f, Time.parse("#{month}/#{day} #{year} 23:59:59").to_f]).sort_by { |action| action.timestamp }
     unless actions.empty?
       if actions.size > 1
        if actions.first.action.to_s =~ /REMOVEMEMBER/ # If the first action is "REMOVEMEMBER" (i.e. no "ADDMEMBER" first.) we assume login at beginning of queue shift defined in LWTN's settings.
-          login_time = Time.parse(DateTime.parse(Time.at(actions.first.timestamp).strftime("%m/%d %Y")).strftime("%m/%d 00:00:00").to_s).to_f 
+          login_time = Time.parse(Time.at(actions.first.timestamp).strftime("%m/%d %Y")).to_f 
           logged_in = true
           actions.each do |action|
            if action.action.to_s =~ /ADDMEMBER/
@@ -159,18 +159,18 @@ class Agent < ActiveRecord::Base
      else
         if actions.first.action.to_s =~ /ADDMEMBER/ # If there is only _one_ action and it's an ADDMEMBER.  We know the agent never logged off the prior night.  Calculate based on queue shift defined in LWTN's settings.
           login_time = actions.first.timestamp.to_f
-          if Date.today == Date.parse(Time.at(actions.first.timestamp).strftime("%m/%d %Y"))
+          if Time.today == Time.parse(Time.at(actions.first.timestamp).strftime("%m/%d %Y"))
             total_time = ((Time.now.to_f - login_time.to_f)/60.0).to_f
           else
-            total_time = ((Time.parse(DateTime.parse(Time.at(actions.first.timestamp).strftime("%m/%d %Y")).strftime("%m/%d 23:59:59").to_s).to_f - login_time.to_f)/60.0).to_f
+            total_time = ((Time.parse(Time.at(actions.first.timestamp).strftime("%m/%d %Y 23:59:59")).to_f - login_time.to_f)/60.0).to_f
           end
        else
-          login_time = Time.parse(DateTime.parse(Time.at(actions.first.timestamp).strftime("%m/%d %Y")).strftime("%m/%d 00:00:00").to_s).to_f
+          login_time = Time.parse(Time.at(actions.first.timestamp).strftime("%m/%d %Y")).to_f
          total_time = (actions.first.timestamp.to_f - login_time.to_f) / 60.0
        end
      end
     end
-    total_time += ((Time.parse(DateTime.parse(Time.at(actions.first.timestamp).strftime("%m/%d %Y")).strftime("%m/%d 23:59:59").to_s).to_f - login_time.to_f)/60.0).to_f if logged_in
+    total_time += ((Time.parse(Time.at(actions.first.timestamp).strftime("%m/%d %Y 23:59:59")).to_f - login_time.to_f)/60.0).to_f if logged_in
     return "%0.2f" % (total_time).to_f
   end
 

@@ -23,24 +23,24 @@ class Queu < ActiveRecord::Base
   has_many :cactions
 
   def queue_calls(bmonth, bday, byear, emonth, eday, eyear)
-    self.cactions.find(:all, :conditions => ['timestamp >= ?  and timestamp <= ? and action = ?', (Time.parse(DateTime.parse("#{bmonth}/#{bday} #{byear}").strftime("%m/%d 00:00:00").to_s).to_f), (Time.parse(DateTime.parse("#{emonth}/#{eday} #{eyear}").strftime("%m/%d 23:59:59").to_s).to_f), "ENTERQUEUE"]).size
+    self.cactions.find(:all, :conditions => ['timestamp >= ?  and timestamp <= ? and action = ?', Time.parse("#{bmonth}/#{bday} #{byear}").to_f, Time.parse("#{emonth}/#{eday} #{eyear} 23:59:59").to_f, "ENTERQUEUE"]).size
   end
 
   def connected_calls(bmonth, bday, byear, emonth, eday, eyear)
-    self.cactions.find(:all, :conditions => ['timestamp >= ?  and timestamp <= ? and action = ?', (Time.parse(DateTime.parse("#{bmonth}/#{bday} #{byear}").strftime("%m/%d 00:00:00").to_s).to_f), (Time.parse(DateTime.parse("#{emonth}/#{eday} #{eyear}").strftime("%m/%d 23:59:59").to_s).to_f), "CONNECT"]).size
+    self.cactions.find(:all, :conditions => ['timestamp >= ?  and timestamp <= ? and action = ?', Time.parse("#{bmonth}/#{bday} #{byear}").to_f, Time.parse("#{emonth}/#{eday} #{eyear} 23:59:59").to_f, "CONNECT"]).size
   end
 
   def total_abandons(bmonth, bday, byear, emonth, eday, eyear)
-    self.cactions.find(:all, :conditions => ['timestamp >= ?  and timestamp <= ? and action = ?', (Time.parse(DateTime.parse("#{bmonth}/#{bday} #{byear}").strftime("%m/%d 00:00:00").to_s).to_f), (Time.parse(DateTime.parse("#{emonth}/#{eday} #{eyear}").strftime("%m/%d 23:59:59").to_s).to_f), "ABANDON"]).size
+    self.cactions.find(:all, :conditions => ['timestamp >= ?  and timestamp <= ? and action = ?', Time.parse("#{bmonth}/#{bday} #{byear}").to_f, Time.parse("#{emonth}/#{eday} #{eyear} 23:59:59").to_f, "ABANDON"]).size
   end
   
   def short_abandons(bmonth, bday, byear, emonth, eday, eyear)
-    abandons = self.cactions.find(:all, :conditions => ['timestamp >= ?  and timestamp <= ? and action = ?', (Time.parse(DateTime.parse("#{bmonth}/#{bday} #{byear}").strftime("%m/%d 00:00:00").to_s).to_f), (Time.parse(DateTime.parse("#{emonth}/#{eday} #{eyear}").strftime("%m/%d 23:59:59").to_s).to_f), "ABANDON"])
+    abandons = self.cactions.find(:all, :conditions => ['timestamp >= ?  and timestamp <= ? and action = ?', Time.parse("#{bmonth}/#{bday} #{byear}").to_f, Time.parse("#{emonth}/#{eday} #{eyear} 23:59:59").to_f, "ABANDON"])
     abandons.select { |a| a if a.field3.to_f <= 60.00 }.size
   end
 
   def reg_abandons(bmonth, bday, byear, emonth, eday, eyear)
-    abandons = self.cactions.find(:all, :conditions => ['timestamp >= ?  and timestamp <= ? and action = ?', (Time.parse(DateTime.parse("#{bmonth}/#{bday} #{byear}").strftime("%m/%d 00:00:00").to_s).to_f), (Time.parse(DateTime.parse("#{emonth}/#{eday} #{eyear}").strftime("%m/%d 23:59:59").to_s).to_f), "ABANDON"])
+    abandons = self.cactions.find(:all, :conditions => ['timestamp >= ?  and timestamp <= ? and action = ?', Time.parse("#{bmonth}/#{bday} #{byear}").to_f, Time.parse("#{emonth}/#{eday} #{eyear} 23:59:59").to_f, "ABANDON"])
     abandons.select { |a| a if a.field3.to_f >= 60.00 }.size
   end
 
@@ -52,7 +52,7 @@ class Queu < ActiveRecord::Base
 
   def service_level_percentage(bmonth, bday, byear, emonth, eday, eyear)
     config = Queuetastic.config
-    calls = self.cactions.find(:all, :conditions => ['(timestamp >= ? and timestamp <= ?) and (action = ? or action = ?)', (Time.parse(DateTime.parse("#{bmonth}/#{bday} #{byear}").strftime("%m/%d 00:00:00").to_s).to_f), (Time.parse(DateTime.parse("#{emonth}/#{eday} #{eyear}").strftime("%m/%d 23:59:59").to_s).to_f), "COMPLETECALLER", "COMPLETEAGENT"])
+    calls = self.cactions.find(:all, :conditions => ['(timestamp >= ? and timestamp <= ?) and (action = ? or action = ?)', Time.parse("#{bmonth}/#{bday} #{byear}").to_f, Time.parse("#{emonth}/#{eday} #{eyear} 23:59:59").to_f, "COMPLETECALLER", "COMPLETEAGENT"])
     service_calls = calls.select { |call| call if call.field1.to_f <= config['queuetastic']['service_level'].to_f }
     if calls.size >= 1
       return "%0.2f" % ((service_calls.size.to_f / calls.size.to_f) * 100)  
@@ -63,7 +63,7 @@ class Queu < ActiveRecord::Base
 
   def average_caller_wait_time(bmonth, bday, byear, emonth, eday, eyear)
     total_time = 0.0
-    complete_calls = self.cactions.find(:all, :conditions => ['(timestamp >= ? and timestamp <= ?) and (action = ? or action = ?)', (Time.parse(DateTime.parse("#{bmonth}/#{bday} #{byear}").strftime("%m/%d 00:00:00").to_s).to_f), (Time.parse(DateTime.parse("#{emonth}/#{eday} #{eyear}").strftime("%m/%d 23:59:59").to_s).to_f), "COMPLETECALLER", "COMPLETEAGENT"])
+    complete_calls = self.cactions.find(:all, :conditions => ['(timestamp >= ? and timestamp <= ?) and (action = ? or action = ?)', Time.parse("#{bmonth}/#{bday} #{byear}").to_f, Time.parse("#{emonth}/#{eday} #{eyear} 23:59:59").to_f, "COMPLETECALLER", "COMPLETEAGENT"])
     complete_calls.each { |call| total_time += call.field1.to_f } 
     if complete_calls.size >= 1
       return "%0.2f" % (total_time / complete_calls.size.to_f)
@@ -74,7 +74,7 @@ class Queu < ActiveRecord::Base
 
   def average_caller_reso_time(bmonth, bday, byear, emonth, eday, eyear)
     total_time = 0.0
-    complete_calls = self.cactions.find(:all, :conditions => ['(timestamp >= ? and timestamp <= ?) and (action = ? or action = ?)', (Time.parse(DateTime.parse("#{bmonth}/#{bday} #{byear}").strftime("%m/%d 00:00:00").to_s).to_f), (Time.parse(DateTime.parse("#{emonth}/#{eday} #{eyear}").strftime("%m/%d 23:59:59").to_s).to_f), "COMPLETECALLER", "COMPLETEAGENT"])
+    complete_calls = self.cactions.find(:all, :conditions => ['(timestamp >= ? and timestamp <= ?) and (action = ? or action = ?)', Time.parse("#{bmonth}/#{bday} #{byear}").to_f, Time.parse("#{emonth}/#{eday} #{eyear} 23:59:59").to_f, "COMPLETECALLER", "COMPLETEAGENT"])
     complete_calls.each { |call| total_time += call.field2.to_f } 
     if complete_calls.size >= 1
       return "%0.2f" % (total_time / complete_calls.size.to_f)
@@ -85,7 +85,7 @@ class Queu < ActiveRecord::Base
 
   def average_caller_abandon_time(bmonth, bday, byear, emonth, eday, eyear)
     total_time = 0.0
-    abandons = self.cactions.find(:all, :conditions => ['timestamp >= ? and timestamp <= ? and action = ?', (Time.parse(DateTime.parse("#{bmonth}/#{bday} #{byear}").strftime("%m/%d 00:00:00").to_s).to_f), (Time.parse(DateTime.parse("#{emonth}/#{eday} #{eyear}").strftime("%m/%d 23:59:59").to_s).to_f), "ABANDON"])
+    abandons = self.cactions.find(:all, :conditions => ['timestamp >= ? and timestamp <= ? and action = ?', Time.parse("#{bmonth}/#{bday} #{byear}").to_f, Time.parse("#{emonth}/#{eday} #{eyear} 23:59:59").to_f, "ABANDON"])
     abandons.each { |call| total_time += call.field3.to_f } 
     if abandons.size >= 1
       return "%0.2f" % (total_time / abandons.size.to_f)
