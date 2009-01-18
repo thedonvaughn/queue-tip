@@ -11,6 +11,9 @@ config.cache_classes = true
 config.action_controller.consider_all_requests_local = false
 config.action_controller.perform_caching             = true
 
+# If you serve queuetastic out of a subdir, uncomment the following line:
+# config.action_controller.relative_url_root = '/queuetastic'
+
 # Use a different cache store in production
 # config.cache_store = :mem_cache_store
 
