@@ -104,11 +104,11 @@ class Agent < ActiveRecord::Base
   end
 
   def export_agent_report(bmonth, bday, byear, emonth, eday, eyear)
-    [self.channel, self.first, self.last, self.count_calls(bmonth, bday, byear, emonth, eday, eyear), self.talk_time(bmonth, bday, byear, emonth, eday, eyear), self.pause_time(bmonth, bday, byear, emonth, eday, eyear), self.average_reso_time(bmonth, bday, byear, emonth, eday, eyear)]
+    [self.channel, self.first, self.last, self.count_calls(bmonth, bday, byear, emonth, eday, eyear), self.login_time(bmonth, bday, byear, emonth, eday, eyear), self.wait_time(bmonth, bday, byear, emonth, eday, eyear), self.talk_time(bmonth, bday, byear, emonth, eday, eyear), self.pause_time(bmonth, bday, byear, emonth, eday, eyear), self.average_reso_time(bmonth, bday, byear, emonth, eday, eyear)]
   end
 
   def self.export_agent_header
-    ["Channel","First Name", "Last Name", "Total Calls", "Talk Time", "Pause Time", "Avg. Reso."]
+    ["Channel","First Name", "Last Name", "Total Calls", "Login Time", "Wait Time", "Talk Time", "Pause Time", "Avg. Reso."]
   end
 
   ####################################################################################################################
