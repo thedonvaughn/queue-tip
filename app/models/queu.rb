@@ -1,20 +1,20 @@
 # queu.rb - Copyright 2008 Jayson Vaughn 
 # Distributed under the terms of the GNU General Public License.
 #
-#    This file is part of Queuetastic.
+#    This file is part of Queue-Tip.
 #
-#    Queuetastic is free software: you can redistribute it and/or modify
+#    Queue-Tip is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
-#    Queuetastic is distributed in the hope that it will be useful,
+#    Queue-Tip is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #    GNU General Public License for more details.
 #
 #    You should have received a copy of the GNU General Public License
-#    along with Queuetastic.  If not, see <http://www.gnu.org/licenses/>.
+#    along with Queue-Tip.  If not, see <http://www.gnu.org/licenses/>.
 #
 
 class Queu < ActiveRecord::Base
@@ -51,9 +51,9 @@ class Queu < ActiveRecord::Base
   end
 
   def service_level_percentage(bmonth, bday, byear, emonth, eday, eyear)
-    config = Queuetastic.config
+    config = QueueTip.config
     calls = self.cactions.find(:all, :conditions => ['(timestamp >= ? and timestamp <= ?) and (action = ? or action = ?)', Time.parse("#{bmonth}/#{bday} #{byear}").to_f, Time.parse("#{emonth}/#{eday} #{eyear} 23:59:59").to_f, "COMPLETECALLER", "COMPLETEAGENT"])
-    service_calls = calls.select { |call| call if call.field1.to_f <= config['queuetastic']['service_level'].to_f }
+    service_calls = calls.select { |call| call if call.field1.to_f <= config['queuetip']['service_level'].to_f }
     if calls.size >= 1
       return "%0.2f" % ((service_calls.size.to_f / calls.size.to_f) * 100)  
     else

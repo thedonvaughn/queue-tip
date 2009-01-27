@@ -49,7 +49,7 @@ Rails::Initializer.run do |config|
   # Make sure the secret is at least 30 characters and all random, 
   # no regular words or you'll be exposed to dictionary attacks.
   config.action_controller.session = {
-    :session_key => '_queuetastic_session',
+    :session_key => '_queuetip_session',
     :secret      => 'eaba58a284893dacb821fc798e9ffab350b092fbbc34eff1eb88b1960ac817dc0d994004978a62e936c27e63492f87fe01cbdebccffe9226b8fdc29f6a0160b1'
   }
 

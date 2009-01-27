@@ -1,8 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :groups
 
-#  map.resources :settings
-
   map.resources :cactions
 
   map.resources :calls

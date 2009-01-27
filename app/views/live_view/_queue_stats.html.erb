@@ -1,19 +1,19 @@
 <!--    
 //    Copyright 2008 Jayson Vaughn 
-//    This file is part of Queuetastic.
+//    This file is part of Queue-Tip.
 
-//    Queuetastic is free software: you can redistribute it and/or modify
+//    Queue-Tip is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU General Public License as published by
 //    the Free Software Foundation, either version 3 of the License, or
 //    (at your option) any later version.
 
-//    Queuetastic is distributed in the hope that it will be useful,
+//    Queue-Tip is distributed in the hope that it will be useful,
 //    but WITHOUT ANY WARRANTY; without even the implied warranty of
 //    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //    GNU General Public License for more details.
               
 //    You should have received a copy of the GNU General Public License
-//    along with Queuetastic.  If not, see <http://www.gnu.org/licenses/>.
+//    along with Queue-Tip.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <% @queues.each do |queue, value| %>  <!-- Begin Loop for every Queue in the @queues hash -->
@@ -25,7 +25,7 @@
   </div>
 </div>
   <!-- Start Table for Queue Stats -->
-  <table width="90%" align="center">
+  <table width="100%" align="center">
       <th>Calls Waiting</th>
       <th>Hold Time</th>
       <th>Abandoned</th>
@@ -49,7 +49,7 @@
   <!-- end table for Queue Stats -->
 
   <!-- Start Table for Agents/Members -->
-  <table width="90%" align="center">
+  <table width="100%" align="center">
     <tr>
       <th>Agent</th>
       <th>Status</th>
@@ -65,14 +65,14 @@
       <td><%= @queues[queue]['members'][agent]['calls_taken'] %></td>
       <td><%= Time.at(@queues[queue]['members'][agent]['lastcall'].to_f).strftime("%H:%M:%S") unless @queues[queue]['members'][agent]['lastcall'].to_f == 0.0 %></td>
       <td><%= @queues[queue]['members'][agent]['paused'] %></td>
-      <td><%= link_to 'Log Off', {:action => 'index', :agent => @queues[queue]['members'][agent]['agent'].to_s, :queue => queue.to_s, :logoff => true} %></td>
+      <td><%= link_to 'Log Off', {:controller => 'live_view', :action => 'logoff', :agent => @queues[queue]['members'][agent]['agent'].to_s, :queue => queue.to_s} %></td>
     </tr>
   <% end %>
   </table>
   <!-- End Table for Agents/Members -->
 
   <!-- Begin Table for Callers -->
-  <table width="90%" align="center">
+  <table width="100%" align="center">
     <tr>
       <th style="background: #DDDDDD;">Position</th>
       <th style="background: #DDDDDD;">Phone No</th>

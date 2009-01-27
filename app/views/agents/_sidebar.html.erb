@@ -1,10 +1,10 @@
 <p>
-  <h2>Settings</h2>
+  <h2>Admin Panel</h2>
 </p>
 
 <ul>
   <li>
-    <%= link_to 'Modify Settings', {:controller => 'settings', :action => 'edit_settings'} %>
+    <%= link_to 'Modify Settings', {:controller => 'admin', :action => 'edit_settings'} %>
   </li>
   <li>
     <%= link_to 'Edit Agents', agents_path %>
@@ -13,6 +13,6 @@
     <%= link_to 'Edit Agent Groups', groups_path %>
   </li>
   <li>
-    <%= link_to 'Settings', :controller => 'settings', :action => 'index' %>
+    <%= link_to 'Back', :controller => 'admin', :action => 'index' %>
   </li>
 </ul>

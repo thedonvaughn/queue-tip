@@ -1,12 +1,12 @@
 =========================================================
-Queuetastic
+Queue-Tip
 Copyright (c) 2008 Jayson Vaughn (vaughn.jayson@gmail.com)
 Distributed under the terms of the GNU General Public License.
 ==========================================================
 
 About
 -----
-Queuetastic is an Asterisk Queue Reporting, Analysis, and Real-time Monitoring tool
+Queue-Tip is an Asterisk Queue Reporting, Analysis, and Real-time Monitoring tool
 designed with the Ruby on Rails framework.
 
 Features include:
@@ -20,7 +20,7 @@ Features include:
 
 Requirements 
 ------------
-In order to run Queuetastic you will need:
+In order to run Queue-Tip you will need:
   - ruby (>= 1.8)
   - rubygems
   - rails (>= 2.1)
@@ -56,29 +56,29 @@ From the asterisk server:
   3) You must reload the manager asterisk module by either restarting asterisk or 'module reload manager' from within the Asterisk CLI.  Refer to Asterisk documentation for further information.
 
 
-Obtaining Queuetastic
+Obtaining Queue-Tip
 ---------------------
-You can obtain the latest release of Queuetastic at:
+You can obtain the latest release of Queue-Tip at:
 
-      http://sourceforge.net/projects/queuetastic
+      http://sourceforge.net/projects/queuetip
   
 You can obtain the upstream source via git, run:
     
-     	$ git clone git://rubyists.com/gits/queuetastic queuetastic
+     	$ git clone git://rubyists.com/gits/queuetip queuetip
       
 If you wish to obtain from github.com, run:
 
-      $ git clone git://github.com/thedonvaughn/queuetastic.git queuetastic
+      $ git clone git://github.com/thedonvaughn/queuetip.git queuetip
 
       
 Installation
 ------------  
-In order to have Queuetastic load the queue_log file for reporting, it's easer
-to install Queuetastic on the same server as Asterisk*.
+In order to have Queue-Tip load the queue_log file for reporting, it's easer
+to install Queue-Tip on the same server as Asterisk*.
 
-* Note: It is very much possible to setup Queuetastic on a different server than Asterisk
+* Note: It is very much possible to setup Queue-Tip on a different server than Asterisk
   and still have the queue_log loaded for reporting, but it is currently unsupported and
-  takes some modification of the setup.  This will be a feature in Queuetastic very soon!
+  takes some modification of the setup.  This will be a feature in Queue-Tip very soon!
 
 
   1) Make sure you have the fastercsv rubygem installed by either running:
@@ -87,12 +87,12 @@ to install Queuetastic on the same server as Asterisk*.
      
      or 
      
-      $ rake gems:install (from within the Queuetastic working directory)
+      $ rake gems:install (from within the Queue-Tip working directory)
   
   
-  2) Open up and edit config/queuetastic.yml based on the Asterisk Manager Interface settings*: 
+  2) Open up and edit config/queuetip.yml based on the Asterisk Manager Interface settings*: 
 
-     queuetastic:
+     queuetip:
       ast_server: 192.168.1.25  
       ast_port: "5038"
       queue_log: /var/log/asterisk/queue_log
@@ -105,7 +105,7 @@ to install Queuetastic on the same server as Asterisk*.
              or Asterisk documentation for further information.
 
     
-  3) Next, like any Rails application, we need to create a database that Queuetastic 
+  3) Next, like any Rails application, we need to create a database that Queue-Tip 
      can connect to and use.  In this setup, we will be using sqlite3* as our database.  
      This will require the ruby-sqlite3 rubygem.  To install ruby-sqlite3, run:
 
@@ -156,11 +156,11 @@ to install Queuetastic on the same server as Asterisk*.
              will populate the development database defined in 
              config/database.yml above.
   
-  7) To start up Queuetastic in development mode, run*:
+  7) To start up Queue-Tip in development mode, run*:
       
       $ ./script/server
 
-    This will start up Queuetastic on port 3000.
+    This will start up Queue-Tip on port 3000.
 
     * Note: I suggest using 'mongrel' webserver for development in rails, run: 
             $ sudo gem install -r mongrel' to install
@@ -168,25 +168,25 @@ to install Queuetastic on the same server as Asterisk*.
   
 
   8) Open a web browser and connect to port 3000 of the server;  i.e.  http://192.168.1.25:3000. 
-     Congratulations!  You are connected to Queuetastic.
+     Congratulations!  You are connected to Queue-Tip.
 
   
-  9) Review the configuration under the "Settings" tab.  This is just a frontend to edit config/queuetastic.yml
+  9) Review the configuration under the "Settings" tab.  This is just a frontend to edit config/queuetip.yml
 
 
  10) Back to the "Dashboard" tab, click the "Load Queue Log" link to load the queue_log file into the database.  
      Depending on how large the queue_log file is, this could take several minutes.  Once it's finished loading;
-     Queuetastic will inform us how many new records were inserted into the database.  You can now run reports
+     Queue-Tip will inform us how many new records were inserted into the database.  You can now run reports
      from the data you loaded.
 
  
-* Note: These steps above walked you through setting up Queuetastic in the rails development environment.
+* Note: These steps above walked you through setting up Queue-Tip in the rails development environment.
         I highly recommend switching to production environment, using a solid database server such as postgresql,
-        and running Queuetastic behind lighttpd using fcgi processes.  Deploying a Ruby on Rails app into 
+        and running Queue-Tip behind lighttpd using fcgi processes.  Deploying a Ruby on Rails app into 
         production is way beyond the scope of this README.  Please refer to rails documentation or the friendly
         rails community for further details.
             
-** Note: check out e.M.A.S.H at http://trac.rubyists.com/trac.fcgi/emash/wiki/Emash to quickly and easily deploy Queuetastic into production.
+** Note: check out e.M.A.S.H at http://trac.rubyists.com/trac.fcgi/emash/wiki/Emash to quickly and easily deploy Queue-Tip into production.
 
 
 Auto load and rotate queue_log
@@ -206,7 +206,7 @@ We can use bin/reset_queue.rb to load and rotate queue_log
 
  2) Create a crontab entry like the following example below*.
      
-     30 23 * * * cd /home/user/queuetastic/ && /home/user/queuetastic/bin/reset_queue.rb >> /home/user/queutastic/log/queuetastic.log
+     30 23 * * * cd /home/user/queuetip/ && /home/user/queuetip/bin/reset_queue.rb >> /home/user/queutastic/log/queuetip.log
      
      * Note: Make sure to change the RAILS_ENV constant in bin/reset_queue.rb when change environments.  
              i.e.  from 'development' to 'production' 
@@ -217,6 +217,6 @@ We can use bin/reset_queue.rb to load and rotate queue_log
 Support
 -------
 
- - Forums: http://sourceforge.net/projects/queuetastic
- - Wiki: http://trac.rubyists.com/trac.fcgi/queuetastic/wiki/queuetastic
- - IRC: #queuetastic on freenode
+ - Forums: http://sourceforge.net/projects/queuetip
+ - Wiki: http://trac.rubyists.com/trac.fcgi/queuetip/wiki/queuetip
+ - IRC: #queuetip on freenode

@@ -1,29 +1,32 @@
 <!--    
 //    Copyright 2008 Jayson Vaughn 
-//    This file is part of Queuetastic.
+//    This file is part of Queue-Tip.
 
-//    Queuetastic is free software: you can redistribute it and/or modify
+//    Queue-Tip is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU General Public License as published by
 //    the Free Software Foundation, either version 3 of the License, or
 //    (at your option) any later version.
 
-//    Queuetastic is distributed in the hope that it will be useful,
+//    Queue-Tip is distributed in the hope that it will be useful,
 //    but WITHOUT ANY WARRANTY; without even the implied warranty of
 //    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //    GNU General Public License for more details.
               
 //    You should have received a copy of the GNU General Public License
-//    along with Queuetastic.  If not, see <http://www.gnu.org/licenses/>.
+//    along with Queue-Tip.  If not, see <http://www.gnu.org/licenses/>.
 -->
-
+<p>
+<div style="font: normal 14px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Welcome to <strong>Queue Tip</strong></div>
+<br />
+Remember to set your Asterisk Manager Interface 
+<%= link_to 'settings', :controller => 'admin', :action => 'edit_settings' %> under the <%= link_to 'Admin', :controller => 'admin', :action => 'index' %> section.
+</p>  
+<br />
+<br />
   <div style="font: normal 14px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Asterisk Server Summary</div>
       <ul>
-        <li><strong>Asterisk Server: </strong> <%= @config['queuetastic']['ast_server'].to_s %>
-        <li><strong>AMI Port: </strong> <%= @config['queuetastic']['ast_port'].to_s %>
+        <li><strong>Asterisk Server: </strong> <%= @config['queuetip']['ast_server'].to_s %>
+        <li><strong>AMI Port: </strong> <%= @config['queuetip']['ast_port'].to_s %>
       </ul>
       <br />
-  <div style="font: normal 14px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Admin Tasks</div>
-    <ul>
-      <li><strong><%= link_to 'Log Off', { :controller => 'start', :action => 'index', :logoffall => true } %></strong> all agents from all Queues.
-      <li><strong><%= link_to 'Load Queue Log', {:controller => 'start', :action => 'index', :update => true} %></strong> : <%=h @config['queuetastic']['queue_log'].to_s %>
-    </ul>
+<br />

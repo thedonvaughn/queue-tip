@@ -1,19 +1,19 @@
 <!--    
 //    Copyright 2008 Jayson Vaughn 
-//    This file is part of Queuetastic.
+//    This file is part of Queue-Tip.
 
-//    Queuetastic is free software: you can redistribute it and/or modify
+//    Queue-Tip is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU General Public License as published by
 //    the Free Software Foundation, either version 3 of the License, or
 //    (at your option) any later version.
 
-//    Queuetastic is distributed in the hope that it will be useful,
+//    Queue-Tip is distributed in the hope that it will be useful,
 //    but WITHOUT ANY WARRANTY; without even the implied warranty of
 //    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //    GNU General Public License for more details.
               
 //    You should have received a copy of the GNU General Public License
-//    along with Queuetastic.  If not, see <http://www.gnu.org/licenses/>.
+//    along with Queue-Tip.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
@@ -21,8 +21,8 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-    <title>Queuetastic: Asterisk Queue Monitoring and Analysis</title>
-    <%= stylesheet_link_tag 'queuetastic/style' %>
+    <title>Queue-Tip: Asterisk Queue Monitoring</title>
+    <%= stylesheet_link_tag 'queue_tip/style' %>
   </head>
   <body>
     <div id='container'>
@@ -39,10 +39,10 @@
           <div id='head_image'>
             <div id='slogan'>
               <strong>
-                Queuetastic
+                Queue-Tip
               </strong>
               <br />
-              Asterisk Queue Monitoring and Analysis
+              Asterisk Queue Monitoring
             </div>
           </div>
           <div id='text'>
@@ -55,13 +55,10 @@
         </div>
         <div id='footer'>
           <div id='left_footer'>
-            Queuetastic &trade; &copy; 2009 Jayson Vaughn
+            <%= render(:partial => "left_footer.html.erb") %>
           </div>
           <div id='right_footer'>
-			      <%= link_to 'Dashboard', :controller => "start", :action => "index" %>
-			      <%= link_to 'Monitor', :controller => "live_view", :action => "index" %>
-			      <%= link_to 'Reports', :controller => "report", :action => "index" %>
-			      <%= link_to 'Settings', :controller => "settings", :action => "index" %>
+            <%= render(:partial => "right_footer.html.erb") %>
           </div>
         </div>
       </div>

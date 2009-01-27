@@ -1,38 +1,41 @@
 <!--    
 //    Copyright 2008 Jayson Vaughn 
-//    This file is part of Queuetastic.
+//    This file is part of Queue-Tip.
 
-//    Queuetastic is free software: you can redistribute it and/or modify
+//    Queue-Tip is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU General Public License as published by
 //    the Free Software Foundation, either version 3 of the License, or
 //    (at your option) any later version.
 
-//    Queuetastic is distributed in the hope that it will be useful,
+//    Queue-Tip is distributed in the hope that it will be useful,
 //    but WITHOUT ANY WARRANTY; without even the implied warranty of
 //    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //    GNU General Public License for more details.
               
 //    You should have received a copy of the GNU General Public License
-//    along with Queuetastic.  If not, see <http://www.gnu.org/licenses/>.
+//    along with Queue-Tip.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<div style="font: normal 14px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Full Report</div>
+<fieldset>
+  <div style="font: normal 14px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Full Report</div>
     <% form_tag :controller => 'report', :action => 'full_report' do %>
       Select Start Date: <br /> <%= date_select("date", "start") %><br />
       Select End Date: <br /> <%= date_select("date", "end") %><br />
        <br />
         <%= submit_tag "View Report" %>
     <% end %>
-    <br />
-
-<div style="font: normal 14px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Queue Report</div>
+</fieldset>
+<br />
+<fieldset>
+ <div style="font: normal 14px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Queue Report</div>
     <% form_tag :controller => 'report', :action => 'queue_report' do %>
       Select Start Date: <br /> <%= date_select("date", "start") %><br />
       Select End Date: <br /> <%= date_select("date", "end") %><br />
        <br />
         <%= submit_tag "View Report" %>
     <% end %>
-    <br />
-
+</fieldset>
+<br />
+<fieldset>
 <div style="font: normal 14px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Agent Report</div>
     <% form_tag :controller => 'report', :action => 'agent_report' do %>
        Select Agent: <br />
@@ -42,8 +45,9 @@
        <br />
        <%= submit_tag "View Report" %>
     <% end %>
-    <br />
-
+</fieldset>
+<br />
+<fieldset>
 <div style="font: normal 14px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Agent Group Report</div>
     <% form_tag :controller => 'report', :action => 'group_report' do %>
     Select Group: <br />
@@ -53,4 +57,5 @@
        <br />
         <%= submit_tag "View Report" %>
     <% end %>
-    <br />
+</fieldset>
+<br />

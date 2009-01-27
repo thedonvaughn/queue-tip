@@ -1,0 +1,34 @@
+<div style="font: normal 14px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Queue-Tip Settings</div>
+<p>
+  <b>Asterisk server:</b>
+  <%=h @config['queuetip']['ast_server'] %>
+</p>
+
+<p>
+  <b>AMI port:</b>
+  <%=h @config['queuetip']['ast_port'] %>
+</p>
+
+<p>
+  <b>AMI username:</b>
+  <%=h @config['queuetip']['username'] %>
+</p>
+
+<p>
+  <b>AMI secret:</b>
+  <%=h @config['queuetip']['secret'] %>
+</p>
+
+<p>
+  <b>Queue log:</b>
+  <%=h @config['queuetip']['queue_log'] %>
+</p>
+<p>
+  <b>Service Level:</b> (Reports)
+  <%=h @config['queuetip']['service_level'] %>
+</p>
+
+<%= link_to 'Edit Settings', :controller => 'admin', :action => 'edit_settings' %> |
+<%= link_to 'Back', :controller => 'admin', :action => 'index' %>
+<br />
+<br />
