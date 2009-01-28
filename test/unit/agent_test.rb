@@ -25,18 +25,11 @@ class AgentTest < ActiveSupport::TestCase
     assert group.kind_of?(Group), "Agent doesn't belong to a group"
   end
 
-  def test_agent_has_aactions
+  def test_agent_has_actions
     agent = Agent.find(agents(:two))
     assert agent.kind_of?(Agent), "No agent could be found!"
-    aaction = agent.aactions.first
-    assert aaction.kind_of?(Aaction), "No aactions belong to this agent!"
-  end
-
-  def test_agent_has_cactions
-    agent = Agent.find(agents(:two))
-    assert agent.kind_of?(Agent), "No agent could be found!"
-    caction = agent.cactions.first
-    assert caction.kind_of?(Caction), "No cactions belong to this agent!"
+    action = agent.actions.first
+    assert action.kind_of?(Action), "No actions belong to this agent!"
   end
 
   def test_agent_login_time

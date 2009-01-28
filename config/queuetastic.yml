@@ -1,8 +1,0 @@
---- 
-queuetastic:
-  ast_server: localhost
-  ast_port: "5038"
-  username: username
-  secret: secret
-  queue_log: /var/log/asterisk/queue_log
-  service_level: "60.0"

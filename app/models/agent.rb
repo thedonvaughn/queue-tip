@@ -19,18 +19,16 @@
 
 class Agent < ActiveRecord::Base
   belongs_to :group
-  has_many :aactions
-  has_many :calls
-  has_many :cactions
+  has_many :actions
 
   def count_calls(bmonth, bday, byear, emonth, eday, eyear)
-    self.cactions.find(:all, :conditions => ['timestamp >= ? and timestamp <= ? and action = ?', Time.parse("#{bmonth}/#{bday} #{byear}").to_f, Time.parse("#{emonth}/#{eday} #{eyear} 23:59:59").to_f, "CONNECT"]).size
+    self.actions.find(:all, :conditions => ['timestamp >= ? and timestamp <= ? and action = ?', Time.parse("#{bmonth}/#{bday} #{byear}").to_i, Time.parse("#{emonth}/#{eday} #{eyear} 23:59:59").to_i, "CONNECT"]).size
   end
 
   def talk_time(bmonth, bday, byear, emonth, eday, eyear)
-    complete_calls = self.cactions.find(:all, :conditions => ['(timestamp >= ? and timestamp <= ?) and (action = ? or action = ?)', Time.parse("#{bmonth}/#{bday} #{byear}").to_f, Time.parse("#{emonth}/#{eday} #{eyear} 23:59:59").to_f, "COMPLETECALLER", "COMPLETEAGENT"])
+    complete_calls = self.actions.find(:all, :conditions => ['(timestamp >= ? and timestamp <= ?) and (action = ? or action = ?)', Time.parse("#{bmonth}/#{bday} #{byear}").to_i, Time.parse("#{emonth}/#{eday} #{eyear} 22:59:59").to_i, "COMPLETECALLER", "COMPLETEAGENT"])
     talk_time = 0
-    complete_calls.each { |call| talk_time += call.field2.to_i }
+    complete_calls.each { |call| talk_time += call.data2.to_i }
     ("%0.2f" % (talk_time/60.0)).to_f
   end
 
@@ -44,8 +42,8 @@ class Agent < ActiveRecord::Base
 
   def average_reso_time(bmonth, bday, byear, emonth, eday, eyear)
     total_time = 0.0
-    complete_calls = self.cactions.find(:all, :conditions => ['(timestamp >= ? and timestamp <= ?) and (action = ? or action = ?)', Time.parse("#{bmonth}/#{bday} #{byear}").to_f, Time.parse("#{emonth}/#{eday} #{eyear} 23:59:59").to_f, "COMPLETECALLER", "COMPLETEAGENT"])
-    complete_calls.each { |call| total_time += call.field2.to_f }
+    complete_calls = self.actions.find(:all, :conditions => ['(timestamp >= ? and timestamp <= ?) and (action = ? or action = ?)', Time.parse("#{bmonth}/#{bday} #{byear}").to_i, Time.parse("#{emonth}/#{eday} #{eyear} 23:59:59").to_i, "COMPLETECALLER", "COMPLETEAGENT"])
+    complete_calls.each { |call| total_time += call.data2.to_f }
     if complete_calls.size >= 1
       return "%0.2f" % ((total_time / complete_calls.size.to_f) / 60.0)
     else
@@ -80,8 +78,8 @@ class Agent < ActiveRecord::Base
     total_time = 0.0
     tmp_time = 0.0
     paused = false
-    aactions = self.aactions.find(:all, :conditions => ['(timestamp >= ? and timestamp <= ?) and (action = ? or action = ?)', Time.parse("#{month}/#{day} #{year}").to_f, Time.parse("#{month}/#{day} #{year} 23:59:59").to_f, "PAUSE", "UNPAUSE"])
-    actions = aactions.sort_by { |action| action.timestamp }
+    actions = self.actions.find(:all, :conditions => ['(timestamp >= ? and timestamp <= ?) and (action = ? or action = ?)', Time.parse("#{month}/#{day} #{year}").to_i, Time.parse("#{month}/#{day} #{year} 23:59:59").to_i, "PAUSE", "UNPAUSE"])
+    actions = actions.sort_by { |action| action.timestamp }
     unless actions.empty?
       if actions.size > 1
         if actions.first.action.to_s == "PAUSE"
@@ -120,7 +118,7 @@ class Agent < ActiveRecord::Base
     tmp_time = 0.0
     total_time = 0.0
     logged_in = false
-    actions = Aaction.find(:all, :conditions => ['agent_id =? and timestamp >= ? and timestamp <= ?', self.id, Time.parse("#{month}/#{day} #{year}").to_f, Time.parse("#{month}/#{day} #{year} 23:59:59").to_f]).sort_by { |action| action.timestamp }
+    actions = Action.find(:all, :conditions => ['agent_id =? and timestamp >= ? and timestamp <= ?', self.id, Time.parse("#{month}/#{day} #{year}").to_i, Time.parse("#{month}/#{day} #{year} 23:59:59").to_i]).sort_by { |action| action.timestamp }
     unless actions.empty?
       if actions.size > 1
        if actions.first.action.to_s =~ /REMOVEMEMBER/ # If the first action is "REMOVEMEMBER" (i.e. no "ADDMEMBER" first.) we assume login at beginning of queue shift defined in LWTN's settings.

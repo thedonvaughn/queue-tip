@@ -11,25 +11,11 @@ class QueuTest < ActiveSupport::TestCase
     assert queue.kind_of?(Queu), "No queue could be found!"
   end
   
-  def test_queu_should_have_cactions
+  def test_queu_should_have_actions
     queue = Queu.find(queus(:two))
     assert queue.kind_of?(Queu), "No queue could be found!"
-    caction = queue.cactions.first
-    assert caction.kind_of?(Caction), "No cactions belong to this queue!" 
-  end
-
-  def test_queu_should_have_aactions
-    queue = Queu.find(queus(:two))
-    assert queue.kind_of?(Queu), "No queue could be found!"
-    aaction = queue.aactions.first
-    assert aaction.kind_of?(Aaction), "No aactions belong to this queue!" 
-  end
-
-  def test_queu_should_have_calls
-    queue = Queu.find(queus(:two))
-    assert queue.kind_of?(Queu), "No queue could be found!"
-    call = queue.calls.first
-    assert call.kind_of?(Call), "No calls belong to this queue!" 
+    action = queue.actions.first
+    assert action.kind_of?(Action), "No actions belong to this queue!" 
   end
 
   def test_queu_method_queue_calls

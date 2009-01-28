@@ -1,13 +1,9 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :groups
 
-  map.resources :cactions
-
-  map.resources :calls
-
   map.resources :queus
 
-  map.resources :aactions
+  map.resources :actions
 
   map.resources :agents
 

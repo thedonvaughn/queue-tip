@@ -9,70 +9,43 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20080923151138) do
+ActiveRecord::Schema.define(:version => 4) do
 
-  create_table "aactions", :force => true do |t|
-    t.integer  "agent_id"
-    t.string   "channel"
-    t.float    "timestamp"
-    t.integer  "queu_id"
-    t.string   "queue_name"
-    t.string   "uniqueid"
-    t.string   "action"
-    t.string   "field1"
-    t.string   "field2"
-    t.string   "field3"
+  create_table "actions", :force => true do |t|
+    t.integer  "timestamp",  :limit => 10
+    t.string   "uniqueid",   :limit => 32
+    t.string   "queue_name", :limit => 32
+    t.string   "channel",    :limit => 45
+    t.string   "action",     :limit => 32
+    t.string   "data1"
+    t.string   "data2"
+    t.string   "data3"
+    t.integer  "agent_id",   :limit => 12
+    t.integer  "queu_id",    :limit => 12
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "agents", :force => true do |t|
-    t.string   "channel"
-    t.string   "first"
-    t.string   "last"
-    t.string   "exten"
+    t.string   "channel",    :limit => 45
+    t.string   "first",      :limit => 16
+    t.string   "last",       :limit => 16
+    t.string   "exten",      :limit => 12
     t.integer  "group_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "cactions", :force => true do |t|
-    t.integer  "call_id"
-    t.float    "timestamp"
-    t.string   "uniqueid"
-    t.integer  "agent_id"
-    t.integer  "queu_id"
-    t.string   "queue_name"
-    t.string   "channel"
-    t.string   "action"
-    t.string   "field1"
-    t.string   "field2"
-    t.string   "field3"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "calls", :force => true do |t|
-    t.string   "cid"
-    t.integer  "queu_id"
-    t.string   "queue_name"
-    t.float    "timestamp"
-    t.string   "uniqueid"
-    t.integer  "agent_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "groups", :force => true do |t|
-    t.string   "name"
+    t.string   "name",        :limit => 45
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "queus", :force => true do |t|
-    t.string   "queue_name"
-    t.string   "exten"
+    t.string   "queue_name",  :limit => 25
+    t.string   "exten",       :limit => 12
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
