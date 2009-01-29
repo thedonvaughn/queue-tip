@@ -178,12 +178,10 @@ to install Queue-Tip on the same server as Asterisk*.
  
 * Note: These steps above walked you through setting up Queue-Tip in the rails development environment.
         I highly recommend switching to production environment, using a solid database server such as postgresql,
-        and running Queue-Tip behind lighttpd using fcgi processes.  Deploying a Ruby on Rails app into 
+        and running Queue-Tip behind behind a web server or reverse-proxy like nginx .  Deploying a Ruby on Rails app into 
         production is way beyond the scope of this README.  Please refer to rails documentation or the friendly
         rails community for further details.
             
-** Note: check out e.M.A.S.H at http://trac.rubyists.com/trac.fcgi/emash/wiki/Emash to quickly and easily deploy Queue-Tip into production.
-
 
 Auto load and rotate queue_log
 ------------------------------
