@@ -57,18 +57,14 @@ From the asterisk server:
 
 
 Obtaining Queue-Tip
----------------------
-You can obtain the latest release of Queue-Tip at:
-
-      http://sourceforge.net/projects/queuetip
   
 You can obtain the upstream source via git, run:
     
-     	$ git clone git://rubyists.com/gits/queuetip queuetip
+     	$ git clone git://rubyists.com/gits/queue-tip.git
       
 If you wish to obtain from github.com, run:
 
-      $ git clone git://github.com/thedonvaughn/queuetip.git queuetip
+      $ git clone git://github.com/thedonvaughn/queue-tip.git
 
       
 Installation
