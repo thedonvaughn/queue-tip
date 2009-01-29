@@ -19,14 +19,13 @@
 
 class StartController < ApplicationController
   before_filter :load_config
-  rescue_from SocketError, :with => :redirect_index2
+  rescue_from SocketError, :with => :resolve_error
+  
 
   def index
-    if params
-      if params[:logoffall] == "true"
-        Queu.log_off_all_agents
-        flash[:notice] = 'Logged off all agents!'
-      end
+     respond_to do |format|
+        format.html # index.html.erb
+        format.xml 
     end
   end
 
@@ -36,7 +35,7 @@ class StartController < ApplicationController
     @config = QueueTip.config
   end
 
-  def redirect_index2
+  def resolve_error
     flash[:notice] = "Can not resolve hostname! Please check your settings"
     redirect_to(:controller => 'start', :action => "index")
   end

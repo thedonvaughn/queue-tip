@@ -15,7 +15,7 @@
 //    You should have received a copy of the GNU General Public License
 //    along with Queue-Tip.  If not, see <http://www.gnu.org/licenses/>.
 -->
-
+<p style="color: green"><%= flash[:notice] %></p>
 <% @queues.each do |queue, value| %>  <!-- Begin Loop for every Queue in the @queues hash -->
 <div class="blur" style="width: 100%;">
   <div class="shadow">
@@ -56,7 +56,9 @@
       <th>Calls</th>
       <th>Last Call</th>
       <th>Paused</th>
-      <th>Log Off</th>
+      <th></th>
+      <th></th>
+      <th></th>
     </tr>
     <% @queues[queue]['members'].each do |agent, element| %> <!-- Begin Loop for every Agent/Member in the @queues[queue]['members'] hash -->
     <tr>
@@ -66,6 +68,8 @@
       <td><%= Time.at(@queues[queue]['members'][agent]['lastcall'].to_f).strftime("%H:%M:%S") unless @queues[queue]['members'][agent]['lastcall'].to_f == 0.0 %></td>
       <td><%= @queues[queue]['members'][agent]['paused'] %></td>
       <td><%= link_to 'Log Off', {:controller => 'live_view', :action => 'logoff', :agent => @queues[queue]['members'][agent]['agent'].to_s, :queue => queue.to_s} %></td>
+      <td><%= link_to 'Pause', {:controller => 'live_view', :action => 'pause_agent', :agent => @queues[queue]['members'][agent]['location'].to_s} %></td>
+      <td><%= link_to 'Un-Pause', {:controller => 'live_view', :action => 'unpause_agent', :agent => @queues[queue]['members'][agent]['location'].to_s} %></td>
     </tr>
   <% end %>
   </table>

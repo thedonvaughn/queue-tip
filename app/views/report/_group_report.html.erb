@@ -21,6 +21,7 @@
 <table align="center" width="100%">
   <tr>
     <th>Channel</th>
+    <th>Exten</th>
     <th>First</th>
     <th>Last</th>
     <th>Total Calls</th>
@@ -30,9 +31,10 @@
     <th>Pause Time</th>
     <th>Avg. Reso. Time</th>
   </tr>
-<% for agent in @agents %>
+<% @agents.each do |agent| %>
   <tr style="background: <%= cycle("#ccc", "") %>;">
   <td><%=h agent.channel %></td>
+  <td><%=h agent.exten %></td>
   <td><%=h agent.first %></td>
   <td><%=h agent.last %></td>
   <td><%=h agent.count_calls(@bmonth, @bday, @byear, @emonth, @eday, @eyear) %></td>

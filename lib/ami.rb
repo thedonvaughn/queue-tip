@@ -42,6 +42,21 @@ class AMI
     args[:action] = "QueueRemove"
     ami_packet(args)
   end
+
+  def queue_pause(args = {})
+    args[:action] = "QueuePause"
+    ami_packet(args)
+  end
+
+  def agent_pause(interface)
+    args = {:interface => interface, :paused => true}
+    queue_pause(args)
+  end
+
+  def agent_unpause(interface)
+    args = {:interface => interface, :paused => false}
+    queue_pause(args)
+  end
   
   def reset_queue
     command(:command => "module reload app_queue")
@@ -112,14 +127,14 @@ class AMI
 
   def login
     unless @login == true
-    @ami_socket = TCPsocket.open(self.server, self.port.to_i)
-    login_action = {
-      :action => "login",
-      :username => self.username,
-      :secret => self.secret,
-      :events => @events }
-    result = ami_packet(login_action)
-    @login = (result["response"] == "success" ? true : false)
+        @ami_socket = TCPsocket.open(self.server, self.port.to_i)
+        login_action = {
+          :action => "login",
+          :username => self.username,
+          :secret => self.secret,
+          :events => @events }
+        result = ami_packet(login_action)
+        @login = (result["response"] == "success" ? true : false)
     end
     @login
   end

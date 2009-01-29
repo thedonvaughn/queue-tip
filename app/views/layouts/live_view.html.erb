@@ -43,6 +43,14 @@
           {
             $("headster2").style.display ='block';
           }
+        if( $("footster").style.display == 'block') 
+          {
+            $("footster").style.display = 'none';
+          } 
+          else
+          {
+            $("footster").style.display ='block';
+          }
       }
     </script>
   </head>
@@ -72,11 +80,11 @@
           </div>
           </div>
           <div id='text'>
-            <p style="color: green"><%= flash[:notice] %></p>
-            <a href="#" name="header_toggle" onClick="ToggleHeader();">+/-</a>
             <%= yield :text %>
+            <a href="#" name="header_toggle" onClick="ToggleHeader();">+/- Borders</a>
           </div>
         </div>
+        <div id="footster" style="display: block;">
         <div id='footer'>
           <div id='left_footer'>
             <%= render(:partial => 'left_footer.html.erb') %>
@@ -85,6 +93,7 @@
             <%= render(:partial => 'right_footer.html.erb') %>
           </div>
         </div>
+       </div>
       </div>
     </div>
   </body>

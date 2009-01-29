@@ -19,8 +19,10 @@
 
 class LiveViewController < ApplicationController
 
-  rescue_from Errno::ECONNREFUSED, :with => :redirect_index
-  rescue_from SocketError, :with => :redirect_index2
+  rescue_from Errno::ECONNREFUSED, :with => :refused_error
+  rescue_from SocketError, :with => :resolve_error
+  rescue_from Errno::ETIMEDOUT, :with => :timeout_error
+
   
   def index
     @ami_conn = AMI.new
@@ -46,12 +48,37 @@ class LiveViewController < ApplicationController
     redirect_to(:controller => 'live_view', :action => 'index')
   end
 
-  def redirect_index
+  def pause_agent
+    @ami_conn = AMI.new
+    @ami_conn.login
+    @ami_conn.agent_pause(params[:agent].to_s)
+    @ami_conn.logoff
+    flash[:notice] = "Paused Agent: #{params[:agent].to_s}"
+    redirect_to(:controller => 'live_view', :action => 'index')
+  end
+
+  def unpause_agent
+    @ami_conn = AMI.new
+    @ami_conn.login
+    @ami_conn.agent_unpause(params[:agent].to_s)
+    @ami_conn.logoff
+    flash[:notice] = "Un-Paused Agent: #{params[:agent].to_s}"
+    redirect_to(:controller => 'live_view', :action => 'index')
+  end
+
+  private
+
+  def refused_error
     flash[:notice] = "Connection refused! Please check your settings!"
     redirect_to(:controller => 'start', :action => "index")
   end
 
-  def redirect_index2
+  def resolve_error
+    flash[:notice] = "Can not resolve the hostname.  Please check your settings!"
+    redirect_to(:controller => 'start', :action => "index")
+  end
+
+  def timeout_error
     flash[:notice] = "Can not resolve the hostname.  Please check your settings!"
     redirect_to(:controller => 'start', :action => "index")
   end
