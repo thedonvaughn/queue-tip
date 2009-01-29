@@ -6,7 +6,7 @@ Distributed under the terms of the GNU General Public License.
 
 About
 -----
-Queue-Tip is an Asterisk Queue Reporting, Analysis, and Real-time Monitoring tool
+Queue-Tip is an Asterisk Queue Monitoring and reporting tool
 designed with the Ruby on Rails framework.
 
 Features include:
@@ -23,7 +23,7 @@ Requirements
 In order to run Queue-Tip you will need:
   - ruby (>= 1.8)
   - rubygems
-  - rails (>= 2.1)
+  - rails (>= 2.0)
   - fastercsv rubygem
 
 
@@ -206,17 +206,10 @@ We can use bin/reset_queue.rb to load and rotate queue_log
 
  2) Create a crontab entry like the following example below*.
      
-     30 23 * * * cd /home/user/queuetip/ && /home/user/queuetip/bin/reset_queue.rb >> /home/user/queutastic/log/queuetip.log
+     30 23 * * * cd /home/user/queuetip/ && /home/user/queuetip/bin/reset_queue.rb >> /home/user/queuetip/log/queuetip.log
      
      * Note: Make sure to change the RAILS_ENV constant in bin/reset_queue.rb when change environments.  
              i.e.  from 'development' to 'production' 
      
     ** Note: You must create this crontab entry under the same user this app will run as.
 
-
-Support
--------
-
- - Forums: http://sourceforge.net/projects/queuetip
- - Wiki: http://trac.rubyists.com/trac.fcgi/queuetip/wiki/queuetip
- - IRC: #queuetip on freenode

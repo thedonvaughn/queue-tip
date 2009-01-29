@@ -1,8 +1,8 @@
 --- 
-queuetip:  
+queuetip:
   ast_server: localhost
   ast_port: "5038"
   queue_log: /var/log/asterisk/queue_log
   username: username
-  secret: secret
+  secret: password
   service_level: "60.0"

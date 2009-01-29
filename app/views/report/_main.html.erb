@@ -15,47 +15,39 @@
 //    You should have received a copy of the GNU General Public License
 //    along with Queue-Tip.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<fieldset>
-  <div style="font: normal 14px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Full Report</div>
-    <% form_tag :controller => 'report', :action => 'full_report' do %>
-      Select Start Date: <br /> <%= date_select("date", "start") %><br />
-      Select End Date: <br /> <%= date_select("date", "end") %><br />
-       <br />
-        <%= submit_tag "View Report" %>
-    <% end %>
-</fieldset>
+<div style="font: normal 14px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Full Report</div>
+<% form_tag :controller => 'report', :action => 'full_report' do %>
+  Select Start Date: <br /> <%= date_select("date", "start") %><br />
+  Select End Date: <br /> <%= date_select("date", "end") %><br />
+  <br />
+  <%= submit_tag "View Report" %>
+<% end %>
 <br />
-<fieldset>
- <div style="font: normal 14px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Queue Report</div>
-    <% form_tag :controller => 'report', :action => 'queue_report' do %>
-      Select Start Date: <br /> <%= date_select("date", "start") %><br />
-      Select End Date: <br /> <%= date_select("date", "end") %><br />
-       <br />
-        <%= submit_tag "View Report" %>
-    <% end %>
-</fieldset>
+<div style="font: normal 14px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Queue Report</div>
+<% form_tag :controller => 'report', :action => 'queue_report' do %>
+  Select Start Date: <br /> <%= date_select("date", "start") %><br />
+  Select End Date: <br /> <%= date_select("date", "end") %><br />
+  <br />
+  <%= submit_tag "View Report" %>
+<% end %>
 <br />
-<fieldset>
 <div style="font: normal 14px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Agent Report</div>
-    <% form_tag :controller => 'report', :action => 'agent_report' do %>
-       Select Agent: <br />
-       <%= select("agent", "id",  (Agent.find(:all).sort_by {|agent| [agent.channel] }).collect {|u| [u.channel, u.id] }) %><br />
-       Select Start Date: <br /> <%= date_select("date", "start") %><br />
-       Select End Date: <br /> <%= date_select("date", "end") %><br />
-       <br />
-       <%= submit_tag "View Report" %>
-    <% end %>
-</fieldset>
+<% form_tag :controller => 'report', :action => 'agent_report' do %>
+  Select Agent: <br />
+    <%= select("agent", "id",  (Agent.find(:all).sort_by {|agent| [agent.channel] }).collect {|u| [u.channel, u.id] }) %><br />
+  Select Start Date: <br /> <%= date_select("date", "start") %><br />
+  Select End Date: <br /> <%= date_select("date", "end") %><br />
+  <br />
+  <%= submit_tag "View Report" %>
+<% end %>
 <br />
-<fieldset>
 <div style="font: normal 14px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Agent Group Report</div>
-    <% form_tag :controller => 'report', :action => 'group_report' do %>
-    Select Group: <br />
+<% form_tag :controller => 'report', :action => 'group_report' do %>
+  Select Group: <br />
     <%= select("group", "name",  (Group.find(:all).collect {|g| [g.name] }) << ["All"]) %><br />
-      Select Start Date: <br /> <%= date_select("date", "start") %><br />
-      Select End Date: <br /> <%= date_select("date", "end") %><br />
-       <br />
-        <%= submit_tag "View Report" %>
-    <% end %>
-</fieldset>
+  Select Start Date: <br /> <%= date_select("date", "start") %><br />
+  Select End Date: <br /> <%= date_select("date", "end") %><br />
+  <br />
+  <%= submit_tag "View Report" %>
+<% end %>
 <br />
