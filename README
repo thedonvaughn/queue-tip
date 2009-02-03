@@ -179,3 +179,7 @@ to install Queue-Tip on the same server as Asterisk*.
 
   10) Open a web browser and connect to port 3000 of the server;  i.e.  http://192.168.1.25:3000. 
       Congratulations!  You are connected to Queue-Tip.
+
+Support
+-------
+IRC: #queuetip on FreeNode
