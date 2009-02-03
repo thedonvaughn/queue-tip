@@ -23,6 +23,7 @@ class LiveViewController < ApplicationController
   rescue_from Errno::ECONNREFUSED, :with => :refused_error
   rescue_from SocketError, :with => :resolve_error
   rescue_from Errno::ETIMEDOUT, :with => :timeout_error
+  rescue_from DRb::DRbConnError, :with => :drb_error
 
   
   def index
@@ -62,6 +63,12 @@ class LiveViewController < ApplicationController
     flash[:notice] = "Connection refused! Please check your settings!"
     redirect_to(:controller => 'start', :action => "index")
   end
+
+  def drb_error
+    flash[:notice] = "Can't talk to the asterisk proxy! Please issue 'ahn start bin/ami_proxy'"
+    redirect_to(:controller => 'start', :action => "index")
+  end
+
 
   def resolve_error
     flash[:notice] = "Can not resolve the hostname.  Please check your settings!"
