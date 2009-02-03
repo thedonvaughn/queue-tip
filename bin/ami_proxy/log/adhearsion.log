@@ -1,0 +1,92 @@
+ INFO ahn: Starting DRb on localhost:9050
+ INFO ahn: Adhearsion initialized!
+ INFO ami: Successful AMI actions-only connection into jvaughn@carlos
+ INFO ami: Successful AMI events-only connection into jvaughn@carlos
+ INFO ahn: Shutting down gracefully at Mon Feb 02 15:20:01 -0600 2009.
+ INFO ahn: Starting DRb on localhost:9050
+ INFO ahn: Adhearsion initialized!
+ INFO ami: Successful AMI actions-only connection into jvaughn@carlos
+ INFO ami: Successful AMI events-only connection into jvaughn@carlos
+ INFO ahn: Shutting down gracefully at Mon Feb 02 15:29:19 -0600 2009.
+ INFO ahn: Starting DRb on localhost:9050
+ INFO ahn: Adhearsion initialized!
+ INFO ami: Successful AMI actions-only connection into jvaughn@red
+ INFO ami: Successful AMI events-only connection into jvaughn@red
+ INFO ahn: Shutting down gracefully at Mon Feb 02 15:35:42 -0600 2009.
+ INFO ahn: Starting DRb on localhost:9050
+ INFO ahn: Adhearsion initialized!
+ INFO ami: Successful AMI actions-only connection into jvaughn@carlos
+ INFO ami: Successful AMI events-only connection into jvaughn@carlos
+ INFO ahn: Shutting down gracefully at Mon Feb 02 15:47:13 -0600 2009.
+ INFO ahn: Starting DRb on localhost:9050
+ INFO ahn: Adhearsion initialized!
+ INFO ami: Successful AMI actions-only connection into jvaughn@carlos
+ INFO ami: Successful AMI events-only connection into jvaughn@carlos
+ INFO agi: Handling call with variables {:dnid=>2613, :channel=>"Zap/47-1", :type=>"Zap", :callingpres=>-1, :calleridname=>nil, :uniqueid=>1233611328.424, :callerid=>nil, :request=>#<URI::Generic:0xb7651c30 URL:agi://192.168.6.32>, :callingtns=>0, :rdnis=>nil, :query=>{}, :accountcode=>"", :context=>"default", :network=>true, :extension=>"h", :type_of_calling_number=>:unknown, :callingani2=>0, :language=>"en", :priority=>2, :enhanced=>0.0}
+ INFO agi: Received "h" meta-call. Executing /asterisk/hungup_call event callbacks.
+ INFO ahn: Shutting down gracefully at Mon Feb 02 15:53:17 -0600 2009.
+ INFO ahn: Starting DRb on localhost:9050
+ INFO ahn: Adhearsion initialized!
+ INFO ami: Successful AMI actions-only connection into jvaughn@carlos
+ INFO ami: Successful AMI events-only connection into jvaughn@carlos
+ INFO ahn: Shutting down gracefully at Mon Feb 02 16:45:47 -0600 2009.
+ INFO ahn: Starting DRb on localhost:9050
+ INFO ahn: Adhearsion initialized!
+ INFO ami: Successful AMI actions-only connection into jvaughn@red
+ INFO ami: Successful AMI events-only connection into jvaughn@red
+ INFO ahn: Starting DRb on localhost:9050
+ INFO ahn: Adhearsion initialized!
+DEBUG ami: Sending AMI action: 
+>>> Action: login
+>>> ActionID: gpYZfdaZ-I9Kv-B9AB-eSfd-hNX3Mo4qNett
+>>> Username: jvaughn
+>>> Secret: nrsadmin
+>>> Events: Off
+>>> 
+ INFO ami: Successful AMI actions-only connection into jvaughn@red
+ INFO ami: Successful AMI events-only connection into jvaughn@red
+DEBUG ami: Sending AMI action: 
+>>> Action: command
+>>> ActionID: kojdShTG-cpew-rycC-BH5P-sn1RzM4ZoN86
+>>> Command: module reload app_queue
+>>> 
+ INFO ahn: Starting DRb on localhost:9050
+ INFO ahn: Adhearsion initialized!
+DEBUG ami: Sending AMI action: 
+>>> Action: login
+>>> ActionID: wHHKUdpu-7kEw-wJBx-1cUe-6D1gFb1smBNj
+>>> Username: jvaughn
+>>> Secret: nrsadmin
+>>> Events: Off
+>>> 
+ INFO ami: Successful AMI actions-only connection into jvaughn@red
+ INFO ami: Successful AMI events-only connection into jvaughn@red
+DEBUG ami: Sending AMI action: 
+>>> Action: queuestatus
+>>> ActionID: TvKSPptB-QlF0-qO1y-209q-ZyFuO09ZMXXw
+>>> 
+DEBUG ami: Sending AMI action: 
+>>> Action: queuestatus
+>>> ActionID: xjYK8Ncz-9uzz-zZR8-DqpZ-A8wqmGZNUNu7
+>>> 
+DEBUG ami: Sending AMI action: 
+>>> Action: queuestatus
+>>> ActionID: y88cyhRx-asdS-psfV-YA6B-ry4xdnx2Muvd
+>>> 
+DEBUG ami: Sending AMI action: 
+>>> Action: queuestatus
+>>> ActionID: P6nlRwgh-nili-CoZL-5aiU-bWEQRkPfLYGK
+>>> 
+DEBUG ami: Sending AMI action: 
+>>> Action: queuestatus
+>>> ActionID: JA899nhn-rH7z-Naj4-klcF-pBu5IL5qMKKu
+>>> 
+DEBUG ami: Sending AMI action: 
+>>> Action: queuestatus
+>>> ActionID: GvX2fBgL-vPXB-bvFR-n9ia-d7g85JdmjLpa
+>>> 
+ INFO ahn: Shutting down gracefully at Mon Feb 02 18:42:03 -0600 2009.
+ INFO ahn: Starting DRb on localhost:9050
+ INFO ahn: Adhearsion initialized!
+ERROR ami: Connection refused when connecting to AMI! Please check your configuration.
+ INFO ahn: Shutting down gracefully at Mon Feb 02 18:49:01 -0600 2009.

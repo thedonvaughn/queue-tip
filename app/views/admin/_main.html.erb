@@ -20,7 +20,7 @@
 <ul>
   <li><strong><%= link_to 'Log Off', {:controller => 'admin', :action => 'logoff_all_agents'} %></strong> all agents from all Queues.</li>
   <li><strong><%= link_to 'Load Queue Log', {:controller => 'admin', :action => 'load_queue_log'} %></strong> : <%=h @config['queuetip']['queue_log'].to_s %></li>
-  <li><strong><%= link_to 'Reset', {:controller => 'admin', :action => 'reset_queues'} %></strong> Asterisk queue stats.</li>
+  <!-- <li><strong><%#= link_to 'Reset', {:controller => 'admin', :action => 'reset_queues'} %></strong> Asterisk queue stats.</li> -->
 </ul>
 <%= link_to 'Agents', agents_path %> |
 <%= link_to 'Agent Groups', groups_path %>

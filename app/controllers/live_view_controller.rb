@@ -18,6 +18,7 @@
 #
 
 class LiveViewController < ApplicationController
+  before_filter :establish_connection
 
   rescue_from Errno::ECONNREFUSED, :with => :refused_error
   rescue_from SocketError, :with => :resolve_error
@@ -25,48 +26,37 @@ class LiveViewController < ApplicationController
 
   
   def index
-    @ami_conn = AMI.new
-    @ami_conn.login
     @queues = @ami_conn.queue_status
-    @ami_conn.logoff
   end
 
   def update_queues 
-    @ami_conn = AMI.new
-    @ami_conn.login
     @queues = @ami_conn.queue_status
-    @ami_conn.logoff
     render(:partial => 'queue_stats.html.erb')
   end
 
   def logoff
-    @ami_conn = AMI.new
-    @ami_conn.login
-    @ami_conn.queueremove(:queue => params[:queue].to_s, :interface => params[:agent].to_s)
-    @ami_conn.logoff
+    @ami_conn.agent_logoff(:queue => params[:queue].to_s, :interface => params[:agent].to_s)
     flash[:notice] = "Logged off #{params[:agent].to_s} from Queue: #{params[:queue].to_s}"
     redirect_to(:controller => 'live_view', :action => 'index')
   end
 
   def pause_agent
-    @ami_conn = AMI.new
-    @ami_conn.login
     @ami_conn.agent_pause(params[:agent].to_s)
-    @ami_conn.logoff
     flash[:notice] = "Paused Agent: #{params[:agent].to_s}"
     redirect_to(:controller => 'live_view', :action => 'index')
   end
 
   def unpause_agent
-    @ami_conn = AMI.new
-    @ami_conn.login
     @ami_conn.agent_unpause(params[:agent].to_s)
-    @ami_conn.logoff
     flash[:notice] = "Un-Paused Agent: #{params[:agent].to_s}"
     redirect_to(:controller => 'live_view', :action => 'index')
   end
 
   private
+
+  def establish_connection
+    @ami_conn ||= QtAmi.new
+  end
 
   def refused_error
     flash[:notice] = "Connection refused! Please check your settings!"

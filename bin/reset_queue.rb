@@ -22,22 +22,17 @@ require "rubygems"
 RAILS_ENV = "development"
 require "config/boot"
 require "config/environment"
-require RAILS_ROOT + "/lib/ami"
+require RAILS_ROOT + "/lib/qt_ami"
 
 begin
-  conn = AMI.new
+  conn = QtAmi.new
   logger = QueueLog.new(:queue_log => '/var/log/asterisk/queue_log')
-  puts "Logged into #{conn.server} as #{conn.username}" if conn.login 
-  puts "Logged off all agents" if conn.logoffallagents
+  puts "Logged off all agents" if conn.log_off_all_agents
   sleep 2
   puts "Reset queue stats" if conn.reset_queue
-  puts "Logged off #{conn.server}" if conn.logoff
   puts "Loading Queue Log now.......(may take a while)"
   num = logger.process_log_file
   puts "Queue Log loaded #{num} records"
-  puts "Logged into #{conn.server} as #{conn.username}" if conn.login 
-  puts "Rotated log file" if conn.rotate_log
-  puts "Logged off #{conn.server}" if conn.logoff
 rescue => e 
   puts "Error: #{e}\n" + e.backtrace.join("\n\t")
   puts e.inspect

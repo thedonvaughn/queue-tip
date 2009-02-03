@@ -18,15 +18,15 @@
 <p>
 <div style="font: normal 14px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Welcome to <strong>Queue Tip</strong></div>
 <br />
-Remember to set your Asterisk Manager Interface 
-<%= link_to 'settings', :controller => 'admin', :action => 'edit_settings' %> under the <%= link_to 'Admin', :controller => 'admin', :action => 'index' %> section.
+Do not forget to edit <strong>config/startup.rb</strong> with your Asterisk settings.
+<br />
 </p>  
 <br />
 <br />
-  <div style="font: normal 14px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Asterisk Server Summary</div>
+  <div style="font: normal 14px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Queue Report Settings</div>
       <ul>
-        <li><strong>Asterisk Server: </strong> <%= @config['queuetip']['ast_server'].to_s %>
-        <li><strong>AMI Port: </strong> <%= @config['queuetip']['ast_port'].to_s %>
+        <li><strong>Asterisk Queue Log: </strong> <%= @config['queuetip']['queue_log'].to_s %>
+        <li><strong>Service Level: </strong> <%= @config['queuetip']['service_level'].to_s %>
       </ul>
       <br />
 <br />

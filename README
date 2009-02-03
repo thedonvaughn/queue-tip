@@ -7,11 +7,11 @@ Distributed under the terms of the GNU General Public License.
 About
 -----
 Queue-Tip is an Asterisk Queue Monitoring and reporting tool
-designed with the Ruby on Rails framework.
+using Adhearsion and designed with the Ruby on Rails framework.
 
 Features include:
-  - Real-time, live view, of Asterisk queues updated seamlessly using AJAX
-  - Queue stats are collected in real-time using the Asterisk Manager Interface
+  - Real-time, live view, of Asterisk queues updated seamlessly using Javascript 
+  - Queue stats are collected in real-time using Adhearsion 
   - Load Asterisk's queue_log file into a database
   - Run reports on agent and queue stats.  
   - Partition agents in to "groups" for reporting needs..
@@ -24,6 +24,7 @@ In order to run Queue-Tip you will need:
   - ruby (>= 1.8)
   - rubygems
   - rails (>= 2.0)
+  - adhearsion (>= 0.8.1)
   - fastercsv rubygem
 
 
@@ -76,8 +77,16 @@ to install Queue-Tip on the same server as Asterisk*.
   and still have the queue_log loaded for reporting, but it is currently unsupported and
   takes some modification of the setup.  This will be a feature in Queue-Tip very soon!
 
+  1) Make sure you have Adhearsion installed by either running:
+      
+      $ sudo gem install -r adhearsion
 
-  1) Make sure you have the fastercsv rubygem installed by either running:
+      or
+
+      $ rake gems:install (from within the Queue-Tip working directory) 
+
+
+  2) Make sure you have the fastercsv rubygem installed by either running:
   
       $ sudo gem install -r fastercsv 
      
@@ -86,22 +95,20 @@ to install Queue-Tip on the same server as Asterisk*.
       $ rake gems:install (from within the Queue-Tip working directory)
   
   
-  2) Open up and edit config/queuetip.yml based on the Asterisk Manager Interface settings*: 
+  3) Open up and edit config/startup.rb based on the Asterisk Manager Interface settings*: 
 
-     queuetip:
-      ast_server: 192.168.1.25  
-      ast_port: "5038"
-      queue_log: /var/log/asterisk/queue_log
-      username: queuemanager
-      secret: secret420
-      service_level: "60.0"
+      config.asterisk.enable_ami :host => "localhost", :username => 'username', :password => 'secret', :events => true
 
-    * Note: service_level is used only for reporting. It will not affect asterisk's queues.conf file.
-    ** Note: Asterisk's queue_log default location is /var/log/asterisk/queue_log.  Refer to your system administrator
-             or Asterisk documentation for further information.
+
+  4) Now you must start the Asterisk proxy; from within the Queue-Tip working directory issue
+
+      $ ahn start bin/ami_proxy
+        INFO ahn: Starting DRb on localhost:9050
+        INFO ahn: Adhearsion initialized!
+ 
 
     
-  3) Next, like any Rails application, we need to create a database that Queue-Tip 
+  5) Next, like any Rails application, we need to create a database that Queue-Tip 
      can connect to and use.  In this setup, we will be using sqlite3* as our database.  
      This will require the ruby-sqlite3 rubygem.  To install ruby-sqlite3, run:
 
@@ -112,7 +119,7 @@ to install Queue-Tip on the same server as Asterisk*.
        Refer to the Ruby on Rails documentation for further information.
 
   
-  4) Open up and edit config/database.yml to define the databases.  Here is our
+  6) Open up and edit config/database.yml to define the databases.  Here is our
      database definitons*.  Refer to Ruby on Rails documentation for more info.
 
       # SQLite version 3.x
@@ -136,7 +143,7 @@ to install Queue-Tip on the same server as Asterisk*.
         timeout: 5000
 
   
-  5) Create the database*, run:
+  7) Create the database*, run:
 
       $ rake db:create
 
@@ -144,7 +151,7 @@ to install Queue-Tip on the same server as Asterisk*.
             Refer to Ruby on Rails documentation for more info
 
 
-  6) Populate the database*, run:
+  8) Populate the database*, run:
 
       $ rake db:migrate
 
@@ -152,7 +159,7 @@ to install Queue-Tip on the same server as Asterisk*.
              will populate the development database defined in 
              config/database.yml above.
   
-  7) To start up Queue-Tip in development mode, run*:
+  9) To start up Queue-Tip in development mode, run*:
       
       $ ./script/server
 
@@ -163,33 +170,15 @@ to install Queue-Tip on the same server as Asterisk*.
             Once installed, /script/server will run mongrel by default.
   
 
-  8) Open a web browser and connect to port 3000 of the server;  i.e.  http://192.168.1.25:3000. 
-     Congratulations!  You are connected to Queue-Tip.
+  10) Open a web browser and connect to port 3000 of the server;  i.e.  http://192.168.1.25:3000. 
+      Congratulations!  You are connected to Queue-Tip.
 
   
-  9) Review the configuration under the "Settings" tab.  This is just a frontend to edit config/queuetip.yml
-
-
- 10) Back to the "Dashboard" tab, click the "Load Queue Log" link to load the queue_log file into the database.  
-     Depending on how large the queue_log file is, this could take several minutes.  Once it's finished loading;
-     Queue-Tip will inform us how many new records were inserted into the database.  You can now run reports
-     from the data you loaded.
-
- 
-* Note: These steps above walked you through setting up Queue-Tip in the rails development environment.
-        I highly recommend switching to production environment, using a solid database server such as postgresql,
-        and running Queue-Tip behind behind a web server or reverse-proxy like nginx .  Deploying a Ruby on Rails app into 
-        production is way beyond the scope of this README.  Please refer to rails documentation or the friendly
-        rails community for further details.
-            
 
 Auto load and rotate queue_log
 ------------------------------
 Unless you want to manually load the queue_log everytime;
 We can use bin/reset_queue.rb to load and rotate queue_log 
-
-* Note: bin/reset_queue.rb will also reset the "Realtime view" stats. 
-
 
  1) Create a new crontab entry, run*:
 

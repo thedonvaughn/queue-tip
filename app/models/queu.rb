@@ -111,10 +111,8 @@ class Queu < ActiveRecord::Base
   end
 
   def self.log_off_all_agents
-    ami = AMI.new
-    ami.login
-    ami.logoffallagents
-    ami.logoff
+    ami = QtAmi.new
+    ami.log_off_all_agents
   end
 
 end

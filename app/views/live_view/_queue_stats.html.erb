@@ -36,14 +36,14 @@
       <th>Weight</th>
     </tr>
     <tr>
-      <td><%= @queues[queue]['calls'] %></td>
-      <td><%= @queues[queue]['holdtime'] %></td>
-      <td><%= @queues[queue]['abandoned'] %></td>
-      <td><%= @queues[queue]['completed'] %></td>
-      <td><%= @queues[queue]['max'] %></td>
-      <td><%= @queues[queue]['service_level'] %></td>
-      <td><%= @queues[queue]['service_level_perf'] %>%</td>
-      <td><%= @queues[queue]['weight'] %></td>
+      <td><%= @queues[queue]['Calls'] %></td>
+      <td><%= @queues[queue]['Holdtime'] %></td>
+      <td><%= @queues[queue]['Abandoned'] %></td>
+      <td><%= @queues[queue]['Completed'] %></td>
+      <td><%= @queues[queue]['Max'] %></td>
+      <td><%= @queues[queue]['ServiceLevel'] %></td>
+      <td><%= @queues[queue]['ServicelevelPerf'] %>%</td>
+      <td><%= @queues[queue]['Weight'] %></td>
     </tr>
   </table>
   <!-- end table for Queue Stats -->
@@ -60,16 +60,16 @@
       <th></th>
       <th></th>
     </tr>
-    <% @queues[queue]['members'].each do |agent, element| %> <!-- Begin Loop for every Agent/Member in the @queues[queue]['members'] hash -->
+    <% @queues[queue][:members].each do |agent, element| %> <!-- Begin Loop for every Agent/Member in the @queues[queue]['members'] hash -->
     <tr>
-      <td><%= @queues[queue]['members'][agent]['agent'] %></td>
-      <td><%= case @queues[queue]['members'][agent]['status']; when '0'; "Unknown"; when '1'; "Ready"; when '2'; "In Use"; when '3'; "Busy"; when '4'; "Invalid"; when '5'; "Unavailable";  when '6'; "Ringing"; when '7'; "Ringing & In Use"; when '8'; "On Hold"; end %></td>
-      <td><%= @queues[queue]['members'][agent]['calls_taken'] %></td>
-      <td><%= Time.at(@queues[queue]['members'][agent]['lastcall'].to_f).strftime("%H:%M:%S") unless @queues[queue]['members'][agent]['lastcall'].to_f == 0.0 %></td>
-      <td><%= @queues[queue]['members'][agent]['paused'] %></td>
-      <td><%= link_to 'Log Off', {:controller => 'live_view', :action => 'logoff', :agent => @queues[queue]['members'][agent]['agent'].to_s, :queue => queue.to_s} %></td>
-      <td><%= link_to 'Pause', {:controller => 'live_view', :action => 'pause_agent', :agent => @queues[queue]['members'][agent]['location'].to_s} %></td>
-      <td><%= link_to 'Un-Pause', {:controller => 'live_view', :action => 'unpause_agent', :agent => @queues[queue]['members'][agent]['location'].to_s} %></td>
+      <td><%= @queues[queue][:members][agent]['Name'] %></td>
+      <td><%= case @queues[queue][:members][agent]['Status']; when '0'; "Unknown"; when '1'; "Ready"; when '2'; "In Use"; when '3'; "Busy"; when '4'; "Invalid"; when '5'; "Unavailable";  when '6'; "Ringing"; when '7'; "Ringing & In Use"; when '8'; "On Hold"; end %></td>
+      <td><%= @queues[queue][:members][agent]['CallsTaken'] %></td>
+      <td><%= Time.at(@queues[queue][:members][agent]['LastCall'].to_f).strftime("%H:%M:%S") unless @queues[queue][:members][agent]['LastCall'].to_f == 0.0 %></td>
+      <td><%= @queues[queue][:members][agent]['Paused'] %></td>
+      <td><%= link_to 'Log Off', {:controller => 'live_view', :action => 'logoff', :agent => @queues[queue][:members][agent]['Location'].to_s, :queue => queue.to_s} %></td>
+      <td><%= link_to 'Pause', {:controller => 'live_view', :action => 'pause_agent', :agent => @queues[queue][:members][agent]['Location'].to_s} %></td>
+      <td><%= link_to 'Un-Pause', {:controller => 'live_view', :action => 'unpause_agent', :agent => @queues[queue][:members][agent]['Location'].to_s} %></td>
     </tr>
   <% end %>
   </table>
@@ -84,13 +84,13 @@
       <th style="background: #DDDDDD;">Wait (secs)</th>
       <th style="background: #DDDDDD;">Channel</th>
     </tr>
-    <% @queues[queue]['callers'].each do |caller, element| %> <!-- Begin loop for every Caller in the @queues[queue]['callers'] hash -->
+    <% @queues[queue][:callers].each do |caller, element| %> <!-- Begin loop for every Caller in the @queues[queue]['callers'] hash -->
     <tr>
-      <td><%= @queues[queue]['callers'][caller]['position'] %></td>
-      <td><%= @queues[queue]['callers'][caller]['phone_no'] %></td>
-      <td><%= @queues[queue]['callers'][caller]['name'] %></td>
-      <td><%= @queues[queue]['callers'][caller]['wait'] %></td>
-      <td><%= @queues[queue]['callers'][caller]['channel'] %></td>
+      <td><%= @queues[queue][:callers][caller]['Position'] %></td>
+      <td><%= @queues[queue][:callers][caller]['CallerID'] %></td>
+      <td><%= @queues[queue][:callers][caller]['CallerIDName'] %></td>
+      <td><%= @queues[queue][:callers][caller]['Wait'] %></td>
+      <td><%= @queues[queue][:callers][caller]['Channel'] %></td>
     </tr>
   <% end %>
   </table>

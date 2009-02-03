@@ -70,10 +70,8 @@ class AdminController < ApplicationController
   end
 
   def reset_queues
-    ami_conn = AMI.new
-    ami_conn.login
+    ami_conn = QtAmi.new
     ami_conn.reset_queue
-    ami_conn.logoff
     flash[:notice] = "Succesfully restarted Asterisk queue stats"
     redirect_to(:controller => 'admin', :action => 'index')
   end

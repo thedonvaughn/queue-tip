@@ -17,7 +17,7 @@
 -->
 
 <% content_for(:text) do %>
-<%= periodically_call_remote :url => {:action => "update_queues"}, :update => 'queue_report', :frequency => 2 %>
+<%= periodically_call_remote :url => {:action => "update_queues"}, :update => 'queue_report', :frequency => 1 %>
   <div id="queue_report">
     <%= render(:partial => 'queue_stats.html.erb') %>
   </div>

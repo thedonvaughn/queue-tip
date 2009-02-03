@@ -19,26 +19,6 @@
 <div style="font: normal 14px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;"> Settings</div>
 <% form_tag :action => 'update_settings' do %>
   <p>
-    <b>Asterisk server:</b><br />
-    <%= text_field :queuetip, :ast_server, :value =>  @config['queuetip']['ast_server'] %>
-  </p>
-
-  <p>
-    <b>AMI port:</b><br />
-    <%= text_field :queuetip, :ast_port, :value =>  @config['queuetip']['ast_port'] %>
-  </p>
-
-  <p>
-    <b>AMI username:</b><br />
-    <%= text_field :queuetip, :username, :value =>  @config['queuetip']['username'] %>
-  </p>
-
-  <p>
-    <b>AMI secret:</b><br />
-    <%= text_field :queuetip, :secret, :value =>  @config['queuetip']['secret'] %>
-  </p>
-
-  <p>
     <b>Queue log:</b><br />
     <%= text_field :queuetip, :queue_log, :value =>  @config['queuetip']['queue_log'] %>
   </p>
