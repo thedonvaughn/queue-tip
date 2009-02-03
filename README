@@ -59,13 +59,14 @@ From the asterisk server:
 
 Obtaining Queue-Tip
   
+If you wish to obtain from github.com, run:
+
+      $ git clone git://github.com/thedonvaughn/queue-tip.git
+
 You can obtain the upstream source via git, run:
     
      	$ git clone git://rubyists.com/gits/queue-tip.git
       
-If you wish to obtain from github.com, run:
-
-      $ git clone git://github.com/thedonvaughn/queue-tip.git
 
       
 Installation

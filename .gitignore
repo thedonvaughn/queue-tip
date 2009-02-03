@@ -21,3 +21,7 @@ vendor/plugins/
 script/editor
 script/ride
 script/ride-console
+
+tasks/
+tasks/ride.rake
+tasks/rspec.rake
