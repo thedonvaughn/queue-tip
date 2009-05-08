@@ -25,3 +25,6 @@ script/ride-console
 tasks/
 tasks/ride.rake
 tasks/rspec.rake
+
+bin/ami_proxy/log/*
+bin/ami_proxy/log/*.log
