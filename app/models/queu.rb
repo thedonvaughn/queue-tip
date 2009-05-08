@@ -42,12 +42,6 @@ class Queu < ActiveRecord::Base
     abandons.select { |a| a if a.data3.to_f >= 60.00 }.size
   end
 
-  def total_calls(bmonth, bday, byear, emonth, eday, eyear)
-    total = queue_calls(bmonth, bday, byear, emonth, eday, eyear)
-    short = short_abandons(bmonth, bday, byear, emonth, eday, eyear)
-    return total.to_i - short.to_i
-  end
-
   def service_level_percentage(bmonth, bday, byear, emonth, eday, eyear)
     config = QueueTip.config
     calls = self.actions.find(:all, :conditions => ['(timestamp >= ? and timestamp <= ?) and (action = ? or action = ?)', Time.parse("#{bmonth}/#{bday} #{byear}").to_i, Time.parse("#{emonth}/#{eday} #{eyear} 23:59:59").to_i, "COMPLETECALLER", "COMPLETEAGENT"])
@@ -93,8 +87,8 @@ class Queu < ActiveRecord::Base
   end
 
   def abandon_percentage(bmonth, bday, byear, emonth, eday, eyear)
-    total = total_calls(bmonth, bday, byear, emonth, eday, eyear)
-    abandons = reg_abandons(bmonth, bday, byear, emonth, eday, eyear)
+    total = calls_count(bmonth, bday, byear, emonth, eday, eyear)
+    abandons = total_abandons(bmonth, bday, byear, emonth, eday, eyear)
     if total > 0
       return "%0.2f" % ((abandons.to_f / total.to_f) * 100)
     else
@@ -103,7 +97,7 @@ class Queu < ActiveRecord::Base
   end
 
   def export_queue_report(bmonth, bday, byear, emonth, eday, eyear)
-     [self.queue_name, self.total_calls(bmonth, bday, byear, emonth, eday, eyear), self.connected_calls(bmonth, bday, byear, emonth, eday, eyear), self.service_level_percentage(bmonth, bday, byear, emonth, eday, eyear), self.average_caller_wait_time(bmonth, bday, byear, emonth, eday, eyear), self.average_caller_reso_time(bmonth, bday, byear, emonth, eday, eyear), self.total_abandons(bmonth, bday, byear, emonth, eday, eyear), self.short_abandons(bmonth, bday, byear, emonth, eday, eyear), self.reg_abandons(bmonth, bday, byear, emonth, eday, eyear), self.abandon_percentage(bmonth, bday, byear, emonth, eday, eyear), self.average_caller_abandon_time(bmonth, bday, byear, emonth, eday, eyear)]
+     [self.queue_name, self.calls_count(bmonth, bday, byear, emonth, eday, eyear), self.connected_calls(bmonth, bday, byear, emonth, eday, eyear), self.service_level_percentage(bmonth, bday, byear, emonth, eday, eyear), self.average_caller_wait_time(bmonth, bday, byear, emonth, eday, eyear), self.average_caller_reso_time(bmonth, bday, byear, emonth, eday, eyear), self.total_abandons(bmonth, bday, byear, emonth, eday, eyear), self.short_abandons(bmonth, bday, byear, emonth, eday, eyear), self.reg_abandons(bmonth, bday, byear, emonth, eday, eyear), self.abandon_percentage(bmonth, bday, byear, emonth, eday, eyear), self.average_caller_abandon_time(bmonth, bday, byear, emonth, eday, eyear)]
   end
 
   def self.export_queue_header

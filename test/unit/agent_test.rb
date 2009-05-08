@@ -1,10 +1,6 @@
 require 'test_helper'
 
 class AgentTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  def test_truth
-    assert true
-  end
 
   def test_have_an_agent
     agent = Agent.find(agents(:one))
@@ -25,46 +21,46 @@ class AgentTest < ActiveSupport::TestCase
     assert action.kind_of?(Action), "No actions belong to this agent!"
   end
 
-#  def test_agent_login_time
-#    agent = Agent.find(agents(:two))
-#    assert agent.kind_of?(Agent), "No agent could be found!"
-#    total_time = agent.login_time(9, 8, 2008, 9, 8, 2008) # Fixture timestamp is set for 9/8/2008
-#    assert total_time == 430.5, "login_time for Agent does NOT equal 430.5"
-#  end
+  def test_agent_login_time
+    agent = Agent.find(agents(:two))
+    assert agent.kind_of?(Agent), "No agent could be found!"
+    total_time = agent.login_time(5, 8, 2009, 5, 8, 2009) # Fixture timestamp is set for 5/8/2009
+    assert total_time == 480, "login_time for Agent does NOT equal 480 #{total_time} (minutes)"
+  end
 
-#  def test_agent_pause_time
-#    agent = Agent.find(agents(:two))
-#    assert agent.kind_of?(Agent), "No agent could be found!"
-#    pause_time = agent.pause_time(9, 8, 2008, 9, 8, 2008) # Fixture timestamp is set for 9/8/2008
-#    assert pause_time == 16.83, "pause_time for Agent does NOT equal 16.83"
-#  end
+  def test_agent_pause_time
+    agent = Agent.find(agents(:two))
+    assert agent.kind_of?(Agent), "No agent could be found!"
+    pause_time = agent.pause_time(5, 8, 2009, 5, 8, 2009) # Fixture timestamp is set for 5/8/2009
+    assert pause_time == 60.0, "#{pause_time} pause_time for Agent does NOT equal 60.0 (minutes)"
+  end
 
-#  def test_agent_talk_time
-#    agent = Agent.find(agents(:two))
-#    assert agent.kind_of?(Agent), "No agent could be found!"
-#    talk_time = agent.talk_time(9, 8, 2008, 9, 8, 2008) # Fixture timestamp is set for 9/8/2008
-#    assert talk_time == 16.12, "talk_time for Agent does NOT equal 16.12"
-#  end
-#
-#  def test_agent_wait_time
-#   agent = Agent.find(agents(:two))
-#   assert agent.kind_of?(Agent), "No agent could be found!"
-#   wait_time = agent.wait_time(9, 8, 2008, 9, 8, 2008) # Fixture timestamp is set for 9/8/2008
-#   assert wait_time.to_f == 414.38, "wait_time for Agent does NOT equal 414.38"
-# end
+  def test_agent_talk_time
+    agent = Agent.find(agents(:two))
+    assert agent.kind_of?(Agent), "No agent could be found!"
+    talk_time = agent.talk_time(5, 8, 2009, 5, 8, 2009) # Fixture timestamp is set for 5/8/2009
+    assert talk_time == 60.0, "#{talk_time} talk_time for Agent does NOT equal 60.0 (minutes)"
+  end
 
-# def test_agent_count_calls
-#   agent = Agent.find(agents(:two))
-#   assert agent.kind_of?(Agent), "No agent could be found!"
-#   total_calls = agent.count_calls(9, 8, 2008, 9, 8, 2008) # Fixture timestamp is set for 9/8/2008
-#   assert total_calls == 2, "total_calls for Agent does NOT equal 2"
-# end
+  def test_agent_wait_time
+   agent = Agent.find(agents(:two))
+   assert agent.kind_of?(Agent), "No agent could be found!"
+   wait_time = agent.wait_time(5, 8, 2009, 5, 8, 2009) # Fixture timestamp is set for 5/9/2009
+   assert wait_time.to_f == 360.0, "#{wait_time.to_f} wait_time for Agent does NOT equal 360.00 (minutes)"
+ end
 
-# def test_agent_avg_resolution_time
-#   agent = Agent.find(agents(:two))
-#   assert agent.kind_of?(Agent), "No agent could be found!"
-#   total_time = agent.average_reso_time(9, 8, 2008, 9, 8, 2008) # Fixture timestamp is set for 9/8/2008
-#   assert total_time.to_f == 8.06, "total_time for resolution for Agent does NOT equal 8.06"
-# end
+ def test_agent_count_calls
+   agent = Agent.find(agents(:two))
+   assert agent.kind_of?(Agent), "No agent could be found!"
+   total_calls = agent.count_calls(5, 8, 2009, 5, 8, 2009) # Fixture timestamp is set for 9/8/2008
+   assert total_calls == 2, "#{total_calls} total_calls for Agent does NOT equal 2"
+ end
+
+ def test_agent_avg_resolution_time
+   agent = Agent.find(agents(:two))
+   assert agent.kind_of?(Agent), "No agent could be found!"
+   total_time = agent.average_reso_time(5, 8, 2009, 5, 8, 2009) # Fixture timestamp is set for 9/8/2008
+   assert total_time.to_f == 30.0, "#{total_time} total_time for resolution for Agent does NOT equal 30.0 (minutes)"
+ end
 
 end

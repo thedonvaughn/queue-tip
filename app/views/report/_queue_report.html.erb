@@ -35,7 +35,7 @@
 <% for queue in @queues %>
   <tr>
   <td><%=h queue.queue_name %></td>
-  <td><%=h queue.total_calls(@bmonth, @bday, @byear, @emonth, @eday, @eyear) %></td>
+  <td><%=h queue.calls_count(@bmonth, @bday, @byear, @emonth, @eday, @eyear) %></td>
   <td><%=h queue.connected_calls(@bmonth, @bday, @byear, @emonth, @eday, @eyear) %></td>
   <td><%=h queue.service_level_percentage(@bmonth, @bday, @byear, @emonth, @eday, @eyear) %>%</td>
   <td><%=h queue.average_caller_wait_time(@bmonth, @bday, @byear, @emonth, @eday, @eyear) %></td>

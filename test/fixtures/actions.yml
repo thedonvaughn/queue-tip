@@ -1,0 +1,158 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  id: 1 
+  agent_id: 2
+  channel: SIP/1001
+  timestamp: 1241798644 
+  queu_id: 2
+  queue_name: support
+  uniqueid: 1001.5
+  action: ADDMEMBER
+
+two:
+  id: 2
+  agent_id: 2
+  channel: SIP/1001
+  timestamp: 1241791200
+  queu_id: 2
+  queue_name: activation 
+  uniqueid: 1002.5
+  action: ADDMEMBER
+
+three:
+  id: 3
+  agent_id: 2
+  channel: SIP/1001
+  timestamp: 1241820000
+  queu_id: 2
+  queue_name: activation 
+  uniqueid: 1003.5
+  action: REMOVEMEMBER
+
+four:
+  id: 4
+  agent_id: 2
+  channel: SIP/1001
+  timestamp: 1241802000
+  queu_id: 2
+  queue_name: activation 
+  uniqueid: 1004.5
+  action: PAUSE
+
+five:
+  id: 5
+  agent_id: 2
+  channel: SIP/1001
+  timestamp: 1241805600
+  queu_id: 2
+  queue_name: activation 
+  uniqueid: 1005.5
+  action: UNPAUSE
+
+six:
+  id: 6
+  agent_id: 2
+  channel: SIP/1001
+  timestamp: 1241805600
+  queu_id: 2
+  queue_name: activation 
+  uniqueid: 1006.5
+  action: COMPLETEAGENT
+  data2: 30.0
+
+seven:
+  id: 7
+  agent_id: 2
+  channel: SIP/1001
+  timestamp: 1241805600
+  queu_id: 2
+  queue_name: activation 
+  uniqueid: 1007.5
+  action: COMPLETECALLER
+  data2: 30.0
+
+eight:
+  id: 8
+  agent_id: 2
+  channel: SIP/1001
+  timestamp: 1241805600
+  queu_id: 2
+  queue_name: activation 
+  uniqueid: 1008.5
+  action: CONNECT
+
+nine:
+  id: 9
+  agent_id: 2
+  channel: SIP/1001
+  timestamp: 1241805600
+  queu_id: 2
+  queue_name: activation 
+  uniqueid: 1009.5
+  action: CONNECT
+
+ten:
+  id: 10
+  agent_id: 2
+  channel: SIP/1001
+  timestamp: 1241791200
+  queu_id: 2
+  queue_name: activation 
+  uniqueid: 10010.5
+  action: ENTERQUEUE
+
+eleven:
+  id: 11
+  agent_id: 2
+  channel: SIP/1001
+  timestamp: 1241791200
+  queu_id: 2
+  queue_name: activation 
+  uniqueid: 10011.5
+  action: ENTERQUEUE
+
+twelve:
+  id: 12
+  agent_id: 2
+  channel: SIP/1001
+  timestamp: 1241791200
+  queu_id: 2
+  queue_name: activation 
+  uniqueid: 10012.5
+  action: ABANDON
+  data3: 253.0
+
+thirteen:
+  id: 13
+  agent_id: 2
+  channel: SIP/1001
+  timestamp: 1241791200
+  queu_id: 2
+  queue_name: activation 
+  uniqueid: 10013.5
+  action: ABANDON
+  data3: 159.0
+
+fourteen:
+  id: 14
+  agent_id: 2
+  channel: SIP/1001
+  timestamp: 1241791200
+  queu_id: 2
+  queue_name: activation 
+  uniqueid: 10014.5
+  action: ABANDON
+  data3: 32.0
+
+fifteen:
+  id: 15
+  agent_id: 2
+  channel: SIP/1001
+  timestamp: 1241791200
+  queu_id: 2
+  queue_name: activation 
+  uniqueid: 10015.5
+  action: ABANDON
+  data3: 54.0
+

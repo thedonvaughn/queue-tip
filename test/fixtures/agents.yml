@@ -2,14 +2,14 @@
 
 one:
   id: 1
-  channel: Local/1000@default/n
+  channel: SIP/1000
   first: John
   last: Smith 
   exten: 1000 
 
 two:
   id: 2
-  channel: Local/1001@default/n
+  channel: SIP/1001
   first: Jane
   last: Doe
   exten: 1001
