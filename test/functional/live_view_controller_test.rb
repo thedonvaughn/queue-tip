@@ -6,9 +6,9 @@ class LiveViewControllerTest < ActionController::TestCase
     assert true
   end
 
-  def test_should_get_index
-    get :index
-    assert_response :success, "Please setup config/queue_tip.yml!"
-  end
+#  def test_should_get_index
+#    get :index
+#    assert_response :success, "Please setup config/queue_tip.yml!"
+#  end
 
 end
