@@ -20,7 +20,7 @@
 require 'yaml'
 
 class QueueTip
-  VERSION = "0.9.5"
+  VERSION = "0.9.6"
 
   def self.config 
     @config_file = File.join(RAILS_ROOT, "config", "queue_tip.yml")
