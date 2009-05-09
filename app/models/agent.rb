@@ -29,12 +29,7 @@ class Agent < ActiveRecord::Base
     complete_calls = self.actions.find(:all, :conditions => ['(timestamp >= ? and timestamp <= ?) and (action = ? or action = ?)', Time.parse("#{bmonth}/#{bday} #{byear}").to_i, Time.parse("#{emonth}/#{eday} #{eyear} 22:59:59").to_i, "COMPLETECALLER", "COMPLETEAGENT"])
     talk_time = 0
     complete_calls.each { |call| talk_time += call.data2.to_i }
-    talk_time
-  end
-
-  def pretty_talk_time(bmonth, bday, byear, emonth, eday, eyear)
-    time = talk_time(bmonth, bday, byear, emonth, eday, eyear)
-    ("0.2f" % (time/60.0)).to_f
+    ("%0.2f" % (talk_time/60.0)).to_f
   end
 
   ######################################################
@@ -50,7 +45,7 @@ class Agent < ActiveRecord::Base
     complete_calls = self.actions.find(:all, :conditions => ['(timestamp >= ? and timestamp <= ?) and (action = ? or action = ?)', Time.parse("#{bmonth}/#{bday} #{byear}").to_i, Time.parse("#{emonth}/#{eday} #{eyear} 23:59:59").to_i, "COMPLETECALLER", "COMPLETEAGENT"])
     complete_calls.each { |call| total_time += call.data2.to_f }
     if complete_calls.size >= 1
-      return "%0.2f" % ((total_time / complete_calls.size.to_f))
+      return "%0.2f" % ((total_time / complete_calls.size.to_f) / 60.0)
     else
       return 0
     end
