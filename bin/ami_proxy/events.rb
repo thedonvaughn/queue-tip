@@ -1,3 +1,4 @@
+# vim: sts=2 sw=2 ts=2 et
 ##
 # In this file you can define callbacks for different aspects of the framework. Below is an example:
 ##
@@ -30,3 +31,13 @@
 #
 # Note: events are mostly for components to register and expose to you.
 ##
+
+require 'date'
+
+events.asterisk.manager_interface.each do |event|
+  next unless event['Name'] or event['Queue']
+  
+  event['Time'] = DateTime.now
+  push_event(event)
+end
+	
