@@ -35,7 +35,7 @@
 require 'date'
 
 events.asterisk.manager_interface.each do |event|
-  next unless event['Name'] or event['Queue']
+  next unless event['Queue'] or event['UserEvent']
   
   event['Time'] = DateTime.now
   push_event(event)
