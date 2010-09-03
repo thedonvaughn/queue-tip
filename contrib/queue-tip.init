@@ -1,0 +1,93 @@
+#!/bin/bash
+# chkconfig: 235 99 1
+# description: Web based statistics frontend for Asterisk
+#
+# rhel init script for queue-tip
+# Adam James <adam.james@credativ.co.uk>
+
+# Source function library
+. /etc/init.d/functions
+
+RETVAL=0
+
+BASE_DIR="/usr/local/share/queue-tip"
+RUBY_BINARY="/usr/bin/ruby"
+RAILS_SCRIPT="${BASE_DIR}/script/server"
+RAILS_CMD="${RAILS_SCRIPT} --port=80"
+RAILS_PIDFILE="${BASE_DIR}/rails.pid"
+AHN_BINARY="/usr/bin/ahn"
+AMI_PROXY="${BASE_DIR}/bin/ami_proxy"
+AMI_CMD="${AHN_BINARY} start ${AMI_PROXY}"
+AMI_PIDFILE="${AMI_PROXY}/adhearsion.pid"
+
+start() {
+	echo -n "Starting AMI proxy: "
+	/usr/local/sbin/start-stop-daemon --start --exec ${RUBY_BINARY} \
+		--pidfile ${AMI_PIDFILE} \
+		--make-pidfile --background --quiet \
+		-- ${AMI_CMD}
+	RETVAL=$?
+	[[ ${RETVAL} -eq 0 ]] && echo_success || echo_failure
+	echo
+	[[ ${RETVAL} -ne 0 ]] && exit ${RETVAL}
+
+	echo -n "Starting Rails: "
+	/usr/local/sbin/start-stop-daemon --start --exec ${RUBY_BINARY} \
+		--pidfile ${RAILS_PIDFILE} \
+		--make-pidfile --background --quiet \
+		-- ${RAILS_CMD}
+	RETVAL=$?
+	[[ ${RETVAL} -eq 0 ]] && echo_success || echo_failure
+	echo
+
+	return ${RETVAL}
+}
+
+stop() {
+	echo -n "Stopping AMI proxy: "
+	/usr/local/sbin/start-stop-daemon --stop \
+		--pidfile ${AMI_PIDFILE} \
+		--quiet
+	RETVAL=$?
+	[[ ${RETVAL} -eq 0 ]] && echo_success || echo_failure
+	echo
+	
+	echo -n "Stopping Rails: "
+	/usr/local/sbin/start-stop-daemon --stop \
+		--pidfile ${RAILS_PIDFILE} \
+		--quiet
+	RETVAL=$?
+	[[ ${RETVAL} -eq 0 ]] && echo_success || echo_failure
+	echo
+
+	return ${RETVAL}
+}
+
+_status() {
+	status -p "${AMI_PIDFILE}" "${AMI_CMD}"
+	RETVAL=$?
+	status "${RUBY_BINARY}"
+	RETVAL=$((${RETVAL} | $?))
+}
+
+case "$1" in
+	start)
+		start
+		;;
+	stop)
+		stop
+		;;
+	restart)
+		start
+		stop
+		;;
+	status)
+		_status
+		;;
+	*)
+		echo "Usage: $0 {start|stop|restart|status}"
+		RETVAL=3
+		;;
+esac
+
+exit ${RETVAL}
