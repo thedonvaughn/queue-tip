@@ -78,8 +78,8 @@ case "$1" in
 		stop
 		;;
 	restart)
-		start
 		stop
+		start
 		;;
 	status)
 		_status
