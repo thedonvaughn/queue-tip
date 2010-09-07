@@ -64,9 +64,9 @@ stop() {
 }
 
 _status() {
-	status -p "${AMI_PIDFILE}" "${AMI_CMD}"
+	status -p "${AMI_PIDFILE}" "AMI proxy"
 	RETVAL=$?
-	status "${RUBY_BINARY}"
+	status -p "${RAILS_PIDFILE}" "Rails"
 	RETVAL=$((${RETVAL} | $?))
 }
 
