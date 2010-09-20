@@ -31,6 +31,9 @@ start() {
 	echo
 	[[ ${RETVAL} -ne 0 ]] && exit ${RETVAL}
 
+	# Needed so the updated sqlite3 libraries in /usr/local/lib
+	# are picked up
+	export LD_LIBRARY_PATH="/usr/local/lib"
 	echo -n "Starting Rails: "
 	/usr/local/sbin/start-stop-daemon --start --exec ${RUBY_BINARY} \
 		--pidfile ${RAILS_PIDFILE} \
