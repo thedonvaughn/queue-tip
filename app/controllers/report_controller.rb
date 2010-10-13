@@ -26,6 +26,11 @@ class ReportController < ApplicationController
     @queues = Queu.find(:all)
   end
 
+  def monthly_queue_report
+    get_month_range
+    @queues = Queu.find(:all)
+  end
+
   def full_report
     get_date_range
     @agents = Agent.find(:all)
@@ -157,4 +162,19 @@ class ReportController < ApplicationController
     @eyear = params[:eyear]
   end
   
+  def get_month_range
+    year = Time.now.year
+    month = params[:date]['month'].to_i
+    days = Time.days_in_month(month, year)
+    @days = []
+
+    (1..days).each do |i|
+      @days.push({
+        :month => month,
+        :year => year,
+        :day => i,
+      })
+    end
+  end
+
 end
