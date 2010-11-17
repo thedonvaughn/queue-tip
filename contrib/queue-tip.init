@@ -19,10 +19,11 @@ AHN_BINARY="/usr/bin/ahn"
 AMI_PROXY="${BASE_DIR}/bin/ami_proxy"
 AMI_CMD="${AHN_BINARY} start ${AMI_PROXY}"
 AMI_PIDFILE="${AMI_PROXY}/adhearsion.pid"
+START_STOP_DAEMON="/usr/local/sbin/start-stop-daemon"
 
 start() {
 	echo -n "Starting AMI proxy: "
-	/usr/local/sbin/start-stop-daemon --start --exec ${RUBY_BINARY} \
+	${START_STOP_DAEMON} --start --exec ${RUBY_BINARY} \
 		--pidfile ${AMI_PIDFILE} \
 		--make-pidfile --background --quiet \
 		-- ${AMI_CMD}
@@ -35,35 +36,44 @@ start() {
 	# are picked up
 	export LD_LIBRARY_PATH="/usr/local/lib"
 	echo -n "Starting Rails: "
-	/usr/local/sbin/start-stop-daemon --start --exec ${RUBY_BINARY} \
+	${START_STOP_DAEMON} --start --exec ${RUBY_BINARY} \
 		--pidfile ${RAILS_PIDFILE} \
 		--make-pidfile --background --quiet \
 		-- ${RAILS_CMD}
 	RETVAL=$?
 	[[ ${RETVAL} -eq 0 ]] && echo_success || echo_failure
 	echo
-
-	return ${RETVAL}
 }
 
 stop() {
-	echo -n "Stopping AMI proxy: "
-	/usr/local/sbin/start-stop-daemon --stop \
-		--pidfile ${AMI_PIDFILE} \
-		--quiet
-	RETVAL=$?
-	[[ ${RETVAL} -eq 0 ]] && echo_success || echo_failure
-	echo
-	
+	local retval
+
 	echo -n "Stopping Rails: "
-	/usr/local/sbin/start-stop-daemon --stop \
+	${START_STOP_DAEMON} --stop \
 		--pidfile ${RAILS_PIDFILE} \
 		--quiet
-	RETVAL=$?
-	[[ ${RETVAL} -eq 0 ]] && echo_success || echo_failure
+	RETVAL=$(($? | ${RETVAL}))
+	if [[ ${RETVAL} -eq 0 ]] ; then
+		rm -f ${RAILS_PIDFILE}
+		echo_success
+	else
+		echo_failure
+	fi
 	echo
 
-	return ${RETVAL}
+	echo -n "Stopping AMI proxy: "
+	${START_STOP_DAEMON} --stop \
+		--pidfile ${AMI_PIDFILE} \
+		--quiet --retry TERM/30/KILL/5
+	retval=$?
+	if [[ ${retval} -eq 0 ]] ; then
+		rm -f ${AMI_PIDFILE}
+		echo_success
+	else
+		echo_failure
+	fi
+	echo
+	RETVAL=$((${retval} | ${RETVAL}))
 }
 
 _status() {
