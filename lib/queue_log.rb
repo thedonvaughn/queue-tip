@@ -17,6 +17,19 @@
 #    along with Queue-Tip.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'zlib'
+
+def each_line(log)
+  f = File.open(log)
+  if log.end_with?('.gz')
+    zf = Zlib::GzipReader.new(f)
+  else
+    zf = f
+  end
+  zf.each_line {|line| yield line}
+  zf.close if zf != f
+  f.close
+end
 
 class QueueLog
 
@@ -27,11 +40,9 @@ class QueueLog
   end
 
   def process_log_file
-    File.open(@queue_log, 'r').each_line do |line|
-      self.add_action(line) if line =~ /ADDMEMBER|REMOVEMEMBER|PAUSE|CONNECT|COMPLETEAGENT|COMPLETECALLER/ and line !~ /PAUSEALL|UNPAUSEALL/
-      self.add_action_no_agent(line) if line =~ /ABANDON|ENTERQUEUE/
-    end
-    return @new_records
+    process_file(@queue_log)
+    logs = Dir.glob(@queue_log + '*').sort_by{|filename| File.mtime(filename)}
+    process_file(logs[-2]) if logs[-2]
   end
 
   def add_action(string)
@@ -93,4 +104,14 @@ class QueueLog
     return agent
   end
 
+  def process_file(log)
+    Action.transaction do # use one transaction to save commits/sync
+      each_line(log) do |line|
+        self.add_action(line) if line =~ /ADDMEMBER|REMOVEMEMBER|PAUSE|CONNECT|COMPLETEAGENT|COMPLETECALLER/ and line !~ /PAUSEALL|UNPAUSEALL/
+        self.add_action_no_agent(line) if line =~ /ABANDON|ENTERQUEUE/
+      end
+    end
+    return @new_records
+  end
+  
 end
