@@ -23,6 +23,9 @@ START_STOP_DAEMON="/usr/local/sbin/start-stop-daemon"
 
 start() {
 	echo -n "Starting AMI proxy: "
+# I had to relent and use start-stop-daemon in the end due to an intensely
+# annoying bug in the ahn connector resulting in the drb connection failing to
+# work when it was daemonised. -- Adam James (comment from OTRS)
 	${START_STOP_DAEMON} --start --exec ${RUBY_BINARY} \
 		--pidfile ${AMI_PIDFILE} \
 		--make-pidfile --background --quiet \
