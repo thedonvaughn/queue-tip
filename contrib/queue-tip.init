@@ -53,6 +53,7 @@ stop() {
 
 	echo -n "Stopping Rails: "
 	${START_STOP_DAEMON} --stop \
+                --exec $RUBY_BINARY --retry 10 \
 		--pidfile ${RAILS_PIDFILE} \
 		--quiet
 	RETVAL=$(($? | ${RETVAL}))
@@ -66,6 +67,7 @@ stop() {
 
 	echo -n "Stopping AMI proxy: "
 	${START_STOP_DAEMON} --stop \
+		--exec $RUBY_BINARY \
 		--pidfile ${AMI_PIDFILE} \
 		--quiet --retry TERM/30/KILL/5
 	retval=$?
