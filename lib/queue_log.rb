@@ -27,8 +27,7 @@ def each_line(log)
     zf = f
   end
   zf.each_line {|line| yield line}
-  zf.close if zf != f
-  f.close
+  zf.close
 end
 
 class QueueLog
