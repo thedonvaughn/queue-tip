@@ -124,6 +124,16 @@ class ReportController < ApplicationController
   end
 
   private
+  class Writer < Object
+    # FasterCSV wants an object with a << method
+    def initialize(writer)
+      @writer = writer
+    end
+
+    def <<(data)
+      @writer.write(data)
+    end
+  end
 
   def stream_csv
     filename = params[:action] + ".csv"    
@@ -139,7 +149,7 @@ class ReportController < ApplicationController
       headers["Content-Disposition"] = "attachment; filename=\"#{filename}\"" 
     end
     render :text => Proc.new { |response, output|
-      csv = FasterCSV.new(output, :row_sep => "\r\n") 
+      csv = FasterCSV.new(ReportController::Writer.new(output), :row_sep => "\r\n")
       yield csv
     }
   end
