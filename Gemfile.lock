@@ -1,5 +1,5 @@
 GIT
-  remote: git://github.com/adhearsion/adhearsion.git
+  remote: https://github.com/adhearsion/adhearsion.git
   revision: 6ccf8fbfeec4cbaf41c5e0969b28c3795aa306fd
   tag: 0.8.4
   specs:
