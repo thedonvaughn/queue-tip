@@ -3,7 +3,7 @@ gem "rails", "~> 2.3.11"
 gem "sqlite3"
 
 gem 'fastercsv'
-gem 'adhearsion'
+gem 'adhearsion', '0.8.4', :git => 'git://github.com/adhearsion/adhearsion.git', :tag => '0.8.4'
 gem 'mysql', :require => false  # adhearsion uses it
 
 # bundler requires these gems in all environments
@@ -20,3 +20,4 @@ group :test do
   # gem "rspec"
   # gem "faker"
 end
+
