@@ -1,12 +1,21 @@
 GIT
   remote: https://github.com/adhearsion/adhearsion.git
-  revision: 6ccf8fbfeec4cbaf41c5e0969b28c3795aa306fd
-  tag: 0.8.4
+  revision: 6b56709457e40de76903e9887171737601d0de79
+  tag: 1.0.1
   specs:
-    adhearsion (0.8.4)
+    adhearsion (1.0.1)
       activesupport (>= 2.1.0)
+      bundler (>= 1.0.10)
+      i18n
       log4r (>= 1.0.5)
-      rubigen (>= 1.0.6)
+      rubigen (>= 1.5.6)
+
+GIT
+  remote: https://github.com/mattetti/i18n.git
+  revision: 38d85ea3b8eec032c1b0898a30f8010917416d9d
+  ref: 38d85ea3b8eec032c1b0898a30f8010917416d9d
+  specs:
+    i18n (0.1.3)
 
 GEM
   remote: http://rubygems.org/
@@ -41,8 +50,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  adhearsion (= 0.8.4)!
+  adhearsion (= 1.0.1)!
   fastercsv
+  i18n (= 0.1.3)!
   mysql
   rails (~> 2.3.11)
   sqlite3
+
+BUNDLED WITH
+   1.12.0

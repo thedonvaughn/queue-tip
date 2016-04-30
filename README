@@ -24,7 +24,7 @@ In order to run Queue-Tip you will need:
   - ruby (>= 1.8)
   - rubygems
   - rails (>= 2.3)
-  - adhearsion (>= 0.8.1)
+  - adhearsion (>= 1.0.1)
   - fastercsv rubygem
 
 
