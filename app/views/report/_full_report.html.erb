@@ -84,7 +84,7 @@
 <br />
 <br />
 
-<% form_tag :action => 'export_full_report', :bmonth => @bmonth, :bday => @bday, :byear => @byear, :emonth => @emonth, :eday => @eday, :eyear => @eyear do %>
+<%= form_tag :action => 'export_full_report', :bmonth => @bmonth, :bday => @bday, :byear => @byear, :emonth => @emonth, :eday => @eday, :eyear => @eyear do %>
   <%= submit_tag "Export CSV" %>
 <% end %>
 

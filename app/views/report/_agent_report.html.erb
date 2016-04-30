@@ -45,7 +45,7 @@
   </tr>
 </table>
 
-<% form_tag :action => 'export_agent_report', :bmonth => @bmonth, :bday => @bday, :byear => @byear, :emonth => @emonth, :eday => @eday, :eyear => @eyear, :agent_id => @agent.id  do %>
+<%= form_tag :action => 'export_agent_report', :bmonth => @bmonth, :bday => @bday, :byear => @byear, :emonth => @emonth, :eday => @eday, :eyear => @eyear, :agent_id => @agent.id  do %>
   <%= submit_tag "Export CSV" %>
 <% end %>
 

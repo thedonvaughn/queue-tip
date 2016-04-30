@@ -49,7 +49,7 @@
 <br />
 <br />
 
-<% form_tag :action => 'export_group_report', :bmonth => @bmonth, :bday => @bday, :byear => @byear, :emonth => @emonth, :eday => @eday, :eyear => @eyear, :groupname => @groupname  do %>
+<%= form_tag :action => 'export_group_report', :bmonth => @bmonth, :bday => @bday, :byear => @byear, :emonth => @emonth, :eday => @eday, :eyear => @eyear, :groupname => @groupname  do %>
   <%= submit_tag "Export CSV" %>
 <% end %>
 
