@@ -21,11 +21,9 @@
     <%= render(:partial => 'queue_stats.html.erb') %>
   </div>
   <script type="text/javascript">
-    new Ajax.PeriodicalUpdater(
-      "queue_report",
-      "/live_view/update_queues", 
-      { frequency: 1, method: 'get' }
-    )
+    window.setInterval(function() {
+      $("#queue_report").load("/live_view/update_queues");
+    }, 1000);
   </script>
 <% end %>
 

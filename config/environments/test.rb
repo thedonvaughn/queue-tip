@@ -32,4 +32,8 @@ QueueTip::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+
+  # Configure static asset server for tests with Cache-Control for performance
+  config.serve_static_files = true
+  config.static_cache_control = 'public, max-age=3600'
 end

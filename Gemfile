@@ -1,14 +1,15 @@
 source 'https://rubygems.org'
-gem "rails", "~> 3.0.11"
-gem "sqlite3"
+gem "rails", "~> 3.1.12"
+gem 'jquery-rails'
 
 gem 'fastercsv'
 gem 'adhearsion', '1.0.1', :git => 'https://github.com/adhearsion/adhearsion.git', :tag => '1.0.1'
 gem 'mysql', :require => false  # adhearsion uses it
+gem "sqlite3"
 
-# bundler requires these gems in all environments
-# gem "nokogiri", "1.4.2"
-# gem "geokit"
+group :assets do
+  gem 'uglifier', '>= 1.0.3'
+end
 
 group :development do
   # bundler requires these gems in development
