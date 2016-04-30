@@ -17,10 +17,16 @@
 -->
 
 <% content_for(:text) do %>
-<%= periodically_call_remote :url => {:action => "update_queues"}, :update => 'queue_report', :frequency => 1 %>
   <div id="queue_report">
     <%= render(:partial => 'queue_stats.html.erb') %>
   </div>
+  <script type="text/javascript">
+    new Ajax.PeriodicalUpdater(
+      "queue_report",
+      "/live_view/update_queues", 
+      { frequency: 1, method: 'get' }
+    )
+  </script>
 <% end %>
 
 <% content_for(:header) do %>
