@@ -41,7 +41,7 @@
   </p>
   <p>
   <%= f.label "Group" %><br />
-  <%= select("group", "name", Group.find(:all).collect { |g| [g.name] } << ["None"]) %>
+  <%= select("group", "name", Group.all.collect { |g| [g.name] } << ["None"]) %>
   </p>
   <p>
     <%= f.submit "Update" %>

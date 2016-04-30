@@ -21,7 +21,7 @@ class AgentsController < ApplicationController
   # GET /agents
   # GET /agents.xml
   def index
-    @agents = Agent.find(:all)
+    @agents = Agent.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -79,7 +79,7 @@ class AgentsController < ApplicationController
     @agent = Agent.find(params[:id])
     if params[:group]
       unless params[:group][:name] =~ /none/i
-         @group = Group.find_by_name(params[:group][:name])
+         @group = Group.where(:name => params[:group][:name]).first
          params[:agent][:group_id] = @group.id
       else
         params[:agent][:group_id] = nil

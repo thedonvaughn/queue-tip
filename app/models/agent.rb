@@ -24,13 +24,13 @@ class Agent < ActiveRecord::Base
   def count_calls(bmonth, bday, byear, emonth, eday, eyear)
     btime = Time.utc(byear, bmonth, bday).to_i
     etime = Time.utc(eyear, emonth, eday, 23, 59, 59).to_i
-    self.actions.find(:all, :conditions => ['timestamp >= ? and timestamp <= ? and action = ?', btime, etime, "CONNECT"]).size
+    self.actions.where(:timestamp => btime..etime, :action => "CONNECT").size
   end
 
   def talk_time(bmonth, bday, byear, emonth, eday, eyear)
     btime = Time.utc(byear, bmonth, bday).to_i
     etime = Time.utc(eyear, emonth, eday, 22, 59, 59).to_i
-    complete_calls = self.actions.find(:all, :conditions => ['(timestamp >= ? and timestamp <= ?) and (action = ? or action = ?)', btime, etime, "COMPLETECALLER", "COMPLETEAGENT"])
+    complete_calls = self.actions.where(:timestamp => btime..etime, :action => ["COMPLETECALLER", "COMPLETEAGENT"])
     talk_time = 0
     complete_calls.each { |call| talk_time += call.data2.to_i }
     ("%0.2f" % (talk_time/60.0)).to_f
@@ -48,7 +48,7 @@ class Agent < ActiveRecord::Base
     total_time = 0.0
     btime = Time.utc(byear, bmonth, bday).to_i
     etime = Time.utc(eyear, emonth, eday, 23, 59, 59).to_i
-    complete_calls = self.actions.find(:all, :conditions => ['(timestamp >= ? and timestamp <= ?) and (action = ? or action = ?)', btime, etime, "COMPLETECALLER", "COMPLETEAGENT"])
+    complete_calls = self.actions.where(:timestamp => btime..etime, :action => ["COMPLETECALLER", "COMPLETEAGENT"])
     complete_calls.each { |call| total_time += call.data2.to_f }
     if complete_calls.size >= 1
       return "%0.2f" % ((total_time / complete_calls.size.to_f) / 60.0)
@@ -86,7 +86,7 @@ class Agent < ActiveRecord::Base
     paused = false
     btime = Time.utc(year, month, day).to_i
     etime = Time.utc(year, month, day, 23, 59, 59).to_i
-    actions = self.actions.find(:all, :conditions => ['(timestamp >= ? and timestamp <= ?) and (action = ? or action = ?)', btime, etime, "PAUSE", "UNPAUSE"])
+    actions = self.actions.where(:timestamp => btime..etime, :action => ["PAUSE", "UNPAUSE"])
     actions = actions.sort_by { |action| action.timestamp }
     unless actions.empty?
       if actions.size > 1
@@ -128,7 +128,7 @@ class Agent < ActiveRecord::Base
     logged_in = false
     btime = Time.utc(year, month, day).to_i
     etime = Time.utc(year, month, day, 23, 59, 59).to_i
-    actions = Action.find(:all, :conditions => ['agent_id =? and timestamp >= ? and timestamp <= ?', self.id, btime, etime]).sort_by { |action| action.timestamp }
+    actions = Action.where(:agent_id => self.id, :timestamp => btime..etime).order(:timestamp)
     unless actions.empty?
       if actions.size > 1
        if actions.first.action.to_s =~ /REMOVEMEMBER/ # If the first action is "REMOVEMEMBER" (i.e. no "ADDMEMBER" first.) we assume login at beginning of queue shift defined in LWTN's settings.

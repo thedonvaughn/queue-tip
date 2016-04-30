@@ -21,7 +21,7 @@ class QueusController < ApplicationController
   # GET /queus
   # GET /queus.xml
   def index
-    @queus = Queu.find(:all)
+    @queus = Queu.all
 
     respond_to do |format|
       format.html # index.html.erb
