@@ -43,24 +43,23 @@ class AgentTest < ActiveSupport::TestCase
   end
 
   def test_agent_wait_time
-   agent = Agent.find(agents(:two))
-   assert agent.kind_of?(Agent), "No agent could be found!"
-   wait_time = agent.wait_time(5, 8, 2009, 5, 8, 2009) # Fixture timestamp is set for 5/9/2009
-   assert wait_time.to_f == 419.0, "#{wait_time.to_f} wait_time for Agent does NOT equal 360.00 (minutes)"
- end
+    agent = Agent.find(agents(:two))
+    assert agent.kind_of?(Agent), "No agent could be found!"
+    wait_time = agent.wait_time(5, 8, 2009, 5, 8, 2009) # Fixture timestamp is set for 5/9/2009
+    assert wait_time.to_f == 419.0, "#{wait_time.to_f} wait_time for Agent does NOT equal 360.00 (minutes)"
+  end
 
- def test_agent_count_calls
-   agent = Agent.find(agents(:two))
-   assert agent.kind_of?(Agent), "No agent could be found!"
-   total_calls = agent.count_calls(5, 8, 2009, 5, 8, 2009) # Fixture timestamp is set for 9/8/2008
-   assert total_calls == 2, "#{total_calls} total_calls for Agent does NOT equal 2"
- end
+  def test_agent_count_calls
+    agent = Agent.find(agents(:two))
+    assert agent.kind_of?(Agent), "No agent could be found!"
+    total_calls = agent.count_calls(5, 8, 2009, 5, 8, 2009) # Fixture timestamp is set for 9/8/2008
+    assert total_calls == 2, "#{total_calls} total_calls for Agent does NOT equal 2"
+  end
 
- def test_agent_avg_resolution_time
-   agent = Agent.find(agents(:two))
-   assert agent.kind_of?(Agent), "No agent could be found!"
-   total_time = agent.average_reso_time(5, 8, 2009, 5, 8, 2009) # Fixture timestamp is set for 9/8/2008
-   assert total_time.to_f == 0.5, "#{total_time} total_time for resolution for Agent does NOT equal 0.5 (minutes, i.e 30 secs)"
- end
-
+  def test_agent_avg_resolution_time
+    agent = Agent.find(agents(:two))
+    assert agent.kind_of?(Agent), "No agent could be found!"
+    total_time = agent.average_reso_time(5, 8, 2009, 5, 8, 2009) # Fixture timestamp is set for 9/8/2008
+    assert total_time.to_f == 0.5, "#{total_time} total_time for resolution for Agent does NOT equal 0.5 (minutes, i.e 30 secs)"
+  end
 end

@@ -91,15 +91,15 @@ class Agent < ActiveRecord::Base
     unless actions.empty?
       if actions.size > 1
         if actions.first.action.to_s == "PAUSE"
-           actions.each do |action|
+          actions.each do |action|
             if action.action.to_s == "PAUSE"
-               paused = true
-               pause_time = action.timestamp
+              paused = true
+              pause_time = action.timestamp
             elsif action.action.to_s =~ /UNPAUSE/
               unless paused == false
-               tmp_time = action.timestamp - pause_time
-               total_time += (tmp_time/60.0)
-               paused = false
+                tmp_time = action.timestamp - pause_time
+                total_time += (tmp_time/60.0)
+                paused = false
               end
             end
           end
@@ -131,40 +131,40 @@ class Agent < ActiveRecord::Base
     actions = Action.where(:agent_id => self.id, :timestamp => btime..etime).order(:timestamp)
     unless actions.empty?
       if actions.size > 1
-       if actions.first.action.to_s =~ /REMOVEMEMBER/ # If the first action is "REMOVEMEMBER" (i.e. no "ADDMEMBER" first.) we assume login at beginning of queue shift defined in LWTN's settings.
+        if actions.first.action.to_s =~ /REMOVEMEMBER/ # If the first action is "REMOVEMEMBER" (i.e. no "ADDMEMBER" first.) we assume login at beginning of queue shift defined in LWTN's settings.
           login_time = Time.at(actions.first.timestamp).to_f 
           logged_in = true
           actions.each do |action|
-           if action.action.to_s =~ /ADDMEMBER/
-             unless logged_in == true
-                logged_in = true
-                login_time = action.timestamp
-            end
-           elsif action.action.to_s =~ /REMOVEMEMBER/
-             unless logged_in == false
-                tmp_time = action.timestamp - login_time
-                total_time += (tmp_time/60.0)
-               logged_in = false
-              end
-          end
-        end
-      else
-         actions.each do |action|
             if action.action.to_s =~ /ADDMEMBER/
               unless logged_in == true
                 logged_in = true
                 login_time = action.timestamp
               end
-           elsif action.action.to_s =~ /REMOVEMEMBER/
-             unless logged_in == false
-               tmp_time = action.timestamp - login_time
-               total_time += (tmp_time/60.0)
-              logged_in = false
-             end
+            elsif action.action.to_s =~ /REMOVEMEMBER/
+              unless logged_in == false
+                tmp_time = action.timestamp - login_time
+                total_time += (tmp_time/60.0)
+                logged_in = false
+              end
+            end
           end
-         end
-       end
-     else
+        else
+          actions.each do |action|
+            if action.action.to_s =~ /ADDMEMBER/
+              unless logged_in == true
+                logged_in = true
+                login_time = action.timestamp
+              end
+            elsif action.action.to_s =~ /REMOVEMEMBER/
+              unless logged_in == false
+                tmp_time = action.timestamp - login_time
+                total_time += (tmp_time/60.0)
+                logged_in = false
+              end
+            end
+          end
+        end
+      else
         if actions.first.action.to_s =~ /ADDMEMBER/ # If there is only _one_ action and it's an ADDMEMBER.  We know the agent never logged off the prior night.  Calculate based on queue shift defined in LWTN's settings.
           login_time = actions.first.timestamp.to_f
           if Time.today == Time.at(actions.first.timestamp)
@@ -172,14 +172,13 @@ class Agent < ActiveRecord::Base
           else
             total_time = ((Time.at(actions.first.timestamp).to_f - login_time.to_f)/60.0).to_f
           end
-       else
+        else
           login_time = Time.at(actions.first.timestamp).to_f
-         total_time = (actions.first.timestamp.to_f - login_time.to_f) / 60.0
-       end
-     end
+          total_time = (actions.first.timestamp.to_f - login_time.to_f) / 60.0
+        end
+      end
     end
     total_time += ((Time.at(actions.first.timestamp).to_f - login_time.to_f)/60.0).to_f if logged_in
     return "%0.2f" % (total_time).to_f
   end
-
 end

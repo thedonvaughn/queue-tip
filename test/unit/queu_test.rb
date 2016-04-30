@@ -44,7 +44,6 @@ class QueuTest < ActiveSupport::TestCase
   end
 
   def test_service_level_perc
-    config = QueueTip.config
     queue = Queu.find(queus(:two))
     service_level_perc = queue.service_level_percentage(5, 8, 2009, 5, 8, 2009)
     assert service_level_perc.to_f == 50.0, "#{service_level_perc} does not equal 50"

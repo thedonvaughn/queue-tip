@@ -19,5 +19,4 @@
 
 class Group < ActiveRecord::Base
   has_many :agents
-
 end
