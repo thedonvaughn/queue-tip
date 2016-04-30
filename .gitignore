@@ -12,6 +12,7 @@ log/*.log
 log/*
 
 log/mongrel_debug
+tmp/
 
 db/*.sqlite3
 

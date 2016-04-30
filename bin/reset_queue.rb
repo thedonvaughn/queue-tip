@@ -19,10 +19,10 @@
 #
 
 require "rubygems"
-RAILS_ENV = "development"
+require "config/application"
 require "config/boot"
-require "config/environment"
-require RAILS_ROOT + "/lib/qt_ami"
+Rails.env = "development"
+require Rails.root + "/lib/qt_ami"
 
 begin
   conn = QtAmi.new
