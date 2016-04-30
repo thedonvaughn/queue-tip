@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-gem "rails", "~> 3.1.12"
+gem "rails", "~> 3.2.18"
 gem 'jquery-rails'
 
 gem 'fastercsv'
