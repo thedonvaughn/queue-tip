@@ -19,7 +19,9 @@
 <h1>New agent</h1>
 
 <%= form_for(@agent) do |f| %>
-  <%= f.error_messages %>
+  <% if @agent.errors.any? %>
+    <% @agent.errors.full_messages.each { |m| %><li><%=m%></li><% } %>
+  <% end %>
 
   <p>
     <%= f.label :channel %><br />

@@ -1,7 +1,9 @@
 <h1>Editing queu</h1>
 
 <%= form_for(@queu) do |f| %>
-  <%= f.error_messages %>
+  <% if @queu.errors.any? %>
+    <% @queu.errors.full_messages.each { |m| %><li><%=m%></li><% } %>
+  <% end %>
 
   <p>
     <%= f.label :queue_name %><br />
