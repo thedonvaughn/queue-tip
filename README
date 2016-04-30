@@ -21,7 +21,7 @@ Features include:
 Requirements 
 ------------
 In order to run Queue-Tip you will need:
-  - ruby (>= 1.8)
+  - ruby (>= 1.9)
   - rubygems
   - rails (>= 3.0)
   - adhearsion (>= 1.0.1)

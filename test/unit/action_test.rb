@@ -8,13 +8,13 @@ class ActionTest < ActiveSupport::TestCase
   
   def action_should_belong_to_an_agent
     action = Action.find(actions(:one))
-    agent = Action.agent
+    agent = action.agent
     assert agent.kind_of?(Agent), "No agent associated with this action"
   end
 
   def action_should_belong_to_a_queue
     action = Action.find(actions(:one))
-    queue = Action.queu
+    queue = action.queu
     assert queue.kind_of?(Queu), "No queue associated with this action" 
   end
 

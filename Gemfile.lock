@@ -11,7 +11,7 @@ GIT
       rubigen (>= 1.5.6)
 
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     abstract (1.0.0)
     actionmailer (3.0.20)
@@ -75,7 +75,7 @@ GEM
       rake (>= 0.8.7)
       rdoc (~> 3.4)
       thor (~> 0.14.4)
-    rake (0.9.2)
+    rake (11.1.2)
     rdoc (3.12.2)
       json (~> 1.4)
     rubigen (1.5.8)
@@ -95,8 +95,4 @@ DEPENDENCIES
   fastercsv
   mysql
   rails (~> 3.0.11)
-  rake (= 0.9.2)
   sqlite3
-
-BUNDLED WITH
-   1.12.1
