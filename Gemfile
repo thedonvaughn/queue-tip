@@ -3,7 +3,10 @@ gem "rails", "~> 3.2.18"
 gem 'jquery-rails'
 
 gem 'fastercsv'
-gem 'adhearsion', '1.0.1', :git => 'https://github.com/adhearsion/adhearsion.git', :tag => '1.0.1'
+gem 'adhearsion', '~> 2.3.0'
+gem 'celluloid', '0.15.0'
+gem 'adhearsion-drb', '~> 1.1.1'
+gem 'adhearsion-asterisk', '~> 1.5.1'
 gem 'mysql', :require => false  # adhearsion uses it
 gem "sqlite3"
 

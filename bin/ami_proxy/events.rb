@@ -6,14 +6,14 @@
 # events.asterisk.before_call.each do |call|
 #   # This simply logs the extension for all calls going through this Adhearsion app.
 #   extension = call.variables[:extension]
-#   ahn_log "Got a new call with extension #{extension}"
+#   logger.info "Got a new call with extension #{extension}"
 # end
 #
 ##
 # Asterisk Manager Interface example:
 #
 # events.asterisk.manager_interface.each do |event|
-#   ahn_log.events event.inspect
+#   logger.info event.inspect
 # end
 #
 # This assumes you gave :events => true to the config.asterisk.enable_ami method in config/startup.rb
@@ -32,6 +32,8 @@
 # Note: events are mostly for components to register and expose to you.
 ##
 
+
+## TODO: This doesn't work anymore
 require 'date'
 
 events.asterisk.manager_interface.each do |event|
