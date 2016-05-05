@@ -1,1 +1,0 @@
-../bin/ami_proxy/config/startup.rb

@@ -3,10 +3,8 @@ gem "rails", "~> 3.2.18"
 gem 'jquery-rails'
 
 gem 'fastercsv'
-gem 'adhearsion', '~> 2.3.0'
-gem 'celluloid', '0.15.0'
-gem 'adhearsion-drb', '~> 1.1.1'
-gem 'adhearsion-asterisk', '~> 1.5.1'
+gem 'celluloid', '~> 0.15.0' # Newer versions break with AMI supervisoring
+gem 'ruby_ami'
 gem 'mysql', :require => false  # adhearsion uses it
 gem "sqlite3"
 
