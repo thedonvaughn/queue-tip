@@ -42,8 +42,9 @@ module AmiProxy
           if actor and actor.ready?
             actor.send_action(name, headers)
           end
+        # Ignore these errors; just skip server until it comes back up
+        rescue Celluloid::Task::TerminatedError
         rescue Celluloid::DeadActorError
-          # Ignore; just skip this server until it comes back up
         end
       end.compact
     end
