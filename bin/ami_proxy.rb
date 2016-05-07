@@ -28,9 +28,9 @@ end
 
 Dir.glob(File.join(AMI_DIR, 'config/*.rb')) {|f| load(f) }
 # Drop new DRb responders in this dir:
-Dir.glob(File.join(AMI_DIR, 'responders/*.rb')) {|f| load(f, true) }
+Dir.glob(File.join(AMI_DIR, 'responders/*.rb')) {|f| load(f) }
 # Drop new AMI event handlers in this dir:
-Dir.glob(File.join(AMI_DIR, 'event_handlers/*.rb')) {|f| load(f, true) }
+Dir.glob(File.join(AMI_DIR, 'event_handlers/*.rb')) {|f| load(f) }
 
 module AmiProxy
   unless Logging.logger # User can override this
