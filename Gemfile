@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
-gem "rails", "~> 4.0.0"
+gem "rails", "~> 4.1.0"
 gem 'jquery-rails'
-gem 'mime-types', '~> 2.6.2' # Newer mime-types-data requires Ruby 2.0
 
 gem 'fastercsv'
 gem 'celluloid', '~> 0.15.0' # Newer versions break with AMI supervisoring

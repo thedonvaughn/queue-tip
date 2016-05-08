@@ -49,9 +49,6 @@ module QueueTip
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
-    # Locales, if supplied, should always be validated
-    config.i18n.enforce_available_locales = true
-
     # Enable the assets pipeline
     config.assets.enabled = true
     config.assets.version = '1.0'

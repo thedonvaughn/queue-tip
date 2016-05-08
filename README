@@ -22,9 +22,9 @@ Features include:
 Requirements 
 ------------
 In order to run Queue-Tip you will need:
-  - ruby (>= 1.9.3)
+  - ruby (>= 2.0) # 1.9.3 also works if you pin mime-types to 2.6.2
   - rubygems
-  - rails (>= 4.0)
+  - rails (>= 4.1)
   - ruby_ami (>= 2.4.0)
   - fastercsv
 
