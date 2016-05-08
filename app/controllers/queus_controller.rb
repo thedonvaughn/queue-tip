@@ -59,7 +59,7 @@ class QueusController < ApplicationController
   # POST /queus
   # POST /queus.xml
   def create
-    @queu = Queu.new(params[:queu])
+    @queu = Queu.new(queu_params)
 
     respond_to do |format|
       if @queu.save
@@ -79,7 +79,7 @@ class QueusController < ApplicationController
     @queu = Queu.find(params[:id])
 
     respond_to do |format|
-      if @queu.update_attributes(params[:queu])
+      if @queu.update_attributes(queu_params)
         flash[:notice] = 'Queu was successfully updated.'
         format.html { redirect_to(@queu) }
         format.xml  { head :ok }
@@ -100,5 +100,13 @@ class QueusController < ApplicationController
       format.html { redirect_to(queus_url) }
       format.xml  { head :ok }
     end
+  end
+
+  private
+
+  def queu_params
+    # This application has no access control whatsoever, permit all
+    params.permit!
+    params[:queu]
   end
 end

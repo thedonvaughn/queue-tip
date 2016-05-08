@@ -85,10 +85,9 @@ class AgentsController < ApplicationController
         params[:agent][:group_id] = nil
       end
     end
-        
 
     respond_to do |format|
-      if @agent.update_attributes(params[:agent])
+      if @agent.update_attributes(agent_params)
         flash[:notice] = 'Agent was successfully updated.'
         format.html { redirect_to(@agent) }
         format.xml  { head :ok }
@@ -109,5 +108,13 @@ class AgentsController < ApplicationController
       format.html { redirect_to(agents_url) }
       format.xml  { head :ok }
     end
+  end
+
+  private
+
+  def agent_params
+    # This application has no access control whatsoever, permit all
+    params.permit!
+    params[:agent]
   end
 end

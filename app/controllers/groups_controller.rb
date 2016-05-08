@@ -79,7 +79,7 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
 
     respond_to do |format|
-      if @group.update_attributes(params[:group])
+      if @group.update_attributes(group_params)
         flash[:notice] = 'Group was successfully updated.'
         format.html { redirect_to(@group) }
         format.xml  { head :ok }
@@ -100,5 +100,13 @@ class GroupsController < ApplicationController
       format.html { redirect_to(groups_url) }
       format.xml  { head :ok }
     end
+  end
+
+  private
+
+  def group_params
+    # This application has no access control whatsoever, permit all
+    params.permit!
+    params[:group]
   end
 end
