@@ -39,7 +39,7 @@
     <td><%=h agent.group.name if agent.group %></td>
     <td><%= link_to 'Show', agent %></td>
     <td><%= link_to 'Edit', edit_agent_path(agent) %></td>
-    <td><%= link_to 'Destroy', agent, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Destroy', agent, data: { confirm: 'Are you sure?' }, method: :delete %></td>
   </tr>
 <% end %>
 </table>
