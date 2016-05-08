@@ -62,7 +62,7 @@ QueueTip::Application.routes.draw do
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
-  match ':controller(/:action(/:id(.:format)))'
+  match ':controller(/:action(/:id(.:format)))', :via => [:get, :patch, :post, :delete]
 
   # TODO: only report, live_view, admin need non-restful routes?
   # match 'report/:action', :controller => 'report'

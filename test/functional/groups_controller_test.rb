@@ -31,7 +31,7 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   def test_should_update_group
-    put :update, :id => groups(:one).id, :group => { }
+    patch :update, :id => groups(:one).id, :group => { }
     assert_redirected_to group_path(assigns(:group))
   end
 

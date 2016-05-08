@@ -31,7 +31,7 @@ class AgentsControllerTest < ActionController::TestCase
   end
 
   def test_should_update_agent
-    put :update, :id => agents(:one).id, :agent => { }
+    patch :update, :id => agents(:one).id, :agent => { }
     assert_redirected_to agent_path(assigns(:agent))
   end
 

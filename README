@@ -24,7 +24,7 @@ Requirements
 In order to run Queue-Tip you will need:
   - ruby (>= 1.9.3)
   - rubygems
-  - rails (>= 3.0)
+  - rails (>= 4.0)
   - ruby_ami (>= 2.4.0)
   - fastercsv
 

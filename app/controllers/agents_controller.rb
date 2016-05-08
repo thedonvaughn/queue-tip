@@ -73,8 +73,8 @@ class AgentsController < ApplicationController
     end
   end
 
-  # PUT /agents/1
-  # PUT /agents/1.xml
+  # PATCH /agents/1
+  # PATCH /agents/1.xml
   def update
     @agent = Agent.find(params[:id])
     if params[:group]

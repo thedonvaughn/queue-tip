@@ -31,7 +31,7 @@ class QueusControllerTest < ActionController::TestCase
   end
 
   def test_should_update_queu
-    put :update, :id => queus(:one).id, :queu => { }
+    patch :update, :id => queus(:one).id, :queu => { }
     assert_redirected_to queu_path(assigns(:queu))
   end
 

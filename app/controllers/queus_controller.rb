@@ -73,8 +73,8 @@ class QueusController < ApplicationController
     end
   end
 
-  # PUT /queus/1
-  # PUT /queus/1.xml
+  # PATCH /queus/1
+  # PATCH /queus/1.xml
   def update
     @queu = Queu.find(params[:id])
 

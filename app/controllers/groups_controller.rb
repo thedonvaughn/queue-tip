@@ -73,8 +73,8 @@ class GroupsController < ApplicationController
     end
   end
 
-  # PUT /groups/1
-  # PUT /groups/1.xml
+  # PATCH /groups/1
+  # PATCH /groups/1.xml
   def update
     @group = Group.find(params[:id])
 
