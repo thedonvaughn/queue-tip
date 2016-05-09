@@ -38,10 +38,13 @@ namespace :queue do
       num_files = 0
       conn.queue_log_files.each do |file, open_args|
         begin
-          num_records += logger.process_file(file, open_args)
-          num_files += 1 # After, so it only is incremented on success
-        rescue Errno::ENOENT
-          puts "Could not load log file #{file} #{open_args}"
+          # 10 seconds should be plenty to parse one log file
+          Timeout::timeout(10) do
+            num_records += logger.process_file(file, open_args)
+            num_files += 1 # After, so it only is incremented on success
+          end
+        rescue => e # Any error, including connection errors
+          puts "Could not load log file #{file} #{open_args}: #{e.message}"
         end
       end
       puts "Queue Log loaded #{num_records} records from #{num_files} files"
