@@ -1,4 +1,3 @@
 --- 
 queuetip:  
-  queue_log: /var/log/asterisk/queue_log
   service_level: "60.0"

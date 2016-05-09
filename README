@@ -12,7 +12,7 @@ using ruby_ami and designed with the Ruby on Rails framework.
 Features include:
   - Real-time, live view, of Asterisk queues updated seamlessly using Javascript 
   - Queue stats are collected in real-time using an AMI and DRb "proxy"
-  - Load Asterisk's queue_log file into a database
+  - Load Asterisk's queue_log file into a database (local or from URI)
   - Run reports on agent and queue stats.  
   - Partition agents in to "groups" for reporting needs..
   - Export reports in csv format
@@ -27,6 +27,13 @@ In order to run Queue-Tip you will need:
   - rails (>= 4.1)
   - ruby_ami (>= 2.4.0)
   - fastercsv
+
+If you want to load log files over something else than HTTP(S), you
+can optionally install:
+  - net-scp (>= 1.2.1)
+
+Its uri/open-scp module will be loaded if it exists, which
+transparently adds scp:// protocol support for log file locations.
 
 
 Asterisk Manager Interface Setup
@@ -73,18 +80,17 @@ If you wish to obtain from github.com, run:
 
 You can obtain the upstream source via git, run:
     
-     	$ git clone git://rubyists.com/gits/queue-tip.git
+        $ git clone git://rubyists.com/gits/queue-tip.git
       
 
       
 Installation
 ------------  
-In order to have Queue-Tip load the queue_log file for reporting, it's easer
-to install Queue-Tip on the same server as Asterisk*.
-
-* Note: It is very much possible to setup Queue-Tip on a different server than Asterisk
-  and still have the queue_log loaded for reporting, but it is currently unsupported and
-  takes some modification of the setup.  This will be a feature in Queue-Tip very soon!
+In order to have Queue-Tip load the queue_log file for reporting,
+it's easiest to install Queue-Tip on the same server as Asterisk,
+but you can also use scp (via the net-scp gem) or http to load the
+log files.  This is the recommended approach if you have a multi-
+server failover setup.
 
   1) Make sure you have the dependencies installed by running:
       
@@ -100,6 +106,11 @@ to install Queue-Tip on the same server as Asterisk*.
           :password => 'secret',
           # If you want to override the default, put it here
           # :timeout => 10
+          :queue_log_file => '/var/log/asterisk/queue_log'
+          # :queue_log_file => 'http://pbx1.local/queue_log'
+          # If the net-scp gem is installed, this works too:
+          # :queue_log_file => 'scp://pbx1.local/var/log/asterisk/queue_log'
+          # :queue_log_open_args => { :ssh => { :port => 2222 } }
         }
       ]
 
@@ -164,13 +175,18 @@ to install Queue-Tip on the same server as Asterisk*.
   
   8) To start up Queue-Tip in development mode, run:
       
-      $ ./script/rails server
+      $ bundle exec ./script/rails server
 
     This will start up Queue-Tip on port 3000.
 
 
   9) Open a web browser and connect to port 3000 of the server;  i.e.  http://192.168.1.25:3000. 
       Congratulations!  You are connected to Queue-Tip.
+
+  10) To populate an initial database or reset the queue information,
+      you can use the supplied rake task:
+
+      $ bundle exec rake queue:reset
 
 Support
 -------

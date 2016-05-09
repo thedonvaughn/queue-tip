@@ -8,6 +8,11 @@ gem 'ruby_ami'
 gem 'mysql', :require => false  # adhearsion uses it
 gem "sqlite3"
 
+# If you don't want net-scp, use "bundle install --without net-scp"
+group :'net-scp' do
+  gem 'net-scp'
+end
+
 group :development do
   # bundler requires these gems in development
   # gem "rails-footnotes"

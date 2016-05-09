@@ -17,6 +17,7 @@ load File.join(AMI_DIR,'lib/responder.rb')
 load File.join(AMI_DIR,'lib/asterisk.rb')
 load File.join(AMI_DIR,'lib/event_handler.rb')
 
+# Create logger so user can override it in config
 module AmiProxy
   class Logging
     class << self
@@ -27,23 +28,24 @@ module AmiProxy
 end
 
 Dir.glob(File.join(AMI_DIR, 'config/*.rb')) {|f| load(f) }
+
+# Set up logger after configuration is loaded, so responders and
+# event handlers have access to it immediately.
+unless AmiProxy::Logging.logger # Maybe user overrode it?
+  log = Logger.new(STDOUT)
+  log.level = AmiProxy::Logging.log_level
+  log.formatter = proc do |severity, datetime, progname, msg|
+    "#{severity}: #{msg}\n"
+  end
+  AmiProxy::Logging.logger = log
+end
+
 # Drop new DRb responders in this dir:
 Dir.glob(File.join(AMI_DIR, 'responders/*.rb')) {|f| load(f) }
 # Drop new AMI event handlers in this dir:
 Dir.glob(File.join(AMI_DIR, 'event_handlers/*.rb')) {|f| load(f) }
 
-module AmiProxy
-  unless Logging.logger # User can override this
-    log = Logger.new(STDOUT)
-    log.level = Logging.log_level
-    log.formatter = proc do |severity, datetime, progname, msg|
-      "#{severity}: #{msg}\n"
-    end
-    Logging.logger = log
-  end
-
-  asterisk = AmiProxy::Asterisk.new()
-  asterisk.connect!
-  # Let the DRb server block; if it exits, we're done
-  AmiProxy::DRbServer.run!
-end
+asterisk = AmiProxy::Asterisk.new()
+asterisk.connect!
+# Let the DRb server block; if it exits, we're done
+AmiProxy::DRbServer.run!

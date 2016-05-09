@@ -25,6 +25,10 @@ class QtAmi
 
   public
 
+  def queue_log_files
+    @drb.queue_log_files
+  end
+  
   def queue_status
     @drb.queue_status
   end
