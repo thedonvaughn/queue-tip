@@ -12,7 +12,7 @@
 ActiveRecord::Schema.define(:version => 4) do
 
   create_table "actions", :force => true do |t|
-    t.integer  "timestamp",  :limit => 10
+    t.integer  "timestamp",  :limit => 11
     t.string   "uniqueid",   :limit => 32
     t.string   "queue_name", :limit => 32
     t.string   "channel",    :limit => 45
@@ -20,8 +20,8 @@ ActiveRecord::Schema.define(:version => 4) do
     t.string   "data1"
     t.string   "data2"
     t.string   "data3"
-    t.integer  "agent_id",   :limit => 12
-    t.integer  "queu_id",    :limit => 12
+    t.integer  "agent_id",   :limit => 11
+    t.integer  "queu_id",    :limit => 11
     t.datetime "created_at"
     t.datetime "updated_at"
   end
