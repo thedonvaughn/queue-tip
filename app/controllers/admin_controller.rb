@@ -58,8 +58,19 @@ class AdminController < ApplicationController
 
   def load_queue_log
     @queue_log = QueueLog.new
-    totals = @queue_log.process_log_file
-    flash[:notice] = "#{@config['queuetip']['queue_log']} was processed and #{totals} total new records were inserted."
+    conn = QtAmi.new
+    logger = QueueLog.new
+    num_records = 0
+    num_files = 0
+    conn.queue_log_files.each do |file, open_args|
+      begin
+        num_records += logger.process_file(file, open_args)
+        num_files += 1 # After, so it only is incremented on success
+      rescue Errno::ENOENT
+        puts "Could not load log file #{file} #{open_args}"
+      end
+    end
+    flash[:notice] = "Queue Log loaded #{num_records} records from #{num_files} files"
     redirect_to(:controller => 'admin', :action => 'index')
   end
 
