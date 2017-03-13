@@ -1,0 +1,55 @@
+<!--    
+//    Copyright 2008 Jayson Vaughn 
+//    This file is part of Queue-Tip.
+
+//    Queue-Tip is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
+
+//    Queue-Tip is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+              
+//    You should have received a copy of the GNU General Public License
+//    along with Queue-Tip.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<div style="font: normal 14px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;">Monthly Queue Report for <%= "#{@days.first[:month]}/#{@days.first[:year]}" %></div>
+<br />
+<% for day in @days %>
+<div style="font: bold 14px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;"><%= "#{day[:day]}/#{day[:month]}/#{day[:year]}" %></div>
+<table align="center" width="100%">
+  <tr>
+    <th>Queue</th>
+    <th>Total Calls</th>
+    <th>Conn. Calls</th>
+    <th>Service Level</th>
+    <th>Avg. Wait (sec)</th>
+    <th>Avg. Resolv (sec)</th>
+    <th>Total Aband.</th>
+    <th>Short Aband. (less 1 min)</th>
+    <th>Reg Aband.</th>
+    <th>Abandon Percentage</th>
+    <th>Avg. Aband. Time</th>
+  </tr>
+<% for queue in @queues %>
+  <tr>
+  <td><%=h queue.queue_name %></td>
+  <td><%=h queue.queue_calls(day[:month], day[:day], day[:year], day[:month], day[:day], day[:year]) %></td>
+  <td><%=h queue.connected_calls(day[:month], day[:day], day[:year], day[:month], day[:day], day[:year]) %></td>
+  <td><%=h queue.service_level_percentage(day[:month], day[:day], day[:year], day[:month], day[:day], day[:year]) %>%</td>
+  <td><%=h queue.average_caller_wait_time(day[:month], day[:day], day[:year], day[:month], day[:day], day[:year]) %></td>
+  <td><%=h queue.average_caller_reso_time(day[:month], day[:day], day[:year], day[:month], day[:day], day[:year]) %></td>
+  <td><%=h queue.total_abandons(day[:month], day[:day], day[:year], day[:month], day[:day], day[:year]) %></td>
+  <td><%=h queue.short_abandons(day[:month], day[:day], day[:year], day[:month], day[:day], day[:year]) %></td>
+  <td><%=h queue.reg_abandons(day[:month], day[:day], day[:year], day[:month], day[:day], day[:year]) %></td>
+  <td><%=h queue.abandon_percentage(day[:month], day[:day], day[:year], day[:month], day[:day], day[:year]) %>%</td>
+  <td><%=h queue.average_caller_abandon_time(day[:month], day[:day], day[:year], day[:month], day[:day], day[:year]) %></td>
+  </tr>
+<% end %>
+</table>
+<br />
+<br />
+<% end %>

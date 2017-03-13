@@ -21,7 +21,7 @@ class AgentsController < ApplicationController
   # GET /agents
   # GET /agents.xml
   def index
-    @agents = Agent.find(:all)
+    @agents = Agent.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -73,22 +73,21 @@ class AgentsController < ApplicationController
     end
   end
 
-  # PUT /agents/1
-  # PUT /agents/1.xml
+  # PATCH /agents/1
+  # PATCH /agents/1.xml
   def update
     @agent = Agent.find(params[:id])
     if params[:group]
       unless params[:group][:name] =~ /none/i
-         @group = Group.find_by_name(params[:group][:name])
+         @group = Group.where(:name => params[:group][:name]).first
          params[:agent][:group_id] = @group.id
       else
         params[:agent][:group_id] = nil
       end
     end
-        
 
     respond_to do |format|
-      if @agent.update_attributes(params[:agent])
+      if @agent.update_attributes(agent_params)
         flash[:notice] = 'Agent was successfully updated.'
         format.html { redirect_to(@agent) }
         format.xml  { head :ok }
@@ -109,5 +108,13 @@ class AgentsController < ApplicationController
       format.html { redirect_to(agents_url) }
       format.xml  { head :ok }
     end
+  end
+
+  private
+
+  def agent_params
+    # This application has no access control whatsoever, permit all
+    params.permit!
+    params[:agent]
   end
 end

@@ -17,7 +17,7 @@
 -->
 
 <div style="font: normal 14px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;"> Settings</div>
-<% form_tag :action => 'update_settings' do %>
+<%= form_tag :action => 'update_settings' do %>
   <p>
     <b>Queue log:</b><br />
     <%= text_field :queuetip, :queue_log, :value =>  @config['queuetip']['queue_log'] %>

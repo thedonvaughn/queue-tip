@@ -14,7 +14,7 @@
     <td><%=h queu.description %></td>
     <td><%= link_to 'Show', queu %></td>
     <td><%= link_to 'Edit', edit_queu_path(queu) %></td>
-    <td><%= link_to 'Destroy', queu, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Destroy', queu, data: { confirm: 'Are you sure?' }, method: :delete %></td>
   </tr>
 <% end %>
 </table>

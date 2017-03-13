@@ -17,20 +17,18 @@
 #    along with Queue-Tip.  If not, see <http://www.gnu.org/licenses/>.
 #
 require 'drb'
-require 'rubygems'
-require 'adhearsion'
-require 'adhearsion/voip/asterisk/manager_interface'
 
 class QtAmi
-  include Adhearsion::VoIP::Asterisk::Manager
-  attr_accessor :drb
-
   def initialize(args = {})
     @drb = DRbObject.new_with_uri 'druby://localhost:9050'
   end
 
   public
 
+  def queue_log_files
+    @drb.queue_log_files
+  end
+  
   def queue_status
     @drb.queue_status
   end
@@ -59,5 +57,4 @@ class QtAmi
   def reset_queue
     @drb.send_action 'Command', 'Command' => 'module reload app_queue'
   end
-
 end

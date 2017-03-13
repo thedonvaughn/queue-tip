@@ -23,13 +23,18 @@ class ReportController < ApplicationController
 
   def queue_report
     get_date_range
-    @queues = Queu.find(:all)
+    @queues = Queu.all
+  end
+
+  def monthly_queue_report
+    get_month_range
+    @queues = Queu.all
   end
 
   def full_report
     get_date_range
-    @agents = Agent.find(:all)
-    @queues = Queu.find(:all)
+    @agents = Agent.all
+    @queues = Queu.all
   end
 
   def agent_report
@@ -42,18 +47,18 @@ class ReportController < ApplicationController
     if params[:group]
       unless params[:group][:name] =~ /all/i
         @groupname = params[:group][:name]
-        @group = Group.find_by_name(params[:group][:name])
+        @group = Group.where(:name => params[:group][:name]).first
         @agents = @group.agents
       else
         @groupname = "All"
-        @agents = Agent.find(:all) 
+        @agents = Agent.all 
       end
     end
   end
 
   def export_queue_report
     get_exported_date_range
-    @queues = Queu.find(:all)
+    @queues = Queu.all
     stream_csv do |csv|
       csv << ["Queue Report", "#{@bmonth}/#{@bday} #{@byear}", "#{@emonth}/#{@eday} #{@eyear}"]  
       csv << [""]
@@ -80,11 +85,11 @@ class ReportController < ApplicationController
     if params[:groupname]
       unless params[:groupname] =~ /all/i
         @groupname = params[:groupname]
-        @group = Group.find_by_name(params[:groupname])
+        @group = Group.where(:name => params[:groupname]).first
         @agents = @group.agents
       else
         @groupname = "All"
-        @agents = Agent.find(:all)
+        @agents = Agent.all
       end
     end
     stream_csv do |csv|
@@ -99,8 +104,8 @@ class ReportController < ApplicationController
 
   def export_full_report
     get_exported_date_range
-    @agents = Agent.find(:all)
-    @queues = Queu.find(:all)
+    @agents = Agent.all
+    @queues = Queu.all
     stream_csv do |csv|
       csv << ["Full Summary Report", "#{@bmonth}/#{@bday} #{@byear}", "#{@emonth}/#{@eday} #{@eyear}"]  
       csv << [""]
@@ -119,6 +124,16 @@ class ReportController < ApplicationController
   end
 
   private
+  class Writer < Object
+    # FasterCSV wants an object with a << method
+    def initialize(writer)
+      @writer = writer
+    end
+
+    def <<(data)
+      @writer.write(data)
+    end
+  end
 
   def stream_csv
     filename = params[:action] + ".csv"    
@@ -134,7 +149,7 @@ class ReportController < ApplicationController
       headers["Content-Disposition"] = "attachment; filename=\"#{filename}\"" 
     end
     render :text => Proc.new { |response, output|
-      csv = FasterCSV.new(output, :row_sep => "\r\n") 
+      csv = FasterCSV.new(ReportController::Writer.new(output), :row_sep => "\r\n")
       yield csv
     }
   end
@@ -157,4 +172,19 @@ class ReportController < ApplicationController
     @eyear = params[:eyear]
   end
   
+  def get_month_range
+    year = Time.now.year
+    month = params[:date]['month'].to_i
+    days = Time.days_in_month(month, year)
+    @days = []
+
+    (1..days).each do |i|
+      @days.push({
+        :month => month,
+        :year => year,
+        :day => i,
+      })
+    end
+  end
+
 end

@@ -23,6 +23,7 @@
     <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
     <title>Queue-Tip: Asterisk Queue Monitoring</title>
     <%= stylesheet_link_tag 'queue_tip/style' %>
+    <%= javascript_include_tag :application %>
   </head>
   <body>
     <div id='container'>
@@ -55,10 +56,10 @@
         </div>
         <div id='footer'>
           <div id='left_footer'>
-            <%= render(:partial => "left_footer.html.erb") %>
+            <%= render(:partial => "left_footer") %>
           </div>
           <div id='right_footer'>
-            <%= render(:partial => "right_footer.html.erb") %>
+            <%= render(:partial => "right_footer") %>
           </div>
         </div>
       </div>

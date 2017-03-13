@@ -21,30 +21,42 @@ class Queu < ActiveRecord::Base
   has_many :actions
 
   def queue_calls(bmonth, bday, byear, emonth, eday, eyear)
-    self.actions.find(:all, :conditions => ['timestamp >= ?  and timestamp <= ? and action = ?', Time.parse("#{bmonth}/#{bday} #{byear}").to_i, Time.parse("#{emonth}/#{eday} #{eyear} 23:59:59").to_i, "ENTERQUEUE"]).size
+    btime = Time.utc(byear, bmonth, bday).to_i
+    etime = Time.utc(eyear, emonth, eday, 23, 59, 59).to_i
+    self.actions.where(:timestamp => btime..etime, :action => "ENTERQUEUE").size
   end
 
   def connected_calls(bmonth, bday, byear, emonth, eday, eyear)
-    self.actions.find(:all, :conditions => ['timestamp >= ?  and timestamp <= ? and action = ?', Time.parse("#{bmonth}/#{bday} #{byear}").to_i, Time.parse("#{emonth}/#{eday} #{eyear} 23:59:59").to_i, "CONNECT"]).size
+    btime = Time.utc(byear, bmonth, bday).to_i
+    etime = Time.utc(eyear, emonth, eday, 23, 59, 59).to_i
+    self.actions.where(:timestamp => btime..etime, :action => "CONNECT").size
   end
 
   def total_abandons(bmonth, bday, byear, emonth, eday, eyear)
-    self.actions.find(:all, :conditions => ['timestamp >= ?  and timestamp <= ? and action = ?', Time.parse("#{bmonth}/#{bday} #{byear}").to_i, Time.parse("#{emonth}/#{eday} #{eyear} 23:59:59").to_i, "ABANDON"]).size
+    btime = Time.utc(byear, bmonth, bday).to_i
+    etime = Time.utc(eyear, emonth, eday, 23, 59, 59).to_i
+    self.actions.where(:timestamp => btime..etime, :action => "ABANDON").size
   end
   
   def short_abandons(bmonth, bday, byear, emonth, eday, eyear)
-    abandons = self.actions.find(:all, :conditions => ['timestamp >= ?  and timestamp <= ? and action = ?', Time.parse("#{bmonth}/#{bday} #{byear}").to_i, Time.parse("#{emonth}/#{eday} #{eyear} 23:59:59").to_i, "ABANDON"])
+    btime = Time.utc(byear, bmonth, bday).to_i
+    etime = Time.utc(eyear, emonth, eday, 23, 59, 59).to_i
+    abandons = self.actions.where(:timestamp => btime..etime, :action => "ABANDON")
     abandons.select { |a| a if a.data3.to_f <= 60.00 }.size
   end
 
   def reg_abandons(bmonth, bday, byear, emonth, eday, eyear)
-    abandons = self.actions.find(:all, :conditions => ['timestamp >= ?  and timestamp <= ? and action = ?', Time.parse("#{bmonth}/#{bday} #{byear}").to_i, Time.parse("#{emonth}/#{eday} #{eyear} 23:59:59").to_i, "ABANDON"])
+    btime = Time.utc(byear, bmonth, bday).to_i
+    etime = Time.utc(eyear, emonth, eday, 23, 59, 59).to_i
+    abandons = self.actions.where(:timestamp => btime..etime, :action => "ABANDON")
     abandons.select { |a| a if a.data3.to_f >= 60.00 }.size
   end
 
   def service_level_percentage(bmonth, bday, byear, emonth, eday, eyear)
+    btime = Time.utc(byear, bmonth, bday).to_i
+    etime = Time.utc(eyear, emonth, eday, 23, 59, 59).to_i
     config = QueueTip.config
-    calls = self.actions.find(:all, :conditions => ['(timestamp >= ? and timestamp <= ?) and (action = ? or action = ?)', Time.parse("#{bmonth}/#{bday} #{byear}").to_i, Time.parse("#{emonth}/#{eday} #{eyear} 23:59:59").to_i, "COMPLETECALLER", "COMPLETEAGENT"])
+    calls = self.actions.where(:timestamp => btime..etime, :action => ["COMPLETECALLER", "COMPLETEAGENT"])
     service_calls = calls.select { |call| call if call.data1.to_f <= config['queuetip']['service_level'].to_f }
     if calls.size >= 1
       return "%0.2f" % ((service_calls.size.to_f / calls.size.to_f) * 100)  
@@ -55,7 +67,9 @@ class Queu < ActiveRecord::Base
 
   def average_caller_wait_time(bmonth, bday, byear, emonth, eday, eyear)
     total_time = 0.0
-    complete_calls = self.actions.find(:all, :conditions => ['(timestamp >= ? and timestamp <= ?) and (action = ? or action = ?)', Time.parse("#{bmonth}/#{bday} #{byear}").to_i, Time.parse("#{emonth}/#{eday} #{eyear} 23:59:59").to_i, "COMPLETECALLER", "COMPLETEAGENT"])
+    btime = Time.utc(byear, bmonth, bday).to_i
+    etime = Time.utc(eyear, emonth, eday, 23, 59, 59).to_i
+    complete_calls = self.actions.where(:timestamp => btime..etime, :action => ["COMPLETECALLER", "COMPLETEAGENT"])
     complete_calls.each { |call| total_time += call.data1.to_f } 
     if complete_calls.size >= 1
       return "%0.2f" % (total_time / complete_calls.size.to_f)
@@ -66,7 +80,9 @@ class Queu < ActiveRecord::Base
 
   def average_caller_reso_time(bmonth, bday, byear, emonth, eday, eyear)
     total_time = 0.0
-    complete_calls = self.actions.find(:all, :conditions => ['(timestamp >= ? and timestamp <= ?) and (action = ? or action = ?)', Time.parse("#{bmonth}/#{bday} #{byear}").to_i, Time.parse("#{emonth}/#{eday} #{eyear} 23:59:59").to_i, "COMPLETECALLER", "COMPLETEAGENT"])
+    btime = Time.utc(byear, bmonth, bday).to_i
+    etime = Time.utc(eyear, emonth, eday, 23, 59, 59).to_i
+    complete_calls = self.actions.where(:timestamp => btime..etime, :action => ["COMPLETECALLER", "COMPLETEAGENT"])
     complete_calls.each { |call| total_time += call.data2.to_f } 
     if complete_calls.size >= 1
       return "%0.2f" % (total_time / complete_calls.size.to_f)
@@ -77,7 +93,9 @@ class Queu < ActiveRecord::Base
 
   def average_caller_abandon_time(bmonth, bday, byear, emonth, eday, eyear)
     total_time = 0.0
-    abandons = self.actions.find(:all, :conditions => ['timestamp >= ? and timestamp <= ? and action = ?', Time.parse("#{bmonth}/#{bday} #{byear}").to_i, Time.parse("#{emonth}/#{eday} #{eyear} 23:59:59").to_i, "ABANDON"])
+    btime = Time.utc(byear, bmonth, bday).to_i
+    etime = Time.utc(eyear, emonth, eday, 23, 59, 59).to_i
+    abandons = self.actions.where(:timestamp => btime..etime, :action => "ABANDON")
     abandons.each { |call| total_time += call.data3.to_f } 
     if abandons.size >= 1
       return "%0.2f" % (total_time / abandons.size.to_f)
@@ -97,7 +115,7 @@ class Queu < ActiveRecord::Base
   end
 
   def export_queue_report(bmonth, bday, byear, emonth, eday, eyear)
-     [self.queue_name, self.queue_calls(bmonth, bday, byear, emonth, eday, eyear), self.connected_calls(bmonth, bday, byear, emonth, eday, eyear), self.service_level_percentage(bmonth, bday, byear, emonth, eday, eyear), self.average_caller_wait_time(bmonth, bday, byear, emonth, eday, eyear), self.average_caller_reso_time(bmonth, bday, byear, emonth, eday, eyear), self.total_abandons(bmonth, bday, byear, emonth, eday, eyear), self.short_abandons(bmonth, bday, byear, emonth, eday, eyear), self.reg_abandons(bmonth, bday, byear, emonth, eday, eyear), self.abandon_percentage(bmonth, bday, byear, emonth, eday, eyear), self.average_caller_abandon_time(bmonth, bday, byear, emonth, eday, eyear)]
+    [self.queue_name, self.queue_calls(bmonth, bday, byear, emonth, eday, eyear), self.connected_calls(bmonth, bday, byear, emonth, eday, eyear), self.service_level_percentage(bmonth, bday, byear, emonth, eday, eyear), self.average_caller_wait_time(bmonth, bday, byear, emonth, eday, eyear), self.average_caller_reso_time(bmonth, bday, byear, emonth, eday, eyear), self.total_abandons(bmonth, bday, byear, emonth, eday, eyear), self.short_abandons(bmonth, bday, byear, emonth, eday, eyear), self.reg_abandons(bmonth, bday, byear, emonth, eday, eyear), self.abandon_percentage(bmonth, bday, byear, emonth, eday, eyear), self.average_caller_abandon_time(bmonth, bday, byear, emonth, eday, eyear)]
   end
 
   def self.export_queue_header

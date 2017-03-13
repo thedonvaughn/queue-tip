@@ -7,25 +7,33 @@ Distributed under the terms of the GNU General Public License.
 About
 -----
 Queue-Tip is an Asterisk Queue Monitoring and reporting tool
-using Adhearsion and designed with the Ruby on Rails framework.
+using ruby_ami and designed with the Ruby on Rails framework.
 
 Features include:
   - Real-time, live view, of Asterisk queues updated seamlessly using Javascript 
-  - Queue stats are collected in real-time using Adhearsion 
-  - Load Asterisk's queue_log file into a database
+  - Queue stats are collected in real-time using an AMI and DRb "proxy"
+  - Load Asterisk's queue_log file into a database (local or from URI)
   - Run reports on agent and queue stats.  
   - Partition agents in to "groups" for reporting needs..
   - Export reports in csv format
+  - Support for HA/failover setups containing multiple Asterisk servers
 
 
 Requirements 
 ------------
 In order to run Queue-Tip you will need:
-  - ruby (>= 1.8)
+  - ruby (>= 2.0) # 1.9.3 also works if you pin mime-types to 2.6.2
   - rubygems
-  - rails (>= 2.3)
-  - adhearsion (>= 0.8.1)
-  - fastercsv rubygem
+  - rails (>= 4.1)
+  - ruby_ami (>= 2.4.0)
+  - fastercsv
+
+If you want to load log files over something else than HTTP(S), you
+can optionally install:
+  - net-scp (>= 1.2.1)
+
+Its uri/open-scp module will be loaded if it exists, which
+transparently adds scp:// protocol support for log file locations.
 
 
 Asterisk Manager Interface Setup
@@ -72,51 +80,49 @@ If you wish to obtain from github.com, run:
 
 You can obtain the upstream source via git, run:
     
-     	$ git clone git://rubyists.com/gits/queue-tip.git
+        $ git clone git://rubyists.com/gits/queue-tip.git
       
 
       
 Installation
 ------------  
-In order to have Queue-Tip load the queue_log file for reporting, it's easer
-to install Queue-Tip on the same server as Asterisk*.
+In order to have Queue-Tip load the queue_log file for reporting,
+it's easiest to install Queue-Tip on the same server as Asterisk,
+but you can also use scp (via the net-scp gem) or http to load the
+log files.  This is the recommended approach if you have a multi-
+server failover setup.
 
-* Note: It is very much possible to setup Queue-Tip on a different server than Asterisk
-  and still have the queue_log loaded for reporting, but it is currently unsupported and
-  takes some modification of the setup.  This will be a feature in Queue-Tip very soon!
-
-  1) Make sure you have Adhearsion installed by either running:
+  1) Make sure you have the dependencies installed by running:
       
-      $ sudo gem install -r adhearsion
-
-      or
-
-      $ rake gems:install (from within the Queue-Tip working directory) 
-
-
-  2) Make sure you have the fastercsv rubygem installed by either running:
+      $ bundle install (from within the Queue-Tip working directory) 
   
-      $ sudo gem install -r fastercsv 
-     
-     or 
-     
-      $ rake gems:install (from within the Queue-Tip working directory)
-  
-  
-  3) Open up and edit config/startup.rb based on the Asterisk Manager Interface settings*: 
+  2) Open up and edit bin/ami_proxy/config/asterisk.rb based on the Asterisk Manager Interface settings*: 
 
-      config.asterisk.enable_ami :host => "localhost", :username => 'username', :password => 'secret', :events => true
+      AmiProxy::Asterisk.servers = [
+        {
+          :host => 'localhost',
+          :port => 5038,
+          :username => 'username',
+          :password => 'secret',
+          # If you want to override the default, put it here
+          # :timeout => 10
+          :queue_log_file => '/var/log/asterisk/queue_log'
+          # :queue_log_file => 'http://pbx1.local/queue_log'
+          # If the net-scp gem is installed, this works too:
+          # :queue_log_file => 'scp://pbx1.local/var/log/asterisk/queue_log'
+          # :queue_log_open_args => { :ssh => { :port => 2222 } }
+        }
+      ]
 
 
-  4) Now you must start the Asterisk proxy; from within the Queue-Tip working directory issue
+  3) Now you must start the Asterisk proxy; from within the Queue-Tip working directory issue
 
-      $ ahn start bin/ami_proxy
-        INFO ahn: Starting DRb on localhost:9050
-        INFO ahn: Adhearsion initialized!
+      $ bundle exec bin/ami_proxy.rb
+        INFO: Registering Asterisk server localhost on port 5038
+        INFO: Starting DRb server on druby://localhost:9050
  
 
-    
-  5) Next, like any Rails application, we need to create a database that Queue-Tip 
+  4) Next, like any Rails application, we need to create a database that Queue-Tip 
      can connect to and use.  In this setup, we will be using sqlite3* as our database.  
      This will require the ruby-sqlite3 rubygem.  To install ruby-sqlite3, run:
 
@@ -127,7 +133,7 @@ to install Queue-Tip on the same server as Asterisk*.
        Refer to the Ruby on Rails documentation for further information.
 
   
-  6) Open up and edit config/database.yml to define the databases.  Here is our
+  5) Open up and edit config/database.yml to define the databases.  Here is our
      database definitons*.  Refer to Ruby on Rails documentation for more info.
 
       # SQLite version 3.x
@@ -151,7 +157,7 @@ to install Queue-Tip on the same server as Asterisk*.
         timeout: 5000
 
   
-  7) Create the database*, run:
+  6) Create the database*, run:
 
       $ rake db:create
 
@@ -159,7 +165,7 @@ to install Queue-Tip on the same server as Asterisk*.
             Refer to Ruby on Rails documentation for more info
 
 
-  8) Populate the database*, run:
+  7) Populate the database*, run:
 
       $ rake db:migrate
 
@@ -167,19 +173,20 @@ to install Queue-Tip on the same server as Asterisk*.
              will populate the development database defined in 
              config/database.yml above.
   
-  9) To start up Queue-Tip in development mode, run*:
+  8) To start up Queue-Tip in development mode, run:
       
-      $ ./script/server
+      $ bundle exec ./script/rails server
 
     This will start up Queue-Tip on port 3000.
 
-    * Note: I suggest using 'mongrel' webserver for development in rails, run: 
-            $ sudo gem install -r mongrel' to install
-            Once installed, /script/server will run mongrel by default.
-  
 
-  10) Open a web browser and connect to port 3000 of the server;  i.e.  http://192.168.1.25:3000. 
+  9) Open a web browser and connect to port 3000 of the server;  i.e.  http://192.168.1.25:3000. 
       Congratulations!  You are connected to Queue-Tip.
+
+  10) To populate an initial database or reset the queue information,
+      you can use the supplied rake task:
+
+      $ bundle exec rake queue:reset
 
 Support
 -------

@@ -21,7 +21,7 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.xml
   def index
-    @groups = Group.find(:all)
+    @groups = Group.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -73,13 +73,13 @@ class GroupsController < ApplicationController
     end
   end
 
-  # PUT /groups/1
-  # PUT /groups/1.xml
+  # PATCH /groups/1
+  # PATCH /groups/1.xml
   def update
     @group = Group.find(params[:id])
 
     respond_to do |format|
-      if @group.update_attributes(params[:group])
+      if @group.update_attributes(group_params)
         flash[:notice] = 'Group was successfully updated.'
         format.html { redirect_to(@group) }
         format.xml  { head :ok }
@@ -100,5 +100,13 @@ class GroupsController < ApplicationController
       format.html { redirect_to(groups_url) }
       format.xml  { head :ok }
     end
+  end
+
+  private
+
+  def group_params
+    # This application has no access control whatsoever, permit all
+    params.permit!
+    params[:group]
   end
 end

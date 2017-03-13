@@ -1,4 +1,4 @@
-# group.rb - Copyright 2008 Jayson Vaughn 
+# action.rb - Copyright 2008 Jayson Vaughn 
 # Distributed under the terms of the GNU General Public License.
 #
 #    This file is part of Queue-Tip.

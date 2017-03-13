@@ -1,0 +1,77 @@
+#!/bin/bash
+# chkconfig: 235 99 1
+# description: Web based statistics frontend for Asterisk
+#
+# rhel init script for queue-tip
+# Adam James <adam.james@credativ.co.uk>
+
+# Source function library
+. /etc/init.d/functions
+
+RETVAL=0
+
+BASE_DIR="/usr/local/share/queue-tip"
+RUBY_BINARY="/usr/bin/ruby"
+AHN_BINARY="/usr/bin/ahn"
+AMI_PROXY="${BASE_DIR}/bin/ami_proxy"
+AMI_CMD="${AHN_BINARY} start ${AMI_PROXY}"
+AMI_PIDFILE="${AMI_PROXY}/adhearsion.pid"
+START_STOP_DAEMON="/usr/local/sbin/start-stop-daemon"
+
+start() {
+	echo -n "Starting AMI proxy: "
+# I had to relent and use start-stop-daemon in the end due to an intensely
+# annoying bug in the ahn connector resulting in the drb connection failing to
+# work when it was daemonised. -- Adam James (comment from OTRS)
+	${START_STOP_DAEMON} --start --exec ${RUBY_BINARY} \
+		--pidfile ${AMI_PIDFILE} \
+		--make-pidfile --background --quiet \
+		-- ${AMI_CMD}
+	RETVAL=$?
+	[[ ${RETVAL} -eq 0 ]] && echo_success || echo_failure
+	echo
+	[[ ${RETVAL} -ne 0 ]] && exit ${RETVAL}
+}
+
+stop() {
+	echo -n "Stopping AMI proxy: "
+	${START_STOP_DAEMON} --stop \
+		--exec $RUBY_BINARY \
+		--pidfile ${AMI_PIDFILE} \
+		--quiet --retry TERM/30/KILL/5
+	RETVAL=$?
+	if [[ ${RETVAL} -eq 0 ]] ; then
+		rm -f ${AMI_PIDFILE}
+		echo_success
+	else
+		echo_failure
+	fi
+	echo
+}
+
+_status() {
+	status -p "${AMI_PIDFILE}" "AMI proxy"
+	RETVAL=$?
+}
+
+case "$1" in
+	start)
+		start
+		;;
+	stop)
+		stop
+		;;
+	restart)
+		stop
+		start
+		;;
+	status)
+		_status
+		;;
+	*)
+		echo "Usage: $0 {start|stop|restart|status}"
+		RETVAL=3
+		;;
+esac
+
+exit ${RETVAL}

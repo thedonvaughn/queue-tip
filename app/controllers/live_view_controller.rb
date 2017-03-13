@@ -33,7 +33,7 @@ class LiveViewController < ApplicationController
 
   def update_queues 
     @queues = @ami_conn.queue_status
-    render(:partial => 'queue_stats.html.erb')
+    render(:partial => 'queue_stats')
   end
 
   def logoff
