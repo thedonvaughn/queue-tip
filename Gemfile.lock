@@ -71,7 +71,7 @@ GEM
       activesupport (= 4.1.15)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    rake (11.1.2)
+    rake (13.0.1)
     ruby_ami (2.4.0)
       celluloid-io (~> 0.13)
     sprockets (3.6.0)
